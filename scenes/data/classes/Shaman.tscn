@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwn11ajjbkqbw"]
+
+[ext_resource type="Script" path="res://scenes/models/class_data.gd" id="1_66n8f"]
+[ext_resource type="Script" path="res://scenes/models/class_attack_data.gd" id="2_bkrij"]
+
+[node name="Shaman" type="Node" node_paths=PackedStringArray("attacks")]
+script = ExtResource("1_66n8f")
+base_armor = 20
+base_mana = 20
+range_type = 1
+attacks = [NodePath("Holy Strike"), NodePath("Blessed Stabs"), NodePath("Prayer of Wind")]
+
+[node name="Holy Strike" type="Node" parent="."]
+script = ExtResource("2_bkrij")
+type = 7
+hits = 1
+damage = 10
+time_cost = 2
+
+[node name="Blessed Stabs" type="Node" parent="."]
+script = ExtResource("2_bkrij")
+type = 7
+hits = 3
+damage = 4
+time_cost = 4
+
+[node name="Prayer of Wind" type="Node" parent="."]
+script = ExtResource("2_bkrij")
+type = 1
+hits = 5
+damage = 5
+time_cost = 5
