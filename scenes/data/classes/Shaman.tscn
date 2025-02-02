@@ -5,6 +5,7 @@
 
 [node name="Shaman" type="Node" node_paths=PackedStringArray("attacks")]
 script = ExtResource("1_66n8f")
+base_health = 50
 base_armor = 20
 base_mana = 20
 range_type = 1

@@ -13,7 +13,10 @@ config_version=5
 config/name="Sunder Engine"
 run/main_scene="res://scenes/combat/combat_status_square/combat_status_square.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
-config/icon="res://icon.svg"
+
+[autoload]
+
+AttackType="*res://loaders/attack_type_loader.gd"
 
 [dotnet]
 

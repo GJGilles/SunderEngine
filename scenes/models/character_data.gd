@@ -1,11 +1,23 @@
 extends Node
 
+class_name CharacterData
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+@export var portrait: ViewportTexture
 
+var current_class: ClassData
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+var curr_health: int
+var curr_armor: int
+var curr_mana: int
+
+func get_portrait():
+	return portrait
+
+func get_max_health():
+	return current_class.base_health
+	
+func get_max_armor():
+	return current_class.base_armor
+	
+func get_max_mana():
+	return current_class.base_mana

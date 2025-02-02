@@ -1,0 +1,30 @@
+[gd_scene load_steps=14 format=3 uid="uid://1rs0jencyyqq"]
+
+[ext_resource type="Script" path="res://loaders/attack_type_loader.gd" id="1_uct4c"]
+[ext_resource type="Texture2D" uid="uid://cjrgbxhalc7ld" path="res://icons/types/fire.svg" id="2_piplg"]
+[ext_resource type="Texture2D" uid="uid://cwnxt31hxjuq" path="res://icons/types/wind.svg" id="3_gfm4f"]
+[ext_resource type="Texture2D" uid="uid://bksmh8de14hck" path="res://icons/types/energy.svg" id="4_omwyq"]
+[ext_resource type="Texture2D" uid="uid://b00vre38fvwtp" path="res://icons/types/dark.svg" id="5_c0mrv"]
+[ext_resource type="Texture2D" uid="uid://bhwcdoqc3djjf" path="res://icons/types/pierce.svg" id="6_gn4vv"]
+[ext_resource type="Texture2D" uid="uid://b7c7n71tan0km" path="res://icons/types/slash.svg" id="7_51ll1"]
+[ext_resource type="Texture2D" uid="uid://csfhm0wnx0bjx" path="res://icons/types/bash.svg" id="8_d0j38"]
+[ext_resource type="Texture2D" uid="uid://cwbajj61yvh2m" path="res://icons/types/divine.svg" id="9_2c2e7"]
+[ext_resource type="Texture2D" uid="uid://ccu22uhjufidk" path="res://icons/types/heal.svg" id="10_qnuea"]
+[ext_resource type="Texture2D" uid="uid://bmhsodgo3fymd" path="res://icons/types/poison.svg" id="11_rguq2"]
+[ext_resource type="Texture2D" uid="uid://bi07x1kvaaj2i" path="res://icons/types/block.svg" id="12_rspv7"]
+[ext_resource type="Texture2D" uid="uid://d2hoyrv2p53r8" path="res://icons/types/speed.svg" id="13_aoe6a"]
+
+[node name="AttackTypeLoader" type="Node"]
+script = ExtResource("1_uct4c")
+icon_fire = ExtResource("2_piplg")
+icon_wind = ExtResource("3_gfm4f")
+icon_energy = ExtResource("4_omwyq")
+icon_dark = ExtResource("5_c0mrv")
+icon_pierce = ExtResource("6_gn4vv")
+icon_slash = ExtResource("7_51ll1")
+icon_bash = ExtResource("8_d0j38")
+icon_divine = ExtResource("9_2c2e7")
+icon_heal = ExtResource("10_qnuea")
+icon_poison = ExtResource("11_rguq2")
+icon_block = ExtResource("12_rspv7")
+icon_speed = ExtResource("13_aoe6a")
