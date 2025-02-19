@@ -1,10 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bwn11ajjbkqbw"]
 
-[ext_resource type="Script" path="res://scenes/models/class_data.gd" id="1_66n8f"]
-[ext_resource type="Script" path="res://scenes/models/class_attack_data.gd" id="2_bkrij"]
+[ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_66n8f"]
+[ext_resource type="Script" uid="uid://c8rl36v82p8ph" path="res://scenes/models/class_attack_data.gd" id="2_bkrij"]
 
 [node name="Shaman" type="Node" node_paths=PackedStringArray("attacks")]
 script = ExtResource("1_66n8f")
+base_speed = 10
 base_health = 50
 base_armor = 20
 base_mana = 20

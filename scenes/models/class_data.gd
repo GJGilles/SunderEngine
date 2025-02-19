@@ -7,6 +7,8 @@ enum RANGE_TYPE {
 	RANGED
 }
 
+@export var base_speed: int
+
 @export var base_health: int
 @export var base_armor: int
 @export var base_mana: int

@@ -1,0 +1,41 @@
+[gd_scene load_steps=9 format=3 uid="uid://dcsiia4uaybre"]
+
+[ext_resource type="Script" uid="uid://c7tjmycniga5k" path="res://scenes/combat/combat_overview.gd" id="1_fyv5f"]
+[ext_resource type="PackedScene" uid="uid://cyt2oulm62q1x" path="res://scenes/combat/combat_turn_track/combat_turn_track.tscn" id="2_42sgf"]
+[ext_resource type="Script" uid="uid://bhdr4l0n3ph01" path="res://scenes/models/party_data.gd" id="3_5l1mo"]
+[ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/character_data.gd" id="4_arbl2"]
+[ext_resource type="PackedScene" uid="uid://bwn11ajjbkqbw" path="res://scenes/data/classes/Shaman.tscn" id="5_b3a6j"]
+[ext_resource type="PackedScene" uid="uid://by8o7dlycrk5a" path="res://scenes/data/classes/Alchemist.tscn" id="6_vjmmx"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vjmmx"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cadbe"]
+
+[node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party")]
+script = ExtResource("1_fyv5f")
+party = NodePath("TestParty")
+
+[node name="CombatUI" type="CanvasLayer" parent="."]
+
+[node name="CombatTurnTrack" parent="CombatUI" instance=ExtResource("2_42sgf")]
+
+[node name="TestParty" type="Node" parent="." node_paths=PackedStringArray("characters")]
+script = ExtResource("3_5l1mo")
+characters = {
+0: NodePath("Chie"),
+4: NodePath("Mofu")
+}
+
+[node name="Chie" type="Node" parent="TestParty" node_paths=PackedStringArray("current_class")]
+script = ExtResource("4_arbl2")
+portrait = SubResource("PlaceholderTexture2D_vjmmx")
+current_class = NodePath("Shaman")
+
+[node name="Shaman" parent="TestParty/Chie" instance=ExtResource("5_b3a6j")]
+
+[node name="Mofu" type="Node" parent="TestParty" node_paths=PackedStringArray("current_class")]
+script = ExtResource("4_arbl2")
+portrait = SubResource("PlaceholderTexture2D_cadbe")
+current_class = NodePath("Alchemist")
+
+[node name="Alchemist" parent="TestParty/Mofu" instance=ExtResource("6_vjmmx")]

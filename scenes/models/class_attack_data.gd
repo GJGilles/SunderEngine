@@ -7,4 +7,3 @@ class_name ClassAttackData
 @export var damage: int
 @export var mana_cost: int
 @export var time_cost: int
-

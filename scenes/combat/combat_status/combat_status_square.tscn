@@ -1,0 +1,151 @@
+[gd_scene load_steps=7 format=3 uid="uid://bu0uuairw61pc"]
+
+[ext_resource type="Script" uid="uid://cj7wxk8j2m2xx" path="res://scenes/combat/combat_status/combat_status_square.gd" id="1_upe3l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_loyi3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rmg6t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hga27"]
+bg_color = Color(0.855588, 0, 0.213274, 1)
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wicsp"]
+bg_color = Color(0.880968, 0.760258, 1.15514e-06, 1)
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sc6ow"]
+bg_color = Color(0.0990728, 0.254254, 0.959848, 1)
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 10
+
+[node name="CombatStatusSquare" type="Panel"]
+anchors_preset = -1
+anchor_right = 0.094
+anchor_bottom = 0.167
+offset_right = -0.480011
+offset_bottom = -0.360016
+theme_override_styles/panel = SubResource("StyleBoxFlat_loyi3")
+script = ExtResource("1_upe3l")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -75.0
+offset_top = 10.0
+offset_right = 75.0
+offset_bottom = 35.0
+grow_horizontal = 2
+text = "Test Text"
+horizontal_alignment = 1
+
+[node name="Portrait" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("PlaceholderTexture2D_rmg6t")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -40.0
+offset_right = 80.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/fill = SubResource("StyleBoxFlat_hga27")
+min_value = -100.0
+value = 50.0
+show_percentage = false
+
+[node name="Divider" type="ColorRect" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -20.0
+offset_right = 1.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ArmorBar" type="ProgressBar" parent="."]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 40.0
+offset_bottom = 130.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_wicsp")
+min_value = -100.0
+value = 50.0
+fill_mode = 3
+show_percentage = false
+
+[node name="Divider" type="ColorRect" parent="ArmorBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -1.0
+offset_right = 20.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ManaBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 130.0
+grow_horizontal = 0
+theme_override_styles/fill = SubResource("StyleBoxFlat_sc6ow")
+min_value = -100.0
+value = 25.0
+fill_mode = 3
+show_percentage = false
+
+[node name="Divider" type="ColorRect" parent="ManaBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -1.0
+offset_right = 20.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

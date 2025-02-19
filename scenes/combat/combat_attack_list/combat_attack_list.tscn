@@ -1,10 +1,39 @@
-[gd_scene format=3 uid="uid://bhsm5u3j33kf7"]
+[gd_scene load_steps=3 format=3 uid="uid://bhsm5u3j33kf7"]
+
+[ext_resource type="Script" uid="uid://4uvgtr4m0s7a" path="res://scenes/combat/combat_attack_list/combat_attack_list.gd" id="1_q3cs2"]
+[ext_resource type="PackedScene" uid="uid://1j5apu7yfa8a" path="res://scenes/combat/combat_attack_list/combat_attack_item.tscn" id="1_sfte8"]
 
 [node name="CombatAttackList" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -2.0
+offset_right = -1420.0
+offset_bottom = -680.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_q3cs2")
+
+[node name="Attacks" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Primary" parent="Attacks" instance=ExtResource("1_sfte8")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Secondary" parent="Attacks" instance=ExtResource("1_sfte8")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Auxilary" parent="Attacks" instance=ExtResource("1_sfte8")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Response" parent="Attacks" instance=ExtResource("1_sfte8")]
+layout_mode = 2
+size_flags_vertical = 3

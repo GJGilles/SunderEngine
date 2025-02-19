@@ -11,11 +11,13 @@ enum TYPE {
 	BASH,
 	DIVINE,
 	
-	HEAL,
-	POISON,
-	BLOCK,
-	SPEED
+#	STATUS EFFECTS
+	MEND,
+	CORRODE,
+	BLESS,
+	CURSE
 }
+
 
 @export var icon_fire: Texture
 @export var icon_wind: Texture
@@ -49,11 +51,11 @@ func get_type_icon(type: TYPE):
 			return icon_bash
 		TYPE.DIVINE:
 			return icon_divine
-		TYPE.HEAL:
+		TYPE.MEND:
 			return icon_heal
-		TYPE.POISON:
+		TYPE.CORRODE:
 			return icon_poison
-		TYPE.BLOCK:
+		TYPE.BLESS:
 			return icon_block
-		TYPE.SPEED:
+		TYPE.CURSE:
 			return icon_fire

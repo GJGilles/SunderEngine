@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://by8o7dlycrk5a"]
+
+[ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_0k5po"]
+[ext_resource type="Script" uid="uid://c8rl36v82p8ph" path="res://scenes/models/class_attack_data.gd" id="2_ykdnd"]
+
+[node name="Alchemist" type="Node" node_paths=PackedStringArray("attacks")]
+script = ExtResource("1_0k5po")
+range_type = 1
+attacks = [NodePath("FireBomb"), NodePath("WitchFire"), NodePath("BrokenGlass")]
+
+[node name="FireBomb" type="Node" parent="."]
+script = ExtResource("2_ykdnd")
+hits = 3
+damage = 30
+time_cost = 25
+
+[node name="WitchFire" type="Node" parent="."]
+script = ExtResource("2_ykdnd")
+hits = 5
+damage = 20
+mana_cost = 10
+time_cost = 20
+
+[node name="BrokenGlass" type="Node" parent="."]
+script = ExtResource("2_ykdnd")
+type = 5
+hits = 2
+damage = 20
+time_cost = 15
