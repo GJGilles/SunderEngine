@@ -29,6 +29,9 @@ func _ready():
 	turns.sort_custom(func (a, b): return a.time < b.time)
 	combat_turn_track.set_values(turns)
 	
+	player_status_zone.set_values(party)
+	enemy_status_zone.set_values(enemies)
+	
 	set_state(TurnCombatState.new())
 
 func set_state(state: BaseCombatState):
@@ -45,7 +48,15 @@ func async_next_turn() -> TurnData:
 	return turn
 	
 func async_damage_unit(unit: BaseUnitData, damage: int, type: AttackType.TYPE):
-	pass
+	if type == AttackType.TYPE.FIRE or type == AttackType.TYPE.PIERCE:
+		pass	
+	if type == AttackType.TYPE.DARK or type == AttackType.TYPE.DIVINE:
+		pass
+	else:
+		pass
+	
+	if unit is PlayerUnitData:
+		pass
 	
 func async_tick_status():
 	pass

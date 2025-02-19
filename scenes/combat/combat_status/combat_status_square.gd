@@ -9,22 +9,16 @@ class_name CombatStatusSquareController
 @onready var armor_bar = $ArmorBar
 @onready var mana_bar = $ManaBar
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	update_health(-50)
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 	
-func set_values(name: String, image: Texture2D, health: float, armor: float, mana: float):
-	title.text = name
-	portrait.texture = image
-	health_bar.value = health
-	armor_bar.value = armor
-	mana_bar.value = mana
+func set_values(unit: BaseUnitData):
+	title.text = unit.name
+	portrait.texture = unit.get_portrait()
+	health_bar.value = unit.curr_health
+	armor_bar.value =  unit.curr_armor
+	mana_bar.value = unit.curr_mana
+	
+func set_empty():
+	pass
 
 func update_health(value: float):
 	var tween = create_tween()

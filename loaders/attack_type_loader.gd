@@ -18,6 +18,18 @@ enum TYPE {
 	CURSE
 }
 
+enum STATUS {
+	MEND,
+	CORRODE,
+	BLESS,
+	CURSE,
+	
+	BLOCKED,
+	EVADE
+}
+
+#Switch to element / damage type enums to be more functional focused
+
 
 @export var icon_fire: Texture
 @export var icon_wind: Texture
