@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bmhsodgo3fymd"
-path="res://.godot/imported/poison.svg-a2be3661d47fb468a1b411575fdd698d.ctex"
+uid="uid://bksmh8de14hck"
+path="res://.godot/imported/magic.svg-aeb2fb5cffe218c8c8cffeb7d19a01f7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/types/poison.svg"
-dest_files=["res://.godot/imported/poison.svg-a2be3661d47fb468a1b411575fdd698d.ctex"]
+source_file="res://assets/icons/magic.svg"
+dest_files=["res://.godot/imported/magic.svg-aeb2fb5cffe218c8c8cffeb7d19a01f7.ctex"]
 
 [params]
 

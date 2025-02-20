@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bksmh8de14hck"
-path="res://.godot/imported/energy.svg-769b20657039d7bb1cb6a682df69504d.ctex"
+uid="uid://ccu22uhjufidk"
+path="res://.godot/imported/heal.svg-b86668368d26cf3a59978411cada4d86.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/types/energy.svg"
-dest_files=["res://.godot/imported/energy.svg-769b20657039d7bb1cb6a682df69504d.ctex"]
+source_file="res://assets/icons/heal.svg"
+dest_files=["res://.godot/imported/heal.svg-b86668368d26cf3a59978411cada4d86.ctex"]
 
 [params]
 

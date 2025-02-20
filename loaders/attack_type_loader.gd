@@ -1,73 +1,77 @@
 extends Node
 
-enum TYPE {
-	FIRE,
-	WIND,
-	ENERGY,
-	DARK,
-	
-	PIERCE,
-	SLASH,
-	BASH,
-	DIVINE,
-	
-#	STATUS EFFECTS
+enum ATTACK_TYPE {
+	PHYSICAL,
+	MAGIC,
+	STATUS
+}
+
+enum DEFENSE_TYPE {
+	ARMOR,
+	MANA,
+	HEALTH
+}
+
+enum STATUS_TYPE {
 	MEND,
 	CORRODE,
 	BLESS,
 	CURSE
 }
 
-enum STATUS {
-	MEND,
-	CORRODE,
-	BLESS,
-	CURSE,
-	
+enum REACT_TYPE {	
 	BLOCKED,
 	EVADE
 }
 
-#Switch to element / damage type enums to be more functional focused
+@export var attack_phys: Texture2D
+@export var attack_magic: Texture2D
+@export var attack_status: Texture2D
 
+@export var defense_armor: Texture2D
+@export var defense_mana: Texture2D
+@export var defense_health: Texture2D
 
-@export var icon_fire: Texture
-@export var icon_wind: Texture
-@export var icon_energy: Texture
-@export var icon_dark: Texture
-@export var icon_pierce: Texture
-@export var icon_slash: Texture
-@export var icon_bash: Texture
-@export var icon_divine: Texture
-@export var icon_heal: Texture
-@export var icon_poison: Texture
-@export var icon_block: Texture
-@export var icon_speed: Texture
+@export var status_mend: Texture2D
+@export var status_corrode: Texture2D
+@export var status_bless: Texture2D
+@export var status_curse: Texture2D
 
-# Might have to move to autoload if we need resources
-func get_type_icon(type: TYPE):
+@export var react_block: Texture2D
+@export var react_evade: Texture2D
+
+func get_attack_icon(type: ATTACK_TYPE):
 	match type:
-		TYPE.FIRE:
-			return icon_fire
-		TYPE.WIND:
-			return icon_wind
-		TYPE.ENERGY:
-			return icon_energy
-		TYPE.DARK:
-			return icon_dark
-		TYPE.PIERCE:
-			return icon_pierce
-		TYPE.SLASH:
-			return icon_slash
-		TYPE.BASH:
-			return icon_bash
-		TYPE.DIVINE:
-			return icon_divine
-		TYPE.MEND:
-			return icon_heal
-		TYPE.CORRODE:
-			return icon_poison
-		TYPE.BLESS:
-			return icon_block
-		TYPE.CURSE:
-			return icon_fire
+		ATTACK_TYPE.PHYSICAL:
+			return attack_phys
+		ATTACK_TYPE.MAGIC:
+			return attack_magic
+		ATTACK_TYPE.STATUS:
+			return attack_status
+	
+func get_defense_icon(type: DEFENSE_TYPE):
+	match type:
+		DEFENSE_TYPE.ARMOR:
+			return defense_armor
+		DEFENSE_TYPE.MANA:
+			return defense_mana
+		DEFENSE_TYPE.HEALTH:
+			return defense_health
+	
+func get_status_icon(type: STATUS_TYPE):
+	match type:
+		STATUS_TYPE.MEND:
+			return status_mend
+		STATUS_TYPE.CORRODE:
+			return status_corrode
+		STATUS_TYPE.BLESS:
+			return status_bless
+		STATUS_TYPE.CURSE:
+			return status_curse
+	
+func get_react_icon(type: REACT_TYPE):
+	match type:
+		REACT_TYPE.BLOCKED:
+			return react_block
+		REACT_TYPE.EVADE:
+			return react_evade

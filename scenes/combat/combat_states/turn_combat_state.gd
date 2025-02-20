@@ -6,11 +6,21 @@ func _ready():
 	async_thread()
 
 func async_thread():
-	var turn: TurnData = await overview.async_next_turn()
+	await overview.next_turn()
 	
-	if turn.isAttack:
+	var turn: TurnData = overview.curr_turn
+	
+	if turn.action is AttackActionData:
+		var attack: AttackActionData = turn.action
 		for unit in turn.targets:
-			await overview.damage_unit(unit, turn.damage, turn.type)
+			await overview.damage_unit(unit, attack.damage, attack.attack, attack.defense)
+	elif turn.action is ReactActionData:
+		var react: ReactActionData = turn.action
+#		Remove react from targets
+
+	overview.tick_status()
 		
 	if turn.source is PlayerUnitData:
-		pass
+		overview.set_state(PlayerCombatState.new())
+	else:
+		overview.set_state(EnemyCombatState.new())

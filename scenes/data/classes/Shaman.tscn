@@ -1,34 +1,36 @@
 [gd_scene load_steps=3 format=3 uid="uid://bwn11ajjbkqbw"]
 
 [ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_66n8f"]
-[ext_resource type="Script" uid="uid://c8rl36v82p8ph" path="res://scenes/models/class_attack_data.gd" id="2_bkrij"]
+[ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="2_ua5fc"]
 
-[node name="Shaman" type="Node" node_paths=PackedStringArray("attacks")]
+[node name="Shaman" type="Node" node_paths=PackedStringArray("actions")]
 script = ExtResource("1_66n8f")
 base_speed = 10
 base_health = 50
 base_armor = 20
 base_mana = 20
 range_type = 1
-attacks = [NodePath("Holy Strike"), NodePath("Blessed Stabs"), NodePath("Prayer of Wind")]
+actions = [NodePath("Holy Strike"), NodePath("Blessed Stabs"), NodePath("Prayer of Wind")]
 
 [node name="Holy Strike" type="Node" parent="."]
-script = ExtResource("2_bkrij")
-type = 7
+script = ExtResource("2_ua5fc")
+defense = 1
 hits = 1
-damage = 10
-time_cost = 2
+damage = 30
+time_cost = 25
 
 [node name="Blessed Stabs" type="Node" parent="."]
-script = ExtResource("2_bkrij")
-type = 7
+script = ExtResource("2_ua5fc")
+defense = 1
 hits = 3
-damage = 4
-time_cost = 4
+damage = 15
+time_cost = 20
 
 [node name="Prayer of Wind" type="Node" parent="."]
-script = ExtResource("2_bkrij")
-type = 1
+script = ExtResource("2_ua5fc")
+attack = 1
+defense = 2
 hits = 5
 damage = 5
-time_cost = 5
+mana_cost = 5
+time_cost = 10

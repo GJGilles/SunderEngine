@@ -1,1 +1,3 @@
 extends BaseCombatState
+
+class_name EnemyCombatState

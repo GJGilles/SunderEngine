@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://caj1fknaw1x2q" path="res://scenes/combat/combat_attack_list/combat_attack_item.gd" id="1_7fe0x"]
 [ext_resource type="LabelSettings" uid="uid://c57b47nt34mop" path="res://scenes/combat/combat_attack_list/combat_attack_label_settings.tres" id="1_8odu2"]
-[ext_resource type="Texture2D" uid="uid://ciwukxf0bgfmf" path="res://assets/icons/damage.svg" id="2_w0ays"]
+[ext_resource type="Texture2D" uid="uid://ciwukxf0bgfmf" path="res://assets/icons/physical.svg" id="2_w0ays"]
 [ext_resource type="Texture2D" uid="uid://b6bu6tgj8a145" path="res://assets/icons/armor.svg" id="3_l6rn5"]
 [ext_resource type="Texture2D" uid="uid://b18325qwnwga1" path="res://assets/icons/mana.svg" id="4_an4lp"]
 [ext_resource type="Texture2D" uid="uid://cs06vekk64wj8" path="res://assets/icons/time.svg" id="5_3c433"]
@@ -95,3 +95,9 @@ label_settings = ExtResource("1_8odu2")
 layout_mode = 2
 texture = ExtResource("5_3c433")
 expand_mode = 2
+
+[connection signal="focus_entered" from="Panel" to="." method="_on_panel_focus_entered"]
+[connection signal="focus_exited" from="Panel" to="." method="_on_panel_focus_exited"]
+[connection signal="gui_input" from="Panel" to="." method="_on_panel_gui_input"]
+[connection signal="mouse_entered" from="Panel" to="." method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="Panel" to="." method="_on_panel_mouse_exited"]

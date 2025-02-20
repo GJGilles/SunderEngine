@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dcsiia4uaybre"]
+[gd_scene load_steps=11 format=3 uid="uid://dcsiia4uaybre"]
 
 [ext_resource type="Script" uid="uid://c7tjmycniga5k" path="res://scenes/combat/combat_overview.gd" id="1_fyv5f"]
 [ext_resource type="PackedScene" uid="uid://cyt2oulm62q1x" path="res://scenes/combat/combat_turn_track/combat_turn_track.tscn" id="2_42sgf"]
 [ext_resource type="PackedScene" uid="uid://d3g2f1jdih740" path="res://scenes/combat/combat_status/combat_status_zone.tscn" id="3_cadbe"]
+[ext_resource type="PackedScene" uid="uid://bhsm5u3j33kf7" path="res://scenes/combat/combat_attack_list/combat_attack_list.tscn" id="4_7k2ag"]
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="4_arbl2"]
 [ext_resource type="Script" uid="uid://bqyi1vj2al0ho" path="res://scenes/models/team_data.gd" id="4_cadbe"]
 [ext_resource type="PackedScene" uid="uid://bwn11ajjbkqbw" path="res://scenes/data/classes/Shaman.tscn" id="5_b3a6j"]
@@ -12,9 +13,10 @@
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cadbe"]
 
-[node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party")]
+[node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party", "enemies")]
 script = ExtResource("1_fyv5f")
 party = NodePath("TestParty")
+enemies = NodePath("TestEnemy")
 
 [node name="CombatUI" type="CanvasLayer" parent="."]
 
@@ -32,10 +34,18 @@ offset_top = 650.0
 offset_right = -50.0
 offset_bottom = -50.0
 
+[node name="CombatAttackList" parent="CombatUI" instance=ExtResource("4_7k2ag")]
+visible = false
+offset_left = 705.0
+offset_top = 191.0
+offset_right = -715.0
+offset_bottom = -489.0
+
 [node name="TestParty" type="Node" parent="." node_paths=PackedStringArray("characters")]
 script = ExtResource("4_cadbe")
 characters = {
-0: NodePath("Chie")
+0: NodePath("Chie"),
+4: NodePath("Raka")
 }
 
 [node name="Chie" type="Node" parent="TestParty" node_paths=PackedStringArray("current_class")]
@@ -51,3 +61,8 @@ current_class = NodePath("Alchemist")
 portrait = SubResource("PlaceholderTexture2D_cadbe")
 
 [node name="Alchemist" parent="TestParty/Raka" instance=ExtResource("6_vjmmx")]
+
+[node name="TestEnemy" type="Node" parent="."]
+script = ExtResource("4_cadbe")
+
+[connection signal="item_selected" from="CombatUI/CombatAttackList" to="." method="_on_combat_attack_list_item_selected"]

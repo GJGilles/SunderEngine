@@ -37,3 +37,8 @@ size_flags_vertical = 3
 [node name="Response" parent="Attacks" instance=ExtResource("1_sfte8")]
 layout_mode = 2
 size_flags_vertical = 3
+
+[connection signal="on_selected" from="Attacks/Primary" to="." method="_on_primary_selected"]
+[connection signal="on_selected" from="Attacks/Secondary" to="." method="_on_secondary_selected" binds= [0]]
+[connection signal="on_selected" from="Attacks/Auxilary" to="." method="_on_auxilary_selected"]
+[connection signal="on_selected" from="Attacks/Response" to="." method="_on_response_selected"]

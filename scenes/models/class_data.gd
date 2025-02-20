@@ -14,4 +14,4 @@ enum RANGE_TYPE {
 @export var base_mana: int
 @export var range_type: RANGE_TYPE
 
-@export var attacks: Array[ClassAttackData] = []
+@export var actions: Array[BaseActionData] = []

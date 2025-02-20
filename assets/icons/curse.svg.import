@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhwcdoqc3djjf"
-path="res://.godot/imported/pierce.svg-2a29a79871dffb9c2130d06e839538f8.ctex"
+uid="uid://bmhsodgo3fymd"
+path="res://.godot/imported/curse.svg-a1f7fb5b1275cc45e4a24d763ffc1c7e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/types/pierce.svg"
-dest_files=["res://.godot/imported/pierce.svg-2a29a79871dffb9c2130d06e839538f8.ctex"]
+source_file="res://assets/icons/curse.svg"
+dest_files=["res://.godot/imported/curse.svg-a1f7fb5b1275cc45e4a24d763ffc1c7e.ctex"]
 
 [params]
 

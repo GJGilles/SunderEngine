@@ -18,16 +18,19 @@ func set_values(unit: BaseUnitData):
 	mana_bar.value = unit.curr_mana
 	
 func set_empty():
-	pass
+	queue_free()
 
 func update_health(value: float):
 	var tween = create_tween()
 	tween.tween_property(health_bar, "value", value, 1)
+	return tween.finished
 	
 func update_armor(value: float):
 	var tween = create_tween()
 	tween.tween_property(armor_bar, "value", value, 1)
+	return tween.finished
 	
 func update_mana(value: float):
 	var tween = create_tween()
 	tween.tween_property(mana_bar, "value", value, 1) 
+	return tween.finished
