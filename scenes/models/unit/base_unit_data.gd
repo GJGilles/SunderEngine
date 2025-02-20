@@ -8,6 +8,9 @@ var curr_health: int
 var curr_armor: int
 var curr_mana: int
 
+func is_ranged() -> bool:
+	return false
+
 func get_portrait() -> Texture2D:
 	return portrait
 
