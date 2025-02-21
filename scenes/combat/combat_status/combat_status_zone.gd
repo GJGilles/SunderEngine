@@ -3,24 +3,30 @@ extends Control
 class_name CombatStatusZone
 
 @onready var top_left: CombatStatusSquareController = $TopLeft
-@onready var top_mid: CombatStatusSquareController = $TopMid
 @onready var top_right: CombatStatusSquareController = $TopRight
 @onready var bot_left: CombatStatusSquareController = $BotLeft
-@onready var bot_mid: CombatStatusSquareController = $BotMid
 @onready var bot_right: CombatStatusSquareController = $BotRight
 
+@export var is_flip: bool = false
 var square_dict: Dictionary[TeamData.POSITION, CombatStatusSquareController]
 
 func _ready():
-	square_dict = {
-		TeamData.POSITION.FRONT_TOP: top_left,
-		TeamData.POSITION.FRONT_MID: top_mid,
-		TeamData.POSITION.FRONT_BOT: top_right,
-		
-		TeamData.POSITION.BACK_TOP: bot_left,
-		TeamData.POSITION.BACK_MID: bot_mid,
-		TeamData.POSITION.BACK_BOT: bot_right
-	}
+	if is_flip:		
+		square_dict = {
+			TeamData.POSITION.FRONT_TOP: top_left,
+			TeamData.POSITION.FRONT_BOT: bot_left,
+			
+			TeamData.POSITION.BACK_TOP: top_right,
+			TeamData.POSITION.BACK_BOT: bot_right
+		}
+	else:
+		square_dict = {
+			TeamData.POSITION.FRONT_TOP: top_right,
+			TeamData.POSITION.FRONT_BOT: bot_right,
+			
+			TeamData.POSITION.BACK_TOP: top_left,
+			TeamData.POSITION.BACK_BOT: bot_left
+		}
 
 func set_values(team: TeamData):
 	for key in square_dict.keys():

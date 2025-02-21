@@ -1,17 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://dcsiia4uaybre"]
+[gd_scene load_steps=13 format=3 uid="uid://dcsiia4uaybre"]
 
 [ext_resource type="Script" uid="uid://c7tjmycniga5k" path="res://scenes/combat/combat_overview.gd" id="1_fyv5f"]
 [ext_resource type="PackedScene" uid="uid://cyt2oulm62q1x" path="res://scenes/combat/combat_turn_track/combat_turn_track.tscn" id="2_42sgf"]
 [ext_resource type="PackedScene" uid="uid://d3g2f1jdih740" path="res://scenes/combat/combat_status/combat_status_zone.tscn" id="3_cadbe"]
 [ext_resource type="PackedScene" uid="uid://bhsm5u3j33kf7" path="res://scenes/combat/combat_attack_list/combat_attack_list.tscn" id="4_7k2ag"]
-[ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="4_arbl2"]
 [ext_resource type="Script" uid="uid://bqyi1vj2al0ho" path="res://scenes/models/team_data.gd" id="4_cadbe"]
-[ext_resource type="PackedScene" uid="uid://bwn11ajjbkqbw" path="res://scenes/data/classes/Shaman.tscn" id="5_b3a6j"]
-[ext_resource type="PackedScene" uid="uid://by8o7dlycrk5a" path="res://scenes/data/classes/Alchemist.tscn" id="6_vjmmx"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vjmmx"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cadbe"]
+[ext_resource type="Texture2D" uid="uid://bfkyjgfo8hws0" path="res://assets/combat/combat_background.png" id="5_174ev"]
+[ext_resource type="PackedScene" uid="uid://coblrs3sf5tx5" path="res://scenes/combat/combat_field/combat_field_player_area.tscn" id="6_ra6ig"]
+[ext_resource type="PackedScene" uid="uid://ujh2rjk11x7p" path="res://scenes/data/players/chie.tscn" id="7_7k2ag"]
+[ext_resource type="PackedScene" uid="uid://beeqjgdvafdl2" path="res://scenes/combat/combat_field/combat_field_enemy_area.tscn" id="7_umix5"]
+[ext_resource type="PackedScene" uid="uid://cfqm28t4v7s0k" path="res://scenes/data/players/beeity.tscn" id="8_2qqgc"]
+[ext_resource type="PackedScene" uid="uid://gondntpgn778" path="res://scenes/data/players/tahu.tscn" id="8_174ev"]
+[ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia.tscn" id="10_nepdm"]
 
 [node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party", "enemies")]
 script = ExtResource("1_fyv5f")
@@ -20,47 +20,78 @@ enemies = NodePath("TestEnemy")
 
 [node name="CombatUI" type="CanvasLayer" parent="."]
 
+[node name="Background" type="TextureRect" parent="CombatUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_174ev")
+expand_mode = 2
+
 [node name="CombatTurnTrack" parent="CombatUI" instance=ExtResource("2_42sgf")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1020.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 120.0
+grow_horizontal = 0
 
 [node name="PlayerStatusZone" parent="CombatUI" instance=ExtResource("3_cadbe")]
-offset_left = 40.0
-offset_top = 650.0
-offset_right = -1300.0
-offset_bottom = -50.0
+offset_left = 433.0
+offset_top = 680.0
+offset_right = -787.0
+offset_bottom = 0.0
 
 [node name="EnemyStatusZone" parent="CombatUI" instance=ExtResource("3_cadbe")]
-offset_left = 1290.0
-offset_top = 650.0
-offset_right = -50.0
-offset_bottom = -50.0
+offset_left = 1198.0
+offset_top = 678.0
+offset_right = -22.0
+offset_bottom = -2.0
+is_flip = true
 
 [node name="CombatAttackList" parent="CombatUI" instance=ExtResource("4_7k2ag")]
 visible = false
-offset_left = 705.0
-offset_top = 191.0
-offset_right = -715.0
-offset_bottom = -489.0
+offset_left = 10.0
+offset_top = 308.0
+offset_right = -1530.0
+offset_bottom = -12.0
+
+[node name="CombatField" type="Control" parent="CombatUI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 10.0
+offset_bottom = -420.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerArea" parent="CombatUI/CombatField" instance=ExtResource("6_ra6ig")]
+layout_mode = 1
+
+[node name="EnemyArea" parent="CombatUI/CombatField" instance=ExtResource("7_umix5")]
+layout_mode = 1
 
 [node name="TestParty" type="Node" parent="." node_paths=PackedStringArray("characters")]
 script = ExtResource("4_cadbe")
 characters = {
 0: NodePath("Chie"),
-4: NodePath("Raka")
+1: NodePath("Beeity"),
+2: NodePath("Tahu"),
+3: NodePath("Silvia")
 }
 
-[node name="Chie" type="Node" parent="TestParty" node_paths=PackedStringArray("current_class")]
-script = ExtResource("4_arbl2")
-current_class = NodePath("Shaman")
-portrait = SubResource("PlaceholderTexture2D_vjmmx")
+[node name="Chie" parent="TestParty" instance=ExtResource("7_7k2ag")]
 
-[node name="Shaman" parent="TestParty/Chie" instance=ExtResource("5_b3a6j")]
+[node name="Beeity" parent="TestParty" instance=ExtResource("8_2qqgc")]
 
-[node name="Raka" type="Node" parent="TestParty" node_paths=PackedStringArray("current_class")]
-script = ExtResource("4_arbl2")
-current_class = NodePath("Alchemist")
-portrait = SubResource("PlaceholderTexture2D_cadbe")
+[node name="Tahu" parent="TestParty" instance=ExtResource("8_174ev")]
 
-[node name="Alchemist" parent="TestParty/Raka" instance=ExtResource("6_vjmmx")]
+[node name="Silvia" parent="TestParty" instance=ExtResource("10_nepdm")]
 
 [node name="TestEnemy" type="Node" parent="."]
 script = ExtResource("4_cadbe")

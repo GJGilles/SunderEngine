@@ -8,8 +8,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1420.0
-offset_bottom = -680.0
+offset_right = -1540.0
+offset_bottom = -320.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_q3cs2")
@@ -24,19 +24,19 @@ grow_vertical = 2
 
 [node name="Primary" parent="Attacks" instance=ExtResource("1_sfte8")]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 
 [node name="Secondary" parent="Attacks" instance=ExtResource("1_sfte8")]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 
 [node name="Auxilary" parent="Attacks" instance=ExtResource("1_sfte8")]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 
 [node name="Response" parent="Attacks" instance=ExtResource("1_sfte8")]
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 1
 
 [connection signal="on_selected" from="Attacks/Primary" to="." method="_on_primary_selected"]
 [connection signal="on_selected" from="Attacks/Secondary" to="." method="_on_secondary_selected" binds= [0]]

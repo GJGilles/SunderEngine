@@ -2,7 +2,7 @@ extends Panel
 
 class_name CombatStatusSquareController
 
-@onready var title = $Title
+@onready var title = $Portrait/Title
 @onready var portrait = $Portrait
 
 @onready var health_bar = $HealthBar
@@ -18,7 +18,11 @@ func set_values(unit: BaseUnitData):
 	mana_bar.value = unit.curr_mana
 	
 func set_empty():
-	queue_free()
+	title.text = ""
+	portrait.texture = null
+	health_bar.value = -100
+	armor_bar.value = -100
+	mana_bar.value = -100
 
 func update_health(value: float):
 	var tween = create_tween()

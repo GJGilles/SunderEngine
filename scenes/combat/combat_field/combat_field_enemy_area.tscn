@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://beeqjgdvafdl2"]
+
+[ext_resource type="Script" uid="uid://qeff8qn1huse" path="res://scenes/combat/combat_field/combat_field_area.gd" id="1_4np54"]
+[ext_resource type="PackedScene" uid="uid://ctrbvhv6aiduv" path="res://scenes/combat/combat_field/combat_field_unit.tscn" id="1_6dqo5"]
+
+[node name="EnemyArea" type="Control"]
+layout_mode = 3
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4np54")
+
+[node name="FrontRow" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.027
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FrontTop" parent="FrontRow" instance=ExtResource("1_6dqo5")]
+layout_mode = 1
+offset_left = 150.0
+offset_right = -4.75
+
+[node name="FrontBot" parent="FrontRow" instance=ExtResource("1_6dqo5")]
+layout_mode = 1
+offset_top = 100.0
+offset_right = -104.75
+offset_bottom = -25.0
+
+[node name="BackRow" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackTop" parent="BackRow" instance=ExtResource("1_6dqo5")]
+layout_mode = 1
+offset_left = 150.0
+offset_right = -4.75
+
+[node name="BackBot" parent="BackRow" instance=ExtResource("1_6dqo5")]
+layout_mode = 1
+offset_top = 100.0
+offset_right = -104.75
+offset_bottom = -25.0

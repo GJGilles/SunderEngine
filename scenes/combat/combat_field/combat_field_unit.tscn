@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctrbvhv6aiduv"]
+
+[ext_resource type="Texture2D" uid="uid://ddvc4sv4mnc1p" path="res://assets/sprites/chie.png" id="1_4s52q"]
+[ext_resource type="Script" uid="uid://bse55tubnqle3" path="res://scenes/combat/combat_field/combat_field_unit.gd" id="1_6w5jt"]
+
+[node name="CombatFieldUnit" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6w5jt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_4s52q")
+centered = false

@@ -3,6 +3,7 @@ extends Node
 class_name EnemyActionData
 
 enum ENEMY_TARGET_PRIORITY {
+	SELF,
 	LOWEST_ALLY,
 	#STATUS_ALLY,
 	HIGHEST_ENEMY,
@@ -22,8 +23,14 @@ enum ENEMY_TARGET_TYPE {
 @export var target: COMBAT.DEFENSE_TYPE
 @export var include_stunned: bool = false
 
-func select_targets(players: Array[BaseUnitData], enemies: Array[BaseUnitData]) -> Array[BaseUnitData]:
+func select_targets(unit: BaseUnitData, players: Array[BaseUnitData], enemies: Array[BaseUnitData]) -> Array[BaseUnitData]:
 	var hits = action.hits
+	
+	if priority == ENEMY_TARGET_PRIORITY.SELF:
+		var output: Array[BaseUnitData] = []
+		for i in hits:
+			output.append(unit)
+		return output
 	
 	var sorted: Array[BaseUnitData]
 	if priority == ENEMY_TARGET_PRIORITY.LOWEST_ALLY:

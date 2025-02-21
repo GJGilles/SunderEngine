@@ -11,6 +11,8 @@ class_name EnemyUnitData
 @export var actions: Array[EnemyActionData]
 @export var reactions: Array[EnemyReactionData]
 
+var action_idx: int = 0
+
 func is_ranged() -> bool:
 	return false
 
@@ -28,3 +30,19 @@ func get_max_armor() -> int:
 	
 func get_max_mana() -> int:
 	return mana
+	
+func get_action() -> EnemyActionData:
+	var a = actions[action_idx]
+	action_idx += 1
+	if action_idx >= actions.size():
+		action_idx = 0
+	return a
+	
+func get_reaction(unit: EnemyUnitData, enemies: Array[EnemyUnitData], turns: Array[TurnData]) -> EnemyActionData:
+	for react in reactions:
+		if react.is_trigger(unit, enemies, turns):
+			react.run_react()
+			return react
+		else:
+			react.cool_react()
+	return null

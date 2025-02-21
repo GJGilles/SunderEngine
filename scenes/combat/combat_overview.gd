@@ -3,8 +3,13 @@ extends Node2D
 class_name CombatOverview
 
 @onready var combat_turn_track: CombatTurnTrack = $CombatUI/CombatTurnTrack
+
 @onready var player_status_zone: CombatStatusZone = $CombatUI/PlayerStatusZone
 @onready var enemy_status_zone: CombatStatusZone = $CombatUI/EnemyStatusZone
+
+@onready var player_field_area: CombatFieldArea = $CombatUI/CombatField/PlayerArea
+@onready var enemy_field_area: CombatFieldArea = $CombatUI/CombatField/EnemyArea
+
 @onready var combat_attack_list: CombatAttackList = $CombatUI/CombatAttackList
 
 @export var party: TeamData
@@ -21,6 +26,7 @@ func _ready():
 	
 	for val in party.characters:
 		var chara = party.characters[val]
+		chara.reset_stats()
 		
 		var t: TurnData = TurnData.new()
 		combat_turn_track.add_child(t)
@@ -34,6 +40,9 @@ func _ready():
 	
 	player_status_zone.set_values(party)
 	enemy_status_zone.set_values(enemies)
+	
+	player_field_area.set_values(party)
+	enemy_field_area.set_values(enemies)
 	
 	set_state(TurnCombatState.new())
 

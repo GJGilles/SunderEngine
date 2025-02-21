@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://ne12ulnycush"]
+
+[ext_resource type="PackedScene" uid="uid://db15202aaldte" path="res://scenes/data/combat_sprites/_base_combat_sprite.tscn" id="1_unxsn"]
+
+[node name="BaseCombatSprite" instance=ExtResource("1_unxsn")]
