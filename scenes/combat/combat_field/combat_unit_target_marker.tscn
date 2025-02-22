@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://voss60n7age"]
+
+[ext_resource type="Texture2D" uid="uid://b2s8fm8fn2ukk" path="res://assets/icons/targeted.svg" id="1_0i5im"]
+
+[node name="SelectMarker" type="TextureRect"]
+custom_minimum_size = Vector2(40, 30)
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("1_0i5im")
+expand_mode = 3
+stretch_mode = 5

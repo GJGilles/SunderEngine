@@ -24,3 +24,4 @@ func async_thread():
 		overview.set_state(PlayerCombatState.new())
 	else:
 		overview.set_state(EnemyCombatState.new())
+	queue_free()

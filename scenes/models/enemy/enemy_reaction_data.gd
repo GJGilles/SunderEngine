@@ -15,7 +15,7 @@ enum ENEMY_REACTION_TRIGGER {
 
 var cool_time: int = 0
 
-func is_trigger(unit: EnemyUnitData, enemies: Array[EnemyUnitData], turns: Array[TurnData]) -> bool:
+func is_trigger(unit: EnemyUnitData, enemies: Array[BaseUnitData], turns: Array[TurnData]) -> bool:
 	if cool_time > 0:
 		return false
 		
@@ -28,12 +28,12 @@ func is_trigger(unit: EnemyUnitData, enemies: Array[EnemyUnitData], turns: Array
 					return true
 			return false 
 		ENEMY_REACTION_TRIGGER.INCOMING_ATTACK:
-			for t in turns:
-				if t.time > threshold:
+			for turn in turns:
+				if turn.time > threshold:
 					return false
 				
-				for target in t.targets:
-					if target == unit:
+				for t in turn.targets:
+					if t == unit:
 						return true
 			
 			return false

@@ -31,16 +31,20 @@ func get_max_armor() -> int:
 func get_max_mana() -> int:
 	return mana
 	
-func get_action() -> EnemyActionData:
-	var a = actions[action_idx]
+func get_action(enemies: Array[BaseUnitData], turns: Array[TurnData]) -> EnemyActionData:
+	var action: EnemyActionData = get_reaction(enemies, turns)
+	if action != null:
+		return action
+	
+	action = actions[action_idx]
 	action_idx += 1
 	if action_idx >= actions.size():
 		action_idx = 0
-	return a
+	return action
 	
-func get_reaction(unit: EnemyUnitData, enemies: Array[EnemyUnitData], turns: Array[TurnData]) -> EnemyActionData:
+func get_reaction(enemies: Array[BaseUnitData], turns: Array[TurnData]) -> EnemyActionData:
 	for react in reactions:
-		if react.is_trigger(unit, enemies, turns):
+		if react.is_trigger(self, enemies, turns):
 			react.run_react()
 			return react
 		else:

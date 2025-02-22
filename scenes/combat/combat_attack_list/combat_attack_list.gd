@@ -12,10 +12,7 @@ signal item_selected(index: int)
 func set_values(actions: Array[BaseActionData]):
 	primary.set_values(actions[0])
 	secondary.set_values(actions[1])
-	auxilary.set_values(actions[2])
-	
-	primary.grab_focus()
-	
+	auxilary.set_values(actions[2])	
 	
 
 

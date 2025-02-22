@@ -16,3 +16,6 @@ func get_max_armor():
 	
 func get_max_mana():
 	return current_class.base_mana
+	
+func get_action(idx: int):
+	return current_class.actions[idx]

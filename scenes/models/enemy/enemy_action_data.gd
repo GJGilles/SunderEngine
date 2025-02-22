@@ -27,10 +27,10 @@ func select_targets(unit: BaseUnitData, players: Array[BaseUnitData], enemies: A
 	var hits = action.hits
 	
 	if priority == ENEMY_TARGET_PRIORITY.SELF:
-		var output: Array[BaseUnitData] = []
+		var out: Array[BaseUnitData] = []
 		for i in hits:
-			output.append(unit)
-		return output
+			out.append(unit)
+		return out
 	
 	var sorted: Array[BaseUnitData]
 	if priority == ENEMY_TARGET_PRIORITY.LOWEST_ALLY:

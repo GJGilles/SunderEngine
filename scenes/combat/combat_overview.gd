@@ -18,22 +18,21 @@ class_name CombatOverview
 var turns: Array[TurnData]
 var curr_turn: TurnData
 
-signal action_selected(index: int)
+signal action_selected(action: BaseActionData)
 signal targets_selected(targets: Array[BaseUnitData])
 
 func _ready():
 	turns = []
 	
-	for val in party.characters:
-		var chara = party.characters[val]
-		chara.reset_stats()
+	for val in party.characters.values() + enemies.characters.values():
+		val.reset_stats()
 		
 		var t: TurnData = TurnData.new()
 		combat_turn_track.add_child(t)
 		turns.append(t)
 		
-		t.time = chara.get_speed()
-		t.source = chara
+		t.time = val.get_speed()
+		t.source = val
 	
 	turns.sort_custom(func (a, b): return a.time < b.time)
 	combat_turn_track.set_values(turns)
@@ -56,6 +55,17 @@ func next_turn() -> Signal:
 		t.time -= curr_turn.time
 	
 	return combat_turn_track.move_track(curr_turn.time)
+	
+func insert_turn(turn: TurnData):
+	var idx: int = 0
+	for t in turns:
+		if t.time > turn.time:
+			break
+		idx += 1
+		
+	turns.insert(idx, turn)
+	combat_turn_track.remove_turn(0)
+	combat_turn_track.insert_turn(idx, turn)
 	
 func damage_unit(unit: BaseUnitData, damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFENSE_TYPE):
 	
@@ -92,10 +102,25 @@ func hide_actions():
 	combat_attack_list.visible = false
 	
 func _on_combat_attack_list_item_selected(index: int) -> void:
-	action_selected.emit(index)
+	var player: PlayerUnitData = curr_turn.source
+	var action: BaseActionData = player.get_action(index)
+	action_selected.emit(action)
 	
-func show_targets():
-	pass
+func get_player_targets(num: int):
+	player_field_area.get_targets(num)
+	
+func get_enemy_targets(num: int):
+	enemy_field_area.get_targets(num)
 	
 func select_targets(targets: Array[BaseUnitData]):
 	targets_selected.emit(targets)
+
+func _on_player_area_targets_selected(targets: Array[TeamData.POSITION]) -> void:
+	var target_units: Array[BaseUnitData] 
+	target_units.assign(targets.map(func (t): return party.characters[t]))
+	targets_selected.emit(target_units)
+
+func _on_enemy_area_targets_selected(targets: Array[TeamData.POSITION]) -> void:
+	var target_units: Array[BaseUnitData] 
+	target_units.assign(targets.map(func (t): return enemies.characters[t]))
+	targets_selected.emit(target_units)

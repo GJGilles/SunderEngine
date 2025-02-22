@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dcsiia4uaybre"]
+[gd_scene load_steps=14 format=3 uid="uid://dcsiia4uaybre"]
 
 [ext_resource type="Script" uid="uid://c7tjmycniga5k" path="res://scenes/combat/combat_overview.gd" id="1_fyv5f"]
 [ext_resource type="PackedScene" uid="uid://cyt2oulm62q1x" path="res://scenes/combat/combat_turn_track/combat_turn_track.tscn" id="2_42sgf"]
@@ -12,11 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://cfqm28t4v7s0k" path="res://scenes/data/players/beeity.tscn" id="8_2qqgc"]
 [ext_resource type="PackedScene" uid="uid://gondntpgn778" path="res://scenes/data/players/tahu.tscn" id="8_174ev"]
 [ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia.tscn" id="10_nepdm"]
+[ext_resource type="PackedScene" uid="uid://5pykceuxtghc" path="res://scenes/data/enemies/Chongah.tscn" id="13_umix5"]
 
 [node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party", "enemies")]
 script = ExtResource("1_fyv5f")
 party = NodePath("TestParty")
-enemies = NodePath("TestEnemy")
+enemies = NodePath("TestEnemies")
 
 [node name="CombatUI" type="CanvasLayer" parent="."]
 
@@ -93,7 +94,15 @@ characters = {
 
 [node name="Silvia" parent="TestParty" instance=ExtResource("10_nepdm")]
 
-[node name="TestEnemy" type="Node" parent="."]
+[node name="TestEnemies" type="Node" parent="." node_paths=PackedStringArray("characters")]
 script = ExtResource("4_cadbe")
+characters = {
+1: NodePath("Chongah")
+}
+
+[node name="Chongah" parent="TestEnemies" instance=ExtResource("13_umix5")]
+ranged = null
 
 [connection signal="item_selected" from="CombatUI/CombatAttackList" to="." method="_on_combat_attack_list_item_selected"]
+[connection signal="targets_selected" from="CombatUI/CombatField/PlayerArea" to="." method="_on_player_area_targets_selected"]
+[connection signal="targets_selected" from="CombatUI/CombatField/EnemyArea" to="." method="_on_enemy_area_targets_selected"]

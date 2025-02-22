@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://coblrs3sf5tx5"]
 
-[ext_resource type="Script" path="res://scenes/combat/combat_field/combat_field_area.gd" id="1_ox8no"]
+[ext_resource type="Script" uid="uid://qeff8qn1huse" path="res://scenes/combat/combat_field/combat_field_area.gd" id="1_ox8no"]
 [ext_resource type="PackedScene" uid="uid://ctrbvhv6aiduv" path="res://scenes/combat/combat_field/combat_field_unit.tscn" id="1_y23wj"]
 
 [node name="PlayerArea" type="Control"]
@@ -47,3 +47,8 @@ offset_left = 150.0
 offset_top = 100.0
 offset_right = -25.0
 offset_bottom = -25.0
+
+[connection signal="on_selected" from="FrontRow/FrontTop" to="." method="_on_front_top_selected"]
+[connection signal="on_selected" from="FrontRow/FrontBot" to="." method="_on_front_bot_selected"]
+[connection signal="on_selected" from="BackRow/BackTop" to="." method="_on_back_top_selected"]
+[connection signal="on_selected" from="BackRow/BackBot" to="." method="_on_back_bot_selected"]

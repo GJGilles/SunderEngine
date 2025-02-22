@@ -13,11 +13,13 @@ func set_values(turns: Array[TurnData]):
 		turn_container.add_child(turn_scene)
 		
 func remove_turn(index: int):
-	turn_container.get_child(index).queue_free()
+	var child = turn_container.get_child(index)
+	turn_container.remove_child(child)
+	child.queue_free()
 	
 func insert_turn(index: int, turn: TurnData):
 		var turn_scene: CombatTurnIcon = turn_icon_scene.instantiate()
-		turn_scene.set_values(turn)
+		turn_scene.turn = turn
 		turn_container.add_child(turn_scene)
 		turn_container.move_child(turn_scene, index)
 

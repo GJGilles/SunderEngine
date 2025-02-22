@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fffqj6so6ygs"
-path="res://.godot/imported/Enemy Chongah.png-591e21f5573fbdad786da1f5841099f7.ctex"
+uid="uid://b2s8fm8fn2ukk"
+path="res://.godot/imported/targeted.svg-074c94d5ca43c44287c47350768bcf4b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/Enemy Chongah.png"
-dest_files=["res://.godot/imported/Enemy Chongah.png-591e21f5573fbdad786da1f5841099f7.ctex"]
+source_file="res://assets/icons/targeted.svg"
+dest_files=["res://.godot/imported/targeted.svg-074c94d5ca43c44287c47350768bcf4b.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
