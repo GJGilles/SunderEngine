@@ -103,5 +103,3 @@ characters = {
 [node name="Chongah" parent="TestEnemies" instance=ExtResource("13_umix5")]
 
 [connection signal="item_selected" from="CombatUI/CombatAttackList" to="." method="_on_combat_attack_list_item_selected"]
-[connection signal="targets_selected" from="CombatUI/CombatField/PlayerArea" to="." method="_on_player_area_targets_selected"]
-[connection signal="targets_selected" from="CombatUI/CombatField/EnemyArea" to="." method="_on_enemy_area_targets_selected"]

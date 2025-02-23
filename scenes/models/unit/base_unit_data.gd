@@ -14,6 +14,17 @@ var curr_status: Dictionary[COMBAT.STATUS_TYPE, int] = {}
 var curr_block: ReactActionData
 var curr_evade_count: int = 0
 
+# TODO: Think of a better way to do this
+signal animation_done
+signal update_done
+
+signal unit_selectable(selectable: bool)
+signal add_target()
+signal remove_target()
+
+#region Signals
+signal unit_attack(action: AttackActionData)
+
 signal attack_evaded()
 signal attack_blocked()
 
@@ -29,6 +40,7 @@ signal status_remove(type: COMBAT.STATUS_TYPE)
 
 signal react_add(type: COMBAT.REACT_TYPE, value: int)
 signal react_remove(type: COMBAT.REACT_TYPE)
+#endregion
 
 func is_ranged() -> bool:
 	return false
@@ -136,10 +148,11 @@ func tick_status(status: COMBAT.STATUS_TYPE):
 			if value > 0 and curr_health < get_max_health():
 				var heal = min(value, get_max_health() - curr_health)
 				if curr_health <= 0 and 0 < curr_health + heal:
+					curr_health += heal
 					unit_revived.emit(heal)
 				else:
+					curr_health += heal
 					unit_healed.emit(heal, COMBAT.DEFENSE_TYPE.HEALTH)
-				curr_health += heal
 		
 		COMBAT.STATUS_TYPE.CORRODE:
 			if curr_armor > 0:
@@ -157,10 +170,11 @@ func tick_status(status: COMBAT.STATUS_TYPE):
 			if curr_health < get_max_health():
 				var heal = min(value, get_max_health() - curr_health)
 				if curr_health <= 0 and 0 < curr_health + heal:
+					curr_health += heal
 					unit_revived.emit(heal)
 				else:
+					curr_health += heal
 					unit_healed.emit(heal, COMBAT.DEFENSE_TYPE.HEALTH)
-				curr_health += heal
 				value -= heal
 			
 			if value > 0 and  curr_mana < get_max_mana():

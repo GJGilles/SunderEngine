@@ -35,14 +35,3 @@ func set_values(team: TeamData):
 		else:
 			square_dict[key].set_empty()	
 		
-func update_unit(pos: TeamData.POSITION, amount: int, defense: COMBAT.DEFENSE_TYPE):
-	var square: CombatStatusSquareController = square_dict[pos]
-	
-	match defense:
-		COMBAT.DEFENSE_TYPE.ARMOR:
-			return square.update_armor(amount)
-		COMBAT.DEFENSE_TYPE.MANA:
-			return square.update_mana(amount)
-		COMBAT.DEFENSE_TYPE.HEALTH:
-			return square.update_health(amount)
-	
