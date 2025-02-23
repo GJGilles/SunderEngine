@@ -4,7 +4,7 @@ class_name CombatFieldUnit
 
 const COMBAT_UNIT_TARGET_MARKER = preload("res://scenes/combat/combat_field/combat_unit_target_marker.tscn")
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var sprite: CombatFieldUnitAnim = $AnimatedSprite2D
 @onready var selectable_area: ColorRect = $SelectableArea
 @onready var target_marker_row: HBoxContainer = $TargetMarkerRow
 
@@ -18,11 +18,11 @@ func _on_gui_input(event: InputEvent):
 		on_selected.emit()
 	
 func set_values(unit: BaseUnitData):
-	sprite_2d.texture = unit.sprite
+	sprite.set_values(unit.combat_sprite)
 	is_empty = false
 	
 func set_empty():
-	sprite_2d.texture = null
+	sprite.set_empty()
 	is_empty = true
 
 func set_selectable():
@@ -46,3 +46,9 @@ func set_target_ticks(num: int):
 func add_target_tick():
 	var child = COMBAT_UNIT_TARGET_MARKER.instantiate()
 	target_marker_row.add_child(child)
+	
+func play_damaged():
+	return sprite.play_damaged()
+	
+func play_attack():
+	return sprite.play_attack()

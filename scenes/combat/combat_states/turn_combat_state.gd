@@ -12,8 +12,13 @@ func async_thread():
 	
 	if turn.action is AttackActionData:
 		var attack: AttackActionData = turn.action
+		
+		#await overview.attack_unit(turn.source)
+		
+		var promises: Array[Promise] = []
 		for unit in turn.targets:
-			await overview.damage_unit(unit, attack.damage, attack.attack, attack.defense)
+			promises.append(overview.damage_unit(unit, attack.damage, attack.attack, attack.defense))
+		await Promise.all(promises).wait()
 	elif turn.action is ReactActionData:
 		var react: ReactActionData = turn.action
 #		Remove react from targets

@@ -1,0 +1,28 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://2bx5jgy2kewx"]
+
+[ext_resource type="Texture2D" uid="uid://dqm3gw6ot3cix" path="res://assets/sprites/Chongah.png" id="1_t474i"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t474i")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_t474i")
+}],
+"loop": false,
+"name": &"damaged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t474i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]

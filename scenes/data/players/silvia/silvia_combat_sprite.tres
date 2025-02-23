@@ -1,0 +1,28 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://bc5u4ju6n557j"]
+
+[ext_resource type="Texture2D" uid="uid://bydnida6ujbyu" path="res://assets/sprites/silvia.png" id="1_ug3so"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ug3so")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_ug3so")
+}],
+"loop": false,
+"name": &"damaged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ug3so")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]

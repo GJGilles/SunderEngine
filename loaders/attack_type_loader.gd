@@ -20,8 +20,14 @@ enum STATUS_TYPE {
 }
 
 enum REACT_TYPE {	
-	BLOCKED,
+	BLOCK,
 	EVADE
+}
+
+enum TARGET_TYPE {
+	SELF,
+	ENEMY,
+	ALLY
 }
 
 @export var attack_phys: Texture2D
@@ -39,6 +45,17 @@ enum REACT_TYPE {
 
 @export var react_block: Texture2D
 @export var react_evade: Texture2D
+
+func get_opposite_status(type: STATUS_TYPE):
+	match type:
+		STATUS_TYPE.MEND:
+			return STATUS_TYPE.CORRODE
+		STATUS_TYPE.CORRODE:
+			return STATUS_TYPE.MEND
+		STATUS_TYPE.BLESS:
+			return STATUS_TYPE.CURSE
+		STATUS_TYPE.CURSE:
+			return STATUS_TYPE.BLESS
 
 func get_attack_icon(type: ATTACK_TYPE):
 	match type:
@@ -71,7 +88,7 @@ func get_status_icon(type: STATUS_TYPE):
 	
 func get_react_icon(type: REACT_TYPE):
 	match type:
-		REACT_TYPE.BLOCKED:
+		REACT_TYPE.BLOCK:
 			return react_block
 		REACT_TYPE.EVADE:
 			return react_evade

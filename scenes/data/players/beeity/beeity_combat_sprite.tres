@@ -1,0 +1,28 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://bqd3fqiimyu75"]
+
+[ext_resource type="Texture2D" uid="uid://cijysp4wbvo4p" path="res://assets/sprites/beeity.png" id="1_m1fcv"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_m1fcv")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_m1fcv")
+}],
+"loop": false,
+"name": &"damaged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_m1fcv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]

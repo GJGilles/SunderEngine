@@ -67,7 +67,15 @@ func insert_turn(turn: TurnData):
 	combat_turn_track.remove_turn(0)
 	combat_turn_track.insert_turn(idx, turn)
 	
-func damage_unit(unit: BaseUnitData, damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFENSE_TYPE):
+func attack_unit(unit: BaseUnitData) -> Signal:
+	if unit is PlayerUnitData:
+		var pos: TeamData.POSITION = party.characters.find_key(unit)
+		return player_field_area.attack_unit(pos)
+	else:
+		var pos: TeamData.POSITION = enemies.characters.find_key(unit)
+		return enemy_field_area.attack_unit(pos)
+	
+func damage_unit(unit: BaseUnitData, damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFENSE_TYPE) -> Promise:
 	
 	var total: int
 	match defense:
@@ -86,10 +94,20 @@ func damage_unit(unit: BaseUnitData, damage: int, attack: COMBAT.ATTACK_TYPE, de
 	
 	if unit is PlayerUnitData:
 		var pos: TeamData.POSITION = party.characters.find_key(unit)
-		player_status_zone.update_unit(pos, total, defense)
+		return Promise.new(
+			func(resolve: Callable, reject: Callable):
+				await player_field_area.damage_unit(pos)
+				await player_status_zone.update_unit(pos, total, defense)
+				resolve.call()
+		)
 	else:
 		var pos: TeamData.POSITION = enemies.characters.find_key(unit)
-		enemy_status_zone.update_unit(pos, total, defense)
+		return Promise.new(
+			func(resolve: Callable, reject: Callable):
+				await enemy_field_area.damage_unit(pos)
+				await enemy_status_zone.update_unit(pos, total, defense)
+				resolve.call()
+		)
 	
 func tick_status():
 	pass

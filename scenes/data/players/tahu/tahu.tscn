@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://gondntpgn778"]
+
+[ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_a33rw"]
+[ext_resource type="Texture2D" uid="uid://csn757vgi5tul" path="res://assets/portraits/tahu.png" id="2_k7g78"]
+[ext_resource type="PackedScene" uid="uid://by8o7dlycrk5a" path="res://scenes/data/classes/alchemist.tscn" id="2_uvcu5"]
+[ext_resource type="SpriteFrames" uid="uid://dw1clbs5rsxxc" path="res://scenes/data/players/tahu/tahu_combat_sprite.tres" id="3_4e8ko"]
+
+[node name="Tahu" type="Node" node_paths=PackedStringArray("current_class")]
+script = ExtResource("1_a33rw")
+current_class = NodePath("Alchemist")
+portrait = ExtResource("2_k7g78")
+combat_sprite = ExtResource("3_4e8ko")
+
+[node name="Alchemist" parent="." instance=ExtResource("2_uvcu5")]
+base_speed = 5

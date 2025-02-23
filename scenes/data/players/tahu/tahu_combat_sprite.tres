@@ -1,0 +1,28 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dw1clbs5rsxxc"]
+
+[ext_resource type="Texture2D" uid="uid://j5q56d6jy6y4" path="res://assets/sprites/tahu.png" id="1_c1oug"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_c1oug")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_c1oug")
+}],
+"loop": false,
+"name": &"damaged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_c1oug")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]

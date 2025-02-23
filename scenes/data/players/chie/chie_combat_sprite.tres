@@ -1,0 +1,28 @@
+[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://bvkbys185o656"]
+
+[ext_resource type="Texture2D" uid="uid://ddvc4sv4mnc1p" path="res://assets/sprites/chie.png" id="1_bwl7t"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_bwl7t")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_bwl7t")
+}],
+"loop": false,
+"name": &"damaged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_bwl7t")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]

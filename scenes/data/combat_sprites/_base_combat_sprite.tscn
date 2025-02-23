@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://db15202aaldte"]
-
-[node name="BaseCombatSprite" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]

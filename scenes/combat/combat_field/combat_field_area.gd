@@ -66,3 +66,10 @@ func set_unselectable():
 		
 func set_target_ticks(pos: TeamData.POSITION, num: int):
 	square_dict[pos].set_target_ticks(num)
+
+func attack_unit(pos: TeamData.POSITION):
+	return square_dict[pos].play_attack()
+	
+func damage_unit(pos: TeamData.POSITION):
+	return square_dict[pos].play_damaged()
+	

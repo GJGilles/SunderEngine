@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctrbvhv6aiduv"]
+[gd_scene load_steps=4 format=3 uid="uid://ctrbvhv6aiduv"]
 
-[ext_resource type="Texture2D" uid="uid://ddvc4sv4mnc1p" path="res://assets/sprites/chie.png" id="1_4s52q"]
 [ext_resource type="Script" uid="uid://bse55tubnqle3" path="res://scenes/combat/combat_field/combat_field_unit.gd" id="1_6w5jt"]
+[ext_resource type="SpriteFrames" uid="uid://bvkbys185o656" path="res://scenes/data/players/chie/chie_combat_sprite.tres" id="2_6w5jt"]
+[ext_resource type="Script" uid="uid://dkmh8n7b30y87" path="res://scenes/combat/combat_field/combat_field_unit_anim.gd" id="3_nm232"]
 
 [node name="CombatFieldUnit" type="Control"]
 custom_minimum_size = Vector2(200, 200)
@@ -23,9 +24,11 @@ offset_right = 141.0
 offset_bottom = 18.0
 grow_vertical = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_4s52q")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_6w5jt")
+animation = &"idle"
 centered = false
+script = ExtResource("3_nm232")
 
 [node name="TargetMarkerRow" type="HBoxContainer" parent="."]
 layout_mode = 1

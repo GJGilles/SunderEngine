@@ -7,12 +7,12 @@
 [ext_resource type="Script" uid="uid://bqyi1vj2al0ho" path="res://scenes/models/team_data.gd" id="4_cadbe"]
 [ext_resource type="Texture2D" uid="uid://bfkyjgfo8hws0" path="res://assets/combat/combat_background.png" id="5_174ev"]
 [ext_resource type="PackedScene" uid="uid://coblrs3sf5tx5" path="res://scenes/combat/combat_field/combat_field_player_area.tscn" id="6_ra6ig"]
-[ext_resource type="PackedScene" uid="uid://ujh2rjk11x7p" path="res://scenes/data/players/chie.tscn" id="7_7k2ag"]
+[ext_resource type="PackedScene" uid="uid://ujh2rjk11x7p" path="res://scenes/data/players/chie/chie.tscn" id="7_7k2ag"]
 [ext_resource type="PackedScene" uid="uid://beeqjgdvafdl2" path="res://scenes/combat/combat_field/combat_field_enemy_area.tscn" id="7_umix5"]
-[ext_resource type="PackedScene" uid="uid://cfqm28t4v7s0k" path="res://scenes/data/players/beeity.tscn" id="8_2qqgc"]
-[ext_resource type="PackedScene" uid="uid://gondntpgn778" path="res://scenes/data/players/tahu.tscn" id="8_174ev"]
-[ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia.tscn" id="10_nepdm"]
-[ext_resource type="PackedScene" uid="uid://5pykceuxtghc" path="res://scenes/data/enemies/Chongah.tscn" id="13_umix5"]
+[ext_resource type="PackedScene" uid="uid://cfqm28t4v7s0k" path="res://scenes/data/players/beeity/beeity.tscn" id="8_2qqgc"]
+[ext_resource type="PackedScene" uid="uid://gondntpgn778" path="res://scenes/data/players/tahu/tahu.tscn" id="8_174ev"]
+[ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia/silvia.tscn" id="10_nepdm"]
+[ext_resource type="PackedScene" uid="uid://5pykceuxtghc" path="res://scenes/data/enemies/chongah/Chongah.tscn" id="13_umix5"]
 
 [node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party", "enemies")]
 script = ExtResource("1_fyv5f")
@@ -101,7 +101,6 @@ characters = {
 }
 
 [node name="Chongah" parent="TestEnemies" instance=ExtResource("13_umix5")]
-ranged = null
 
 [connection signal="item_selected" from="CombatUI/CombatAttackList" to="." method="_on_combat_attack_list_item_selected"]
 [connection signal="targets_selected" from="CombatUI/CombatField/PlayerArea" to="." method="_on_player_area_targets_selected"]
