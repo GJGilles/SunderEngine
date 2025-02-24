@@ -47,8 +47,3 @@ offset_left = 150.0
 offset_top = 100.0
 offset_right = -25.0
 offset_bottom = -25.0
-
-[connection signal="on_selected" from="FrontRow/FrontTop" to="." method="_on_front_top_selected"]
-[connection signal="on_selected" from="FrontRow/FrontBot" to="." method="_on_front_bot_selected"]
-[connection signal="on_selected" from="BackRow/BackTop" to="." method="_on_back_top_selected"]
-[connection signal="on_selected" from="BackRow/BackBot" to="." method="_on_back_bot_selected"]

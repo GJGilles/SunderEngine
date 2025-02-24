@@ -2,47 +2,62 @@ extends BaseCombatState
 
 class_name PlayerCombatState
 
+var attack_list: CombatAttackList
+var player_field_area: CombatFieldArea
+var enemy_field_area: CombatFieldArea
+var turn_track: TurnTrackData
+
 var player: PlayerUnitData
 var action: BaseActionData
 var targets: Array[BaseUnitData] = []
 
 func _ready():
-	player = overview.curr_turn.source
-	overview.show_actions(player.get_all_actions())
-	overview.action_selected.connect(action_selected)
+	attack_list = overview.combat_attack_list
+	player_field_area = overview.player_field_area
+	enemy_field_area = overview.enemy_field_area
+	turn_track = overview.turn_track
 	
-func action_selected(a: BaseActionData):
-	action = a
-	overview.hide_actions()
+	player = unit
+	attack_list.visible = true
+	attack_list.set_values(player.get_all_actions())
+	attack_list.item_selected.connect(action_selected)
+	
+func action_selected(idx: int):
+	action = player.get_action(idx)
+	attack_list.visible = false
 	select_targets()
 	
 func select_targets():
 	match action.target_type:
 		COMBAT.TARGET_TYPE.SELF:
-			player.unit_selectable.emit(true)
-			player.add_target.connect(func(): add_target(player))
+			var key = overview.party.characters.find_key(player)
+			player_field_area.get_value(key).set_selectable(true)
+			player_field_area.get_targets(action.hits)
+			player_field_area.targets_selected.connect(player_targets_selected)
 		COMBAT.TARGET_TYPE.ALLY:
-			for val in overview.party.characters.values():
-				val.unit_selectable.emit(true)
-				val.add_target.connect(func(): add_target(val))
+			for key in overview.party.characters.keys():
+				player_field_area.get_value(key).set_selectable(true)
+			player_field_area.get_targets(action.hits)
+			player_field_area.targets_selected.connect(player_targets_selected)
 		COMBAT.TARGET_TYPE.ENEMY:
-			for val in overview.enemies.characters.values():
-				val.unit_selectable.emit(true)
-				val.add_target.connect(func(): add_target(val))
+			for key in overview.enemies.characters.keys():
+				enemy_field_area.get_value(key).set_selectable(true)
+			enemy_field_area.get_targets(action.hits)
+			enemy_field_area.targets_selected.connect(enemy_targets_selected)
 		
-func add_target(unit: BaseUnitData):
-	targets.append(unit)
-	if targets.size() == action.hits:
-		unselect_targets()
-		create_turn()
+func player_targets_selected(positions: Array[TeamData.POSITION]):
+	targets.assign(positions.map(func(p): return overview.party.characters[p]))
+	for key in overview.party.characters.keys():
+		player_field_area.get_value(key).set_selectable(false)
+		
+	create_turn()
 	
-func remove_target(unit: BaseUnitData):
-	var idx = targets.find(unit)
-	targets.remove_at(idx)
-
-func unselect_targets():
-	for val in overview.party.characters.values() + overview.enemies.characters.values():
-		val.unit_selectable.emit(false)
+func enemy_targets_selected(positions: Array[TeamData.POSITION]):
+	targets.assign(positions.map(func(p): return overview.enemies.characters[p]))
+	for key in overview.enemies.characters.keys():
+		enemy_field_area.get_value(key).set_selectable(false)
+		
+	create_turn()
 	
 func create_turn():
 	var turn: TurnData = TurnData.new()
@@ -50,9 +65,9 @@ func create_turn():
 	turn.action = action
 	turn.targets = targets
 	turn.time = action.time_cost
-	await overview.insert_turn(turn)
+	await turn_track.insert_turn(turn)
 	end_turn()
 
 func end_turn():
-	overview.set_state(TurnCombatState.new())
+	overview.set_state(TurnCombatState.new(), player)
 	queue_free()

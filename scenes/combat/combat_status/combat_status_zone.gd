@@ -2,13 +2,13 @@ extends Control
 
 class_name CombatStatusZone
 
-@onready var top_left: CombatStatusSquareController = $TopLeft
-@onready var top_right: CombatStatusSquareController = $TopRight
-@onready var bot_left: CombatStatusSquareController = $BotLeft
-@onready var bot_right: CombatStatusSquareController = $BotRight
+@onready var top_left: CombatStatusSquare = $TopLeft
+@onready var top_right: CombatStatusSquare = $TopRight
+@onready var bot_left: CombatStatusSquare = $BotLeft
+@onready var bot_right: CombatStatusSquare = $BotRight
 
 @export var is_flip: bool = false
-var square_dict: Dictionary[TeamData.POSITION, CombatStatusSquareController]
+var square_dict: Dictionary[TeamData.POSITION, CombatStatusSquare]
 
 func _ready():
 	if is_flip:		
@@ -35,3 +35,5 @@ func set_values(team: TeamData):
 		else:
 			square_dict[key].set_empty()	
 		
+func get_value(pos: TeamData.POSITION) -> CombatStatusSquare:
+	return square_dict[pos]

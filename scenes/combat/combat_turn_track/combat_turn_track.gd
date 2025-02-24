@@ -6,25 +6,21 @@ var turn_icon_scene: PackedScene = preload("res://scenes/combat/combat_turn_trac
 
 @onready var turn_container: HBoxContainer = $TurnContainer
 
-func set_values(turns: Array[TurnData]):
-	for t in turns:
-		var turn_scene: CombatTurnIcon = turn_icon_scene.instantiate()
-		turn_scene.turn = t
-		turn_container.add_child(turn_scene)
+func insert_turn(index: int, turn: TurnData):
+	var turn_scene: CombatTurnIcon = turn_icon_scene.instantiate()
+	turn_scene.turn = turn
+	turn_container.add_child(turn_scene)
+	turn_container.move_child(turn_scene, index)
 		
 func remove_turn(index: int):
 	var child = turn_container.get_child(index)
-	turn_container.remove_child(child)
-	child.queue_free()
+	child.remove_turn()
 	
-func insert_turn(index: int, turn: TurnData):
-		var turn_scene: CombatTurnIcon = turn_icon_scene.instantiate()
-		turn_scene.turn = turn
-		turn_container.add_child(turn_scene)
-		turn_container.move_child(turn_scene, index)
-
-func move_track(amount: int) -> Signal:
-	var done: Signal
-	for child: CombatTurnIcon in turn_container.get_children():
-		done = child.reduce_time(amount)
-	return done
+func update_turn(index: int, time: int):
+	var child: CombatTurnIcon = turn_container.get_child(index)
+	child.update_time(time)
+	
+func all_done_update() -> Promise:
+	var promises: Array[Promise]
+	promises.assign(turn_container.get_children().map(func(c): return c.update_done))
+	return Promise.all(promises)

@@ -12,19 +12,16 @@ var base_unit: BaseUnitData
 
 var is_selectable: bool = false
 
+signal on_selected()
+
 func _on_gui_input(event: InputEvent):
 	if is_selectable and event.is_action("ui_select"):
-		base_unit.add_target.emit()
-		add_target_tick()
+		on_selected.emit()
 	
 func set_values(unit: BaseUnitData):
 	sprite.set_values(unit.combat_sprite)
 	
 	base_unit = unit
-	unit.unit_selectable.connect(set_selectable)
-	unit.unit_damaged.connect(func(_damage, _defanse): play_damaged())
-	unit.unit_stunned.connect(func(): play_damaged())
-	unit.unit_fainted.connect(func(): play_damaged())
 	
 func set_empty():
 	sprite.set_empty()
@@ -50,4 +47,3 @@ func remove_target_tick():
 	
 func play_damaged():
 	await sprite.play_damaged()
-	base_unit.animation_done.emit()

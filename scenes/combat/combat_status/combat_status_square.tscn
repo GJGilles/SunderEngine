@@ -57,6 +57,20 @@ grow_vertical = 0
 text = "Test Text"
 horizontal_alignment = 1
 
+[node name="StatusContainer" type="HBoxContainer" parent="Portrait"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.25
+
+[node name="ReactContainer" type="HBoxContainer" parent="Portrait"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.25
+alignment = 2
+
 [node name="HealthBar" type="ProgressBar" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -93,11 +107,12 @@ value = 25.0
 show_percentage = false
 
 [node name="Divider" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(3, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 99.0
-offset_right = -99.0
+offset_left = 100.0
+offset_right = -100.0
 color = Color(0, 0, 0, 1)
