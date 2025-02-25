@@ -9,6 +9,7 @@ const COMBAT_ATTACK_SELECTED = preload("res://scenes/combat/combat_attack_list/c
 @onready var _hits = $Panel/Info/Hits
 @onready var _damage = $Panel/Info/Damage
 @onready var _damage_icon = $Panel/Info/DamageIcon
+@onready var _vs: Label = $Panel/Info/VS
 @onready var _type_icon = $Panel/Info/TypeIcon
 @onready var _mana = $Panel/Cost/Mana
 @onready var _mana_icon: TextureRect = $Panel/Cost/ManaIcon
@@ -17,24 +18,43 @@ const COMBAT_ATTACK_SELECTED = preload("res://scenes/combat/combat_attack_list/c
 signal on_selected()
 
 func set_values(action: BaseActionData):
+	visible = true
 	
-	if action is AttackActionData:
-		var attack: AttackActionData = action
-		_name.text = attack.name
-		_hits.text = str(attack.hits) + "x "
-		_damage.text = str(attack.damage)
-		_damage_icon.texture = COMBAT.get_attack_icon(attack.attack)
-		_type_icon.texture = COMBAT.get_defense_icon(attack.defense)
+	if action != null:
+		_name.text = action.name
+		_hits.text = str(action.hits) + "x "
 		
-		if attack.mana_cost == 0:
+		if action.mana_cost == 0:
 			_mana.visible = false
 			_mana_icon.visible = false
 		else:
-			_mana.text = str(attack.mana_cost)
+			_mana.visible = true
+			_mana_icon.visible = true
+			_mana.text = str(action.mana_cost)
 			
-		_time.text = str(attack.time_cost)
+		_time.text = str(action.time_cost)
+	
+	if action is AttackActionData:
+		var attack: AttackActionData = action
+		_damage.text = str(attack.damage)
+		_damage_icon.texture = COMBAT.get_attack_icon(attack.attack)
+		_vs.visible = true
+		_type_icon.visible = true
+		_type_icon.texture = COMBAT.get_defense_icon(attack.defense)
+	elif action is StatusActionData:
+		var status: StatusActionData = action
+		_damage.text = str(status.value)
+		_damage_icon.texture = COMBAT.get_status_icon(status.status)
+		_vs.visible = false
+		_type_icon.visible = false
+	elif action is ReactActionData:
+		var react: ReactActionData = action
+		_damage.text = str(react.value)
+		_damage_icon.texture = COMBAT.get_react_icon(react.react)
+		_vs.visible = false
+		_type_icon.visible = false
 	else:
-		pass
+		visible = false
 
 func focused():
 	panel.theme = COMBAT_ATTACK_SELECTED

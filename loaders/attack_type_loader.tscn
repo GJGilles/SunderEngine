@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://1rs0jencyyqq"]
+[gd_scene load_steps=13 format=3 uid="uid://1rs0jencyyqq"]
 
 [ext_resource type="Script" uid="uid://c58pgl8p8yho7" path="res://loaders/attack_type_loader.gd" id="1_uct4c"]
 [ext_resource type="Texture2D" uid="uid://ciwukxf0bgfmf" path="res://assets/icons/physical.svg" id="2_el15u"]
@@ -6,8 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://b6bu6tgj8a145" path="res://assets/icons/armor.svg" id="4_sklse"]
 [ext_resource type="Texture2D" uid="uid://b18325qwnwga1" path="res://assets/icons/mana.svg" id="5_uopsj"]
 [ext_resource type="Texture2D" uid="uid://drn6cateepelj" path="res://assets/icons/mend.svg" id="6_d7g2u"]
+[ext_resource type="Texture2D" uid="uid://cyliy8nc3x68g" path="res://assets/icons/health.svg" id="6_sklse"]
+[ext_resource type="Texture2D" uid="uid://cynjwt47r3ekx" path="res://assets/icons/bless.svg" id="7_lodre"]
 [ext_resource type="Texture2D" uid="uid://bmhsodgo3fymd" path="res://assets/icons/curse.svg" id="7_yujcj"]
 [ext_resource type="Texture2D" uid="uid://bi07x1kvaaj2i" path="res://assets/icons/block.svg" id="8_iwuuv"]
+[ext_resource type="Texture2D" uid="uid://bnr74jj5l02xt" path="res://assets/icons/corrode.svg" id="8_uopsj"]
+[ext_resource type="Texture2D" uid="uid://cmrpxgsq7vsj7" path="res://assets/icons/evade.svg" id="12_d7g2u"]
 
 [node name="AttackTypeLoader" type="Node"]
 script = ExtResource("1_uct4c")
@@ -15,6 +19,10 @@ attack_phys = ExtResource("2_el15u")
 attack_magic = ExtResource("3_lodre")
 defense_armor = ExtResource("4_sklse")
 defense_mana = ExtResource("5_uopsj")
+defense_health = ExtResource("6_sklse")
 status_mend = ExtResource("6_d7g2u")
+status_corrode = ExtResource("8_uopsj")
+status_bless = ExtResource("7_lodre")
 status_curse = ExtResource("7_yujcj")
 react_block = ExtResource("8_iwuuv")
+react_evade = ExtResource("12_d7g2u")

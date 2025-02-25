@@ -25,7 +25,7 @@ signal unit_stunned()
 signal unit_fainted()
 
 signal unit_healed(defense: COMBAT.DEFENSE_TYPE)
-signal unit_revived(amount: int)
+signal unit_revived()
 
 signal status_changed(type: COMBAT.STATUS_TYPE, value: int)
 signal react_changed(type: COMBAT.REACT_TYPE, value: int)
@@ -70,9 +70,9 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 		return
 	
 	if curr_block != null:
-		if curr_block.source != self:
-			return curr_block.source.apply_damage(damage, attack, defense)
-		else:
+		#if curr_block.source != self:
+			#return curr_block.source.apply_damage(damage, attack, defense)
+		#else:
 			damage -= curr_block.value
 			if damage <= 0:
 				attack_blocked.emit()

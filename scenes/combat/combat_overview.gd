@@ -36,7 +36,20 @@ func _ready():
 	set_state(TurnCombatState.new(), null)
 
 func register_signals(pos: TeamData.POSITION, team: TeamData, field_area: CombatFieldArea, status_zone: CombatStatusZone):
+	team.characters[pos].unit_attack.connect(func(action: AttackActionData): pass)
+
+	team.characters[pos].attack_evaded.connect(func(): pass)
+	team.characters[pos].attack_blocked.connect(func(): pass)
+
 	team.characters[pos].unit_damaged.connect(func(_type): unit_damaged(pos, field_area, status_zone))
+	team.characters[pos].unit_stunned.connect(func(): unit_damaged(pos, field_area, status_zone))
+	team.characters[pos].unit_fainted.connect(func(): unit_damaged(pos, field_area, status_zone))
+
+	team.characters[pos].unit_healed.connect(func(_type): status_zone.get_value(pos).update_stats())
+	team.characters[pos].unit_revived.connect(func(): status_zone.get_value(pos).update_stats())
+	
+	team.characters[pos].status_changed.connect(status_zone.get_value(pos).status_changed)
+	team.characters[pos].react_changed.connect(status_zone.get_value(pos).react_changed)
 	
 func unit_damaged(pos: TeamData.POSITION, field_area: CombatFieldArea, status_zone: CombatStatusZone):
 	await field_area.get_value(pos).play_damaged()

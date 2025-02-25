@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://df84kle8fcixp"]
+
+[ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_ki5jg"]
+[ext_resource type="Script" uid="uid://btmecu3xui02u" path="res://scenes/models/action/status_action_data.gd" id="2_dmgwi"]
+[ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="3_56kq4"]
+
+[node name="Cleric" type="Node" node_paths=PackedStringArray("actions")]
+script = ExtResource("1_ki5jg")
+base_speed = 13
+base_health = 40
+base_armor = 80
+base_mana = 40
+range_type = 1
+actions = [NodePath("Focused Prayer"), NodePath("Wide Prayer"), NodePath("Smite")]
+
+[node name="Focused Prayer" type="Node" parent="."]
+script = ExtResource("2_dmgwi")
+status = 2
+value = 20
+mana_cost = 5
+time_cost = 20
+hits = 1
+target_type = 2
+
+[node name="Wide Prayer" type="Node" parent="."]
+script = ExtResource("2_dmgwi")
+status = 2
+value = 10
+time_cost = 30
+hits = 3
+target_type = 2
+
+[node name="Smite" type="Node" parent="."]
+script = ExtResource("3_56kq4")
+defense = 1
+damage = 20
+time_cost = 20
+hits = 1

@@ -2,8 +2,7 @@ extends Node
 
 enum ATTACK_TYPE {
 	PHYSICAL,
-	MAGIC,
-	STATUS
+	MAGIC
 }
 
 enum DEFENSE_TYPE {
@@ -32,7 +31,6 @@ enum TARGET_TYPE {
 
 @export var attack_phys: Texture2D
 @export var attack_magic: Texture2D
-@export var attack_status: Texture2D
 
 @export var defense_armor: Texture2D
 @export var defense_mana: Texture2D
@@ -63,8 +61,6 @@ func get_attack_icon(type: ATTACK_TYPE):
 			return attack_phys
 		ATTACK_TYPE.MAGIC:
 			return attack_magic
-		ATTACK_TYPE.STATUS:
-			return attack_status
 	
 func get_defense_icon(type: DEFENSE_TYPE):
 	match type:

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1awl8t8qrvrm"]
+
+[ext_resource type="Script" uid="uid://dq0ulurpm3ykd" path="res://scenes/models/action/react_action_data.gd" id="1_ex55p"]
+
+[node name="EvadeBasic" type="Node"]
+script = ExtResource("1_ex55p")
+react = 1
+value = 1
+time_cost = 25
+hits = 1
+target_type = 0

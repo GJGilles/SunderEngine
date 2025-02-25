@@ -4,6 +4,7 @@ class_name PlayerUnitData
 
 
 @export var current_class: ClassData
+@export var current_react: ReactActionData
 
 func get_speed():
 	return current_class.base_speed
@@ -17,8 +18,10 @@ func get_max_armor():
 func get_max_mana():
 	return current_class.base_mana
 	
-func get_all_actions():
-	return current_class.actions
+func get_all_actions() -> Array[BaseActionData]:
+	var actions: Array[BaseActionData]
+	actions.assign(current_class.actions + [current_react])
+	return actions
 	
 func get_action(idx: int):
-	return current_class.actions[idx]
+	return get_all_actions()[idx]

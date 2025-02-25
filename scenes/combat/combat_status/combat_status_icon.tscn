@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ryblpehsok6v"]
 
-[ext_resource type="Script" path="res://scenes/combat/combat_status/combat_status_icon.gd" id="1_fxcvi"]
+[ext_resource type="Script" uid="uid://4k860flcy448" path="res://scenes/combat/combat_status/combat_status_icon.gd" id="1_fxcvi"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_pkd8v"]
 
@@ -12,7 +12,7 @@ offset_right = 50.0
 offset_bottom = 50.0
 script = ExtResource("1_fxcvi")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Icon" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
