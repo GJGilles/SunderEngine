@@ -5,6 +5,10 @@
 
 [node name="Alchemist" type="Node" node_paths=PackedStringArray("actions")]
 script = ExtResource("1_0k5po")
+base_speed = 22
+base_health = 40
+base_armor = 30
+base_mana = 60
 range_type = 1
 actions = [NodePath("Fire Bomb"), NodePath("Witch Fire"), NodePath("Broken Glass")]
 

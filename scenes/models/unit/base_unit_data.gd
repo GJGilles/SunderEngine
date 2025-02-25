@@ -15,7 +15,7 @@ var curr_block: ReactActionData
 var curr_evade_count: int = 0
 
 #region Signals
-signal unit_attack(action: AttackActionData)
+signal unit_action(action: BaseActionData)
 
 signal attack_evaded()
 signal attack_blocked()
@@ -62,6 +62,9 @@ func get_curr_stat(type: COMBAT.DEFENSE_TYPE):
 			return curr_mana
 		COMBAT.DEFENSE_TYPE.HEALTH:
 			return curr_health
+			
+func do_action(action: BaseActionData):
+	unit_action.emit(action)
 			
 func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFENSE_TYPE):
 	if curr_evade_count > 0:

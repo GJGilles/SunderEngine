@@ -16,6 +16,8 @@ class_name CombatOverview
 @export var party: TeamData
 @export var enemies: TeamData
 
+var unit_updates: Dictionary[BaseUnitData, Promise] = {}
+
 func _ready():
 	var units: Array[BaseUnitData] = party.characters.values() + enemies.characters.values()
 	for u in units:
@@ -26,34 +28,62 @@ func _ready():
 	player_field_area.set_values(party)
 	player_status_zone.set_values(party)
 	for key in party.characters.keys():
-		register_signals(key, party, player_field_area, player_status_zone)
+		register_signals(party.characters[key], player_field_area.get_value(key), player_status_zone.get_value(key))
 	
 	enemy_status_zone.set_values(enemies)
 	enemy_field_area.set_values(enemies)
 	for key in enemies.characters.keys():
-		register_signals(key, enemies, enemy_field_area, enemy_status_zone)
+		register_signals(enemies.characters[key], enemy_field_area.get_value(key), enemy_status_zone.get_value(key))
 	
 	set_state(TurnCombatState.new(), null)
 
-func register_signals(pos: TeamData.POSITION, team: TeamData, field_area: CombatFieldArea, status_zone: CombatStatusZone):
-	team.characters[pos].unit_attack.connect(func(action: AttackActionData): pass)
-
-	team.characters[pos].attack_evaded.connect(func(): pass)
-	team.characters[pos].attack_blocked.connect(func(): pass)
-
-	team.characters[pos].unit_damaged.connect(func(_type): unit_damaged(pos, field_area, status_zone))
-	team.characters[pos].unit_stunned.connect(func(): unit_damaged(pos, field_area, status_zone))
-	team.characters[pos].unit_fainted.connect(func(): unit_damaged(pos, field_area, status_zone))
-
-	team.characters[pos].unit_healed.connect(func(_type): status_zone.get_value(pos).update_stats())
-	team.characters[pos].unit_revived.connect(func(): status_zone.get_value(pos).update_stats())
+func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+	unit_updates[unit] = Promise.resolve()
 	
-	team.characters[pos].status_changed.connect(status_zone.get_value(pos).status_changed)
-	team.characters[pos].react_changed.connect(status_zone.get_value(pos).react_changed)
+	unit.unit_action.connect(func(_action: BaseActionData): pass)
+
+	unit.attack_evaded.connect(func(): pass)
+	unit.attack_blocked.connect(func(): pass)
+
+	unit.unit_damaged.connect(func(_type): unit_damaged(unit, field_unit, status_square))
+	unit.unit_stunned.connect(func(): unit_stunned(unit, field_unit, status_square))
+	unit.unit_fainted.connect(func(): unit_fainted(unit, field_unit, status_square))
+
+	unit.unit_healed.connect(func(_type): status_square.update_stats())
+	unit.unit_revived.connect(func(): status_square.update_stats())
 	
-func unit_damaged(pos: TeamData.POSITION, field_area: CombatFieldArea, status_zone: CombatStatusZone):
-	await field_area.get_value(pos).play_damaged()
-	await status_zone.get_value(pos).update_stats()
+	unit.status_changed.connect(status_square.status_changed)
+	unit.react_changed.connect(status_square.react_changed)
+	
+func unit_damaged(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+	unit_updates[unit] = Promise.new(
+		func(resolve: Callable, _reject: Callable):
+			await field_unit.play_damaged().wait()
+			await status_square.update_stats().wait()
+			resolve.call()
+	)
+	
+func unit_stunned(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+	unit_updates[unit] = Promise.new(
+		func(resolve: Callable, _reject: Callable):
+			await field_unit.play_damaged().wait()
+			await status_square.update_stats().wait()
+			turn_track.remove_unit(unit)
+			await combat_turn_track.all_done_update().wait()
+			resolve.call()
+	)
+	
+	
+func unit_fainted(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+	unit_updates[unit] = Promise.new(
+		func(resolve: Callable, _reject: Callable):
+			await field_unit.play_damaged().wait()
+			await status_square.update_stats().wait()
+			resolve.call()
+	)
+	
+func update_done() -> Promise:
+	return Promise.all(unit_updates.values())
 
 func set_state(state: BaseCombatState, unit: BaseUnitData):
 	state.overview = self

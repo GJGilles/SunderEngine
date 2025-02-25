@@ -46,3 +46,8 @@ func insert_turn(turn: TurnData):
 		
 	turns.insert(idx, turn)
 	inserted_turn.emit(idx, turn)
+
+func remove_unit(unit: BaseUnitData):
+	var idx: int = turns.find_custom(func(t): return t.source == unit)
+	turns.remove_at(idx)
+	removed_turn.emit(idx)

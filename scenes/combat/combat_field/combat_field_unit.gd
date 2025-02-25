@@ -45,5 +45,5 @@ func remove_target_tick():
 	target_marker_row.remove_child(child)
 	child.queue_free()
 	
-func play_damaged():
-	await sprite.play_damaged()
+func play_damaged() -> Promise:
+	return Promise.from(sprite.play_damaged())

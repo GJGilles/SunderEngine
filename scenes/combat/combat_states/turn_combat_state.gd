@@ -17,14 +17,11 @@ func async_thread():
 	if turn.action is AttackActionData:
 		var attack: AttackActionData = turn.action
 		
-		turn.source.unit_attack.emit(attack)
+		turn.source.do_action(attack)
 		
-		var promises: Array[Promise] = []
 		for u in turn.targets:
 			u.apply_damage(attack.damage, attack.attack, attack.defense)
-			#promises.append(Promise.from(unit.update_done))
-			
-		await Promise.all(promises).wait()
+		await overview.update_done().wait()
 		
 	elif turn.action is ReactActionData:
 		var react: ReactActionData = turn.action

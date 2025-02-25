@@ -13,11 +13,11 @@ func set_empty():
 func play_idle():
 	play("idle")
 	
-func play_damaged():
+func play_damaged() -> Signal:
 	play("damaged")
 	return animation_finished
 	
-func play_attack():
+func play_attack() -> Signal:
 	play("attack")
 	return animation_finished
 	

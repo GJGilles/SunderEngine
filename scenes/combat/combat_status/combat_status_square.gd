@@ -17,6 +17,8 @@ const COMBAT_STATUS_ICON = preload("res://scenes/combat/combat_status/combat_sta
 var curr_status: Dictionary[COMBAT.STATUS_TYPE, CombatStatusIcon] = {}
 var curr_react: Dictionary[COMBAT.REACT_TYPE, CombatStatusIcon] = {}
 
+var update_done: Promise = Promise.resolve()
+
 var base_unit: BaseUnitData
 	
 func set_values(unit: BaseUnitData):
@@ -35,30 +37,38 @@ func set_empty():
 	armor_bar.value = -100
 	mana_bar.value = -100
 	
-func update_stats():
-	if health_bar.value != base_unit.curr_health:
-		update_health()
-		
-	if armor_bar.value != base_unit.curr_armor:
-		update_armor()
-		
-	if mana_bar.value != base_unit.curr_mana:
-		update_mana()
+func update_stats() -> Promise:
+	return Promise.new(
+		func(resolve: Callable, _reject: Callable):
+			await update_done.wait()
+			
+			if health_bar.value != base_unit.curr_health:
+				_update_health()
+				
+			if armor_bar.value != base_unit.curr_armor:
+				_update_armor()
+				
+			if mana_bar.value != base_unit.curr_mana:
+				_update_mana()
+				
+			await update_done.wait()
+			resolve.call()
+	)
 
-func update_health():
+func _update_health():
 	var tween = create_tween()
 	tween.tween_property(health_bar, "value", base_unit.curr_health, 1)
-	await tween.finished
+	update_done = Promise.from(tween.finished)
 	
-func update_armor():
+func _update_armor():
 	var tween = create_tween()
 	tween.tween_property(armor_bar, "value", base_unit.curr_armor, 1)
-	await tween.finished
+	update_done = Promise.from(tween.finished)
 	
-func update_mana():
+func _update_mana():
 	var tween = create_tween()
 	tween.tween_property(mana_bar, "value", base_unit.curr_mana, 1) 
-	await tween.finished
+	update_done = Promise.from(tween.finished)
 	
 func status_changed(type: COMBAT.STATUS_TYPE, value: int):
 	if value == 0:

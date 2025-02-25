@@ -63,10 +63,12 @@ func enemy_targets_selected(positions: Array[TeamData.POSITION]):
 	
 func apply_action():
 	if action is StatusActionData:
+		player.do_action(action)
 		for t in targets:
 			t.apply_status(action)
 	elif action is ReactActionData:
 		var react: ReactActionData = action
+		player.do_action(react)
 		react.source = player
 		for t in targets:
 			t.apply_react(react)
