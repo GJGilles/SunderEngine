@@ -13,17 +13,6 @@ offset_right = -199.68
 offset_bottom = -199.8
 script = ExtResource("1_6w5jt")
 
-[node name="SelectableArea" type="ColorRect" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -45.0
-offset_right = 141.0
-offset_bottom = 18.0
-grow_vertical = 0
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_6w5jt")
 animation = &"idle"
@@ -38,5 +27,9 @@ anchor_bottom = 1.0
 offset_bottom = -160.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Debounce" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

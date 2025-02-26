@@ -12,10 +12,13 @@ class_name CombatOverview
 @onready var enemy_field_area: CombatFieldArea = $CombatUI/CombatField/EnemyArea
 
 @onready var combat_attack_list: CombatAttackList = $CombatUI/CombatAttackList
+@onready var attack_preview: CombatAttackItem = $CombatUI/AttackPreview
 
 @export var party: TeamData
 @export var enemies: TeamData
 
+var status_dict: Dictionary[BaseUnitData, CombatStatusSquare] = {}
+var field_dict: Dictionary[BaseUnitData, CombatFieldUnit] = {}
 var unit_updates: Dictionary[BaseUnitData, Promise] = {}
 
 func _ready():
@@ -28,11 +31,15 @@ func _ready():
 	player_field_area.set_values(party)
 	player_status_zone.set_values(party)
 	for key in party.characters.keys():
+		status_dict[party.characters[key]] = player_status_zone.get_value(key)
+		field_dict[party.characters[key]] = player_field_area.get_value(key)
 		register_signals(party.characters[key], player_field_area.get_value(key), player_status_zone.get_value(key))
 	
 	enemy_status_zone.set_values(enemies)
 	enemy_field_area.set_values(enemies)
 	for key in enemies.characters.keys():
+		status_dict[enemies.characters[key]] = enemy_status_zone.get_value(key)
+		field_dict[enemies.characters[key]] = enemy_field_area.get_value(key)
 		register_signals(enemies.characters[key], enemy_field_area.get_value(key), enemy_status_zone.get_value(key))
 	
 	set_state(TurnCombatState.new(), null)

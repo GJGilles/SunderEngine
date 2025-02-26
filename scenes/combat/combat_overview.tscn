@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dcsiia4uaybre"]
+[gd_scene load_steps=16 format=3 uid="uid://dcsiia4uaybre"]
 
 [ext_resource type="Script" uid="uid://c7tjmycniga5k" path="res://scenes/combat/combat_overview.gd" id="1_fyv5f"]
 [ext_resource type="PackedScene" uid="uid://cyt2oulm62q1x" path="res://scenes/combat/combat_turn_track/combat_turn_track.tscn" id="2_42sgf"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://beeqjgdvafdl2" path="res://scenes/combat/combat_field/combat_field_enemy_area.tscn" id="7_umix5"]
 [ext_resource type="PackedScene" uid="uid://cfqm28t4v7s0k" path="res://scenes/data/players/beeity/beeity.tscn" id="8_2qqgc"]
 [ext_resource type="PackedScene" uid="uid://gondntpgn778" path="res://scenes/data/players/tahu/tahu.tscn" id="8_174ev"]
+[ext_resource type="PackedScene" uid="uid://1j5apu7yfa8a" path="res://scenes/combat/combat_attack_list/combat_attack_item.tscn" id="8_a8cve"]
 [ext_resource type="Script" uid="uid://ca2bm7xm2x48i" path="res://scenes/models/turn/turn_track_data.gd" id="8_mj574"]
 [ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia/silvia.tscn" id="10_nepdm"]
 [ext_resource type="PackedScene" uid="uid://5pykceuxtghc" path="res://scenes/data/enemies/chongah/Chongah.tscn" id="13_umix5"]
@@ -77,6 +78,18 @@ layout_mode = 1
 
 [node name="EnemyArea" parent="CombatUI/CombatField" instance=ExtResource("7_umix5")]
 layout_mode = 1
+
+[node name="AttackPreview" parent="CombatUI" instance=ExtResource("8_a8cve")]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 950.0
+offset_top = 142.0
+offset_right = -590.0
+offset_bottom = -788.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TurnTrackData" type="Node" parent="."]
 script = ExtResource("8_mj574")
