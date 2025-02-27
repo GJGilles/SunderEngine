@@ -34,13 +34,14 @@ func select_targets(unit: BaseUnitData, players: Array[BaseUnitData], enemies: A
 	
 	var sorted: Array[BaseUnitData]
 	if priority == ENEMY_TARGET_PRIORITY.LOWEST_ALLY:
-		sorted = enemies.duplicate() 
-		sorted.sort_custom(unit_sort)
+		sorted = enemies.duplicate()
 	else:
-		sorted = players.duplicate() 
-		sorted.sort_custom(unit_sort)
-		
-#	TODO: Add filter for stunned people
+		sorted = players.duplicate()
+	
+	var filtered: Array[BaseUnitData] = sorted.filter(func(u): return include_stunned or !u.is_stunned())
+	if filtered.size() > 0:
+			sorted = filtered
+	sorted.sort_custom(unit_sort)
 	
 	var idx: int = 0
 	var direction: int = 1

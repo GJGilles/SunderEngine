@@ -17,11 +17,11 @@ func async_thread():
 	if turn.action is AttackActionData:
 		var attack: AttackActionData = turn.action
 		
-		turn.source.do_action(attack)
-		
 		for u in turn.targets:
+			turn.source.do_action(attack)
+			await overview.update_done().wait()
 			u.apply_damage(attack.damage, attack.attack, attack.defense)
-		await overview.update_done().wait()
+			await overview.update_done().wait()
 		
 	elif turn.action is ReactActionData:
 		var react: ReactActionData = turn.action
@@ -30,8 +30,13 @@ func async_thread():
 			u.remove_react(react)
 
 	turn.source.tick_all_status()
-		
-	if turn.source is PlayerUnitData:
+	await overview.update_done().wait()
+	
+	if turn.source.is_stunned():
+		turn_track.insert_empty_turn(turn.source)
+		await overview.update_done().wait()
+		overview.set_state(TurnCombatState.new(), turn.source)
+	elif turn.source is PlayerUnitData:
 		overview.set_state(PlayerCombatState.new(), turn.source)
 	else:
 		overview.set_state(EnemyCombatState.new(), turn.source)

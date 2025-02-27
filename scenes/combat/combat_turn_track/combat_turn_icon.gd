@@ -8,6 +8,9 @@ class_name CombatTurnIcon
 var turn: TurnData
 var update_done: Promise = Promise.resolve()
 
+signal on_focused()
+signal on_unfocused()
+
 func _ready():
 	portrait.texture = turn.source.get_portrait()
 	time.text = str(turn.time)
@@ -27,3 +30,17 @@ func remove_turn():
 	await update_done.wait()
 	get_parent().remove_child(self)
 	queue_free()
+	
+
+
+func _on_focus_entered() -> void:
+	on_focused.emit()
+
+func _on_focus_exited() -> void:
+	on_unfocused.emit()
+
+func _on_mouse_entered() -> void:
+	on_focused.emit()
+
+func _on_mouse_exited() -> void:
+	on_unfocused.emit()

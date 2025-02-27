@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://2bx5jgy2kewx"]
 
-[ext_resource type="Texture2D" uid="uid://dqm3gw6ot3cix" path="res://assets/sprites/Chongah.png" id="1_t474i"]
+[ext_resource type="Texture2D" uid="uid://bwlwsafopjuq" path="res://assets/combat/units/chongah/sprites/chongah.png" id="1_t474i"]
 
 [resource]
 animations = [{

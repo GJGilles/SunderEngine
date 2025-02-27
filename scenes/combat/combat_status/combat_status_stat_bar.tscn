@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhduan5i65red"]
+
+[ext_resource type="Script" uid="uid://csx7mnadti1rm" path="res://scenes/combat/combat_status/combat_status_stat_bar.gd" id="1_k8uie"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_drmxd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r7u11"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="CombatStatusStatBar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 150.0
+offset_bottom = 80.0
+script = ExtResource("1_k8uie")
+
+[node name="UpdateBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.150009
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_drmxd")
+theme_override_styles/fill = SubResource("StyleBoxFlat_r7u11")
+min_value = -100.0
+step = 1.0
+show_percentage = false
+
+[node name="StatBar" type="ProgressBar" parent="UpdateBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -0.150024
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_drmxd")
+min_value = -100.0
+step = 1.0
+show_percentage = false
+
+[node name="DamageDelay" type="Timer" parent="."]
+one_shot = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 25.0
+offset_right = -94.0
+offset_bottom = -27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://5pykceuxtghc"]
 
 [ext_resource type="Script" uid="uid://d1ut4bpgaak4u" path="res://scenes/models/unit/enemy_unit_data.gd" id="1_2pbk5"]
-[ext_resource type="Texture2D" uid="uid://dqm3gw6ot3cix" path="res://assets/sprites/Chongah.png" id="2_gpl5p"]
+[ext_resource type="Texture2D" uid="uid://bwlwsafopjuq" path="res://assets/combat/units/chongah/sprites/chongah.png" id="2_gpl5p"]
 [ext_resource type="SpriteFrames" uid="uid://2bx5jgy2kewx" path="res://scenes/data/enemies/chongah/chongah_combat_sprite.tres" id="3_6nuwe"]
 [ext_resource type="Script" uid="uid://7xtdycih5ovm" path="res://scenes/models/enemy/enemy_action_data.gd" id="3_g8fk7"]
 [ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="4_efy45"]
@@ -24,6 +24,6 @@ priority = 4
 [node name="Butt Slam" type="Node" parent="Butt Slam Action"]
 script = ExtResource("4_efy45")
 defense = 2
-damage = 100
+damage = 10
 time_cost = 10
 hits = 3

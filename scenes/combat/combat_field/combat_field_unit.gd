@@ -5,9 +5,11 @@ class_name CombatFieldUnit
 const COMBAT_UNIT_TARGET_MARKER = preload("res://scenes/combat/combat_field/combat_unit_target_marker.tscn")
 const COMBAT_FIELD_OUTLINE = preload("res://scenes/combat/combat_field/combat_field_outline.tres")
 
-@onready var sprite: CombatFieldUnitAnim = $AnimatedSprite2D
+@onready var sprite: CombatFieldUnitAnim = $SpriteBox/Control/Sprite
 @onready var target_marker_row: HBoxContainer = $TargetMarkerRow
+@onready var damage_label: Label = $DamageLabel
 @onready var debounce: Timer = $Debounce
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var base_unit: BaseUnitData
 
@@ -60,5 +62,38 @@ func set_target_ticks(num: int):
 	while  num < target_marker_row.get_children().size():
 		remove_target_tick()
 	
-func play_damaged() -> Promise:
-	return Promise.from(sprite.play_damaged())
+func play_attack() -> Promise:
+	animation_player.play("attack")
+	return Promise.all([
+		sprite.play_animation("attack"),
+		Promise.from(animation_player.animation_finished)
+	])
+	
+func play_block() -> Promise:
+	return sprite.play_animation("block")
+	
+func play_damaged(type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
+	damage_label.text = "-" + str(amount)
+	damage_label.add_theme_color_override("font_color", Color(1, 0, 0))
+	animation_player.play("damage_text")
+	
+	return Promise.all([ 
+		sprite.play_animation("damaged"),
+		Promise.from(animation_player.animation_finished)
+	])
+
+func play_dodge() -> Promise:
+	return sprite.play_animation("dodge")
+	
+func play_healed(type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
+	damage_label.text = "+" + str(amount)
+	damage_label.add_theme_color_override("font_color", Color(0, 1, 0))
+	animation_player.play("damage_text")
+	
+	return Promise.all([
+		sprite.play_animation("healed"), 
+		Promise.from(animation_player.animation_finished)
+	])
+	
+func play_stunned() -> Promise:
+	return sprite.play_animation("stunned")

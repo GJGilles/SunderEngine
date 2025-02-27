@@ -1,18 +1,45 @@
-[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://dw1clbs5rsxxc"]
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://dw1clbs5rsxxc"]
 
-[ext_resource type="Texture2D" uid="uid://j5q56d6jy6y4" path="res://assets/sprites/tahu.png" id="1_c1oug"]
+[ext_resource type="Texture2D" uid="uid://cqsywebremv80" path="res://assets/combat/units/tahu/sprites/damaged.png" id="1_6chjd"]
+[ext_resource type="Texture2D" uid="uid://pwb0k6l1bco8" path="res://assets/combat/units/tahu/sprites/attack_1.png" id="1_8uhol"]
+[ext_resource type="Texture2D" uid="uid://evkc843go5iv" path="res://assets/combat/units/tahu/sprites/idle_1.png" id="2_8e4uq"]
+[ext_resource type="Texture2D" uid="uid://gj1e6stjmr05" path="res://assets/combat/units/tahu/sprites/attack_2.png" id="2_i64ll"]
+[ext_resource type="Texture2D" uid="uid://6s2ffwcvaksb" path="res://assets/combat/units/tahu/sprites/block.png" id="3_0nng0"]
+[ext_resource type="Texture2D" uid="uid://b2x2xgbpnwghe" path="res://assets/combat/units/tahu/sprites/idle_2.png" id="3_7358y"]
+[ext_resource type="Texture2D" uid="uid://dgdvvvkpcv01t" path="res://assets/combat/units/tahu/sprites/dodge.png" id="5_07qfx"]
+[ext_resource type="Texture2D" uid="uid://c6upigqp2g80c" path="res://assets/combat/units/tahu/sprites/healed.png" id="6_k16xp"]
+[ext_resource type="Texture2D" uid="uid://wj24jx3bmbtb" path="res://assets/combat/units/tahu/sprites/stunned.png" id="9_i64ll"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_c1oug")
+"texture": ExtResource("1_8uhol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_i64ll")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_0nng0")
+}],
+"loop": false,
+"name": &"block",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6chjd")
 }, {
 "duration": 1.0,
 "texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("1_c1oug")
+"texture": ExtResource("1_6chjd")
 }],
 "loop": false,
 "name": &"damaged",
@@ -20,9 +47,36 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_c1oug")
+"texture": ExtResource("5_07qfx")
+}],
+"loop": false,
+"name": &"dodge",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_k16xp")
+}],
+"loop": false,
+"name": &"healed",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8e4uq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7358y")
 }],
 "loop": true,
 "name": &"idle",
-"speed": 5.0
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_i64ll")
+}],
+"loop": false,
+"name": &"stunned",
+"speed": 1.0
 }]

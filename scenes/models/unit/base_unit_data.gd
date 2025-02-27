@@ -21,11 +21,11 @@ signal unit_action(action: BaseActionData)
 signal attack_evaded()
 signal attack_blocked()
 
-signal unit_damaged(defense: COMBAT.DEFENSE_TYPE)
+signal unit_damaged(defense: COMBAT.DEFENSE_TYPE, amount: int)
 signal unit_stunned()
 signal unit_fainted()
 
-signal unit_healed(defense: COMBAT.DEFENSE_TYPE)
+signal unit_healed(defense: COMBAT.DEFENSE_TYPE, amount: int)
 signal unit_revived()
 
 signal status_changed(type: COMBAT.STATUS_TYPE, value: int)
@@ -34,6 +34,9 @@ signal react_changed(type: COMBAT.REACT_TYPE, value: int)
 
 func is_ranged() -> bool:
 	return false
+
+func is_stunned() -> bool:
+	return curr_health <= 0
 
 func get_portrait() -> Texture2D:
 	return portrait
@@ -74,6 +77,7 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 	if curr_evade_count > 0:
 		curr_evade_count -= 1
 		attack_evaded.emit()
+		react_changed.emit(COMBAT.REACT_TYPE.EVADE, curr_evade_count)
 		return
 	
 	if curr_block != null:
@@ -81,8 +85,9 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 			#return curr_block.source.apply_damage(damage, attack, defense)
 		#else:
 			damage -= curr_block.value
+# TODO: This works a little weird right now
+			attack_blocked.emit()
 			if damage <= 0:
-				attack_blocked.emit()
 				return
 				
 	if defense == COMBAT.DEFENSE_TYPE.HEALTH:
@@ -92,24 +97,26 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 			damage = floori(damage * (1 - curr_mana / 100.0))
 		
 		if curr_health > 0 and 0 >= (curr_health - damage):
+			damage = curr_health
 			curr_health = 0
 			unit_stunned.emit()
 		elif curr_health > -100 and -100 >= (curr_health - damage):
+			damage = 100 + curr_health
 			curr_health = -100
 			unit_fainted.emit()
 		else:
 			curr_health -= damage
-			unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH)
+		unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH, damage)
 	
 	elif defense == COMBAT.DEFENSE_TYPE.ARMOR:
 		damage = mini(damage, 100 + curr_armor)
 		curr_armor -= damage
-		unit_damaged.emit(COMBAT.DEFENSE_TYPE.ARMOR)
+		unit_damaged.emit(COMBAT.DEFENSE_TYPE.ARMOR, damage)
 	
 	elif defense == COMBAT.DEFENSE_TYPE.MANA:
 		damage = mini(damage, 100 + curr_mana)
 		curr_mana -= damage
-		unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA)
+		unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA, damage)
 		
 func apply_status(action: StatusActionData):
 	var opp = COMBAT.get_opposite_status(action.status)
@@ -139,7 +146,7 @@ func tick_status(status: COMBAT.STATUS_TYPE):
 				var heal = min(value, get_max_armor() - curr_armor)
 				curr_armor += heal
 				value -= heal
-				unit_healed.emit(COMBAT.DEFENSE_TYPE.ARMOR)
+				unit_healed.emit(COMBAT.DEFENSE_TYPE.ARMOR, heal)
 				
 			if value > 0 and curr_health < get_max_health():
 				var heal = min(value, get_max_health() - curr_health)
@@ -148,19 +155,19 @@ func tick_status(status: COMBAT.STATUS_TYPE):
 					unit_revived.emit()
 				else:
 					curr_health += heal
-					unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH)
+					unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH, heal)
 		
 		COMBAT.STATUS_TYPE.CORRODE:
 			if curr_armor > 0:
 				var damage = min(value, curr_armor)
 				curr_armor -= damage
 				value -= damage
-				unit_damaged.emit(COMBAT.DEFENSE_TYPE.ARMOR)
+				unit_damaged.emit(COMBAT.DEFENSE_TYPE.ARMOR, damage)
 				
 			if value > 0 and curr_health > 1:
 				var damage = min(value, curr_health - 1)
 				curr_health -= damage
-				unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH)
+				unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH, damage)
 		
 		COMBAT.STATUS_TYPE.BLESS:
 			if curr_health < get_max_health():
@@ -170,25 +177,25 @@ func tick_status(status: COMBAT.STATUS_TYPE):
 					unit_revived.emit()
 				else:
 					curr_health += heal
-					unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH)
+					unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH, heal)
 				value -= heal
 			
 			if value > 0 and  curr_mana < get_max_mana():
 				var heal = min(value, get_max_mana() - curr_mana)
 				curr_mana += heal
-				unit_healed.emit(COMBAT.DEFENSE_TYPE.MANA)
+				unit_healed.emit(COMBAT.DEFENSE_TYPE.MANA, heal)
 		
 		COMBAT.STATUS_TYPE.CURSE:
 			if curr_health > 1:
 				var damage = min(value, curr_health - 1)
 				curr_health -= damage
 				value -= damage
-				unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH)
+				unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH, damage)
 				
 			if value > 0 and curr_mana > 0:
 				var damage = min(value, curr_mana)
 				curr_mana -= damage
-				unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA)
+				unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA, damage)
 	
 func apply_react(action: ReactActionData):
 	match action.react:

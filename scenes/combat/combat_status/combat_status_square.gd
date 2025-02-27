@@ -7,9 +7,9 @@ const COMBAT_STATUS_ICON = preload("res://scenes/combat/combat_status/combat_sta
 @onready var title = $Portrait/Title
 @onready var portrait = $Portrait
 
-@onready var health_bar = $HealthBar
-@onready var armor_bar = $ArmorBar
-@onready var mana_bar = $ManaBar
+@onready var health_bar: CombatStatusStatBar = $HealthBar
+@onready var armor_bar: CombatStatusStatBar = $ArmorBar
+@onready var mana_bar: CombatStatusStatBar = $ManaBar
 
 @onready var status_container: HBoxContainer = $Portrait/StatusContainer
 @onready var react_container: HBoxContainer = $Portrait/ReactContainer
@@ -17,58 +17,39 @@ const COMBAT_STATUS_ICON = preload("res://scenes/combat/combat_status/combat_sta
 var curr_status: Dictionary[COMBAT.STATUS_TYPE, CombatStatusIcon] = {}
 var curr_react: Dictionary[COMBAT.REACT_TYPE, CombatStatusIcon] = {}
 
-var update_done: Promise = Promise.resolve()
-
 var base_unit: BaseUnitData
 	
 func set_values(unit: BaseUnitData):
 	title.text = unit.name
 	portrait.texture = unit.get_portrait()
-	health_bar.value = unit.curr_health
-	armor_bar.value =  unit.curr_armor
-	mana_bar.value = unit.curr_mana
+	health_bar.set_value(unit.curr_health)
+	armor_bar.set_value(unit.curr_armor)
+	mana_bar.set_value(unit.curr_mana)
 	
 	base_unit = unit
 	
 func set_empty():
-	title.text = ""
-	portrait.texture = null
-	health_bar.value = -100
-	armor_bar.value = -100
-	mana_bar.value = -100
+	visible = false
+	
+func all_update_done() -> Promise:
+	return Promise.all([
+		health_bar.update_done,
+		armor_bar.update_done,
+		mana_bar.update_done
+	])
 	
 func update_stats() -> Promise:
 	return Promise.new(
 		func(resolve: Callable, _reject: Callable):
-			await update_done.wait()
+			await all_update_done().wait()
 			
-			if health_bar.value != base_unit.curr_health:
-				_update_health()
+			health_bar.update_value(base_unit.curr_health)
+			armor_bar.update_value(base_unit.curr_armor)
+			mana_bar.update_value(base_unit.curr_mana)
 				
-			if armor_bar.value != base_unit.curr_armor:
-				_update_armor()
-				
-			if mana_bar.value != base_unit.curr_mana:
-				_update_mana()
-				
-			await update_done.wait()
+			await all_update_done().wait()
 			resolve.call()
 	)
-
-func _update_health():
-	var tween = create_tween()
-	tween.tween_property(health_bar, "value", base_unit.curr_health, 1)
-	update_done = Promise.from(tween.finished)
-	
-func _update_armor():
-	var tween = create_tween()
-	tween.tween_property(armor_bar, "value", base_unit.curr_armor, 1)
-	update_done = Promise.from(tween.finished)
-	
-func _update_mana():
-	var tween = create_tween()
-	tween.tween_property(mana_bar, "value", base_unit.curr_mana, 1) 
-	update_done = Promise.from(tween.finished)
 	
 func status_changed(type: COMBAT.STATUS_TYPE, value: int):
 	if value == 0:

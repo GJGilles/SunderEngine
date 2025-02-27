@@ -13,16 +13,7 @@ func set_values(units: Array[BaseUnitData]):
 	turns = []
 	
 	for u in units:
-		var t: TurnData = TurnData.new()
-		add_child(t)
-		turns.append(t)
-		
-		t.time = u.get_speed()
-		t.source = u
-	
-	turns.sort_custom(func (a, b): return a.time < b.time)
-	for i in turns.size():
-		inserted_turn.emit(i, turns[i])
+		insert_empty_turn(u)
 	
 func next_turn() -> TurnData:
 	curr_turn = turns[0]
@@ -46,8 +37,21 @@ func insert_turn(turn: TurnData):
 		
 	turns.insert(idx, turn)
 	inserted_turn.emit(idx, turn)
+	
+func insert_empty_turn(unit: BaseUnitData):
+		var t: TurnData = TurnData.new()
+		add_child(t)
+		
+		t.time = unit.get_speed()
+		t.source = unit
+		
+		insert_turn(t)
 
-func remove_unit(unit: BaseUnitData):
+func remove_unit(unit: BaseUnitData) -> TurnData:
 	var idx: int = turns.find_custom(func(t): return t.source == unit)
+	var turn: TurnData = turns[idx]
+	
 	turns.remove_at(idx)
 	removed_turn.emit(idx)
+	
+	return turn

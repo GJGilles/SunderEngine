@@ -1,26 +1,29 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu0uuairw61pc"]
+[gd_scene load_steps=11 format=3 uid="uid://bu0uuairw61pc"]
 
 [ext_resource type="Script" uid="uid://cj7wxk8j2m2xx" path="res://scenes/combat/combat_status/combat_status_square.gd" id="1_upe3l"]
+[ext_resource type="PackedScene" uid="uid://bhduan5i65red" path="res://scenes/combat/combat_status/combat_status_stat_bar.tscn" id="2_67ega"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_loyi3"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rmg6t"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hga27"]
-bg_color = Color(0.855588, 0, 0.213274, 1)
-corner_radius_top_left = 5
-corner_radius_bottom_left = 5
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5r2un"]
+bg_color = Color(0, 0.726223, 0.171927, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wicsp"]
-bg_color = Color(0.880968, 0.760258, 1.15514e-06, 1)
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+[sub_resource type="Theme" id="Theme_f3m6r"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_5r2un")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sc6ow"]
-bg_color = Color(0.0990728, 0.254254, 0.959848, 1)
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-corner_detail = 10
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6kk03"]
+bg_color = Color(0.825546, 0.524487, 0, 1)
+
+[sub_resource type="Theme" id="Theme_5r2un"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_6kk03")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_67ega"]
+bg_color = Color(0.172549, 0.258824, 1, 1)
+
+[sub_resource type="Theme" id="Theme_6kk03"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_67ega")
 
 [node name="CombatStatusSquare" type="Panel"]
 anchors_preset = -1
@@ -71,40 +74,27 @@ anchor_right = 1.0
 anchor_bottom = 0.25
 alignment = 2
 
-[node name="HealthBar" type="ProgressBar" parent="."]
+[node name="HealthBar" parent="." instance=ExtResource("2_67ega")]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.571
-anchor_right = 1.0
-anchor_bottom = 0.4
-theme_override_styles/fill = SubResource("StyleBoxFlat_hga27")
-min_value = -100.0
-value = 50.0
-show_percentage = false
+offset_left = 200.0
+offset_right = 350.0
+theme = SubResource("Theme_f3m6r")
 
-[node name="ArmorBar" type="ProgressBar" parent="."]
+[node name="ArmorBar" parent="." instance=ExtResource("2_67ega")]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.571
-anchor_top = 0.4
-anchor_right = 1.0
-anchor_bottom = 0.7
-theme_override_styles/fill = SubResource("StyleBoxFlat_wicsp")
-min_value = -100.0
-value = 50.0
-show_percentage = false
+offset_left = 200.0
+offset_top = 80.0
+offset_right = 350.0
+offset_bottom = 140.0
+theme = SubResource("Theme_5r2un")
 
-[node name="ManaBar" type="ProgressBar" parent="."]
+[node name="ManaBar" parent="." instance=ExtResource("2_67ega")]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.571
-anchor_top = 0.7
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_styles/fill = SubResource("StyleBoxFlat_sc6ow")
-min_value = -100.0
-value = 25.0
-show_percentage = false
+offset_left = 200.0
+offset_top = 140.0
+offset_right = 350.0
+offset_bottom = 200.0
+theme = SubResource("Theme_6kk03")
 
 [node name="Divider" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(3, 0)

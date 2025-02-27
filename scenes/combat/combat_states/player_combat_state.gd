@@ -18,6 +18,7 @@ func _ready():
 	turn_track = overview.turn_track
 	
 	player = unit
+	
 	attack_list.visible = true
 	attack_list.set_values(player.get_all_actions())
 	attack_list.item_selected.connect(action_selected)
@@ -66,6 +67,7 @@ func apply_action():
 		player.do_action(action)
 		for t in targets:
 			t.apply_status(action)
+		await overview.update_done().wait()
 	elif action is ReactActionData:
 		var react: ReactActionData = action
 		player.do_action(react)

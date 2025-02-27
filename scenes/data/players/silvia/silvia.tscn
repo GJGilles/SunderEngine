@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b1dcqnhsph6st"]
 
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_sk7ga"]
-[ext_resource type="Texture2D" uid="uid://dib8gqa6xll0g" path="res://assets/portraits/silvia.png" id="2_sk7ga"]
+[ext_resource type="Texture2D" uid="uid://dib8gqa6xll0g" path="res://assets/combat/units/silvia/portraits/silvia.png" id="2_sk7ga"]
 [ext_resource type="PackedScene" uid="uid://bwn11ajjbkqbw" path="res://scenes/data/classes/shaman.tscn" id="3_pd4de"]
 [ext_resource type="SpriteFrames" uid="uid://bc5u4ju6n557j" path="res://scenes/data/players/silvia/silvia_combat_sprite.tres" id="3_su61a"]
 [ext_resource type="PackedScene" uid="uid://kkemivt4xhoq" path="res://scenes/data/reacts/block_basic.tscn" id="5_4a5xb"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dcsiia4uaybre"]
+[gd_scene load_steps=17 format=3 uid="uid://dcsiia4uaybre"]
 
 [ext_resource type="Script" uid="uid://c7tjmycniga5k" path="res://scenes/combat/combat_overview.gd" id="1_fyv5f"]
 [ext_resource type="PackedScene" uid="uid://cyt2oulm62q1x" path="res://scenes/combat/combat_turn_track/combat_turn_track.tscn" id="2_42sgf"]
@@ -15,6 +15,9 @@
 [ext_resource type="Script" uid="uid://ca2bm7xm2x48i" path="res://scenes/models/turn/turn_track_data.gd" id="8_mj574"]
 [ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia/silvia.tscn" id="10_nepdm"]
 [ext_resource type="PackedScene" uid="uid://5pykceuxtghc" path="res://scenes/data/enemies/chongah/Chongah.tscn" id="13_umix5"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a8cve"]
+load_path = "res://.godot/imported/Chongah.png-2016eac5fe016e808a003cae03c5b11a.ctex"
 
 [node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party", "enemies")]
 script = ExtResource("1_fyv5f")
@@ -118,7 +121,10 @@ characters = {
 }
 
 [node name="Chongah" parent="TestEnemies" instance=ExtResource("13_umix5")]
+portrait = SubResource("CompressedTexture2D_a8cve")
 
+[connection signal="turn_focused" from="CombatUI/CombatTurnTrack" to="." method="preview_turn"]
+[connection signal="unfocused" from="CombatUI/CombatTurnTrack" to="." method="preview_clear"]
 [connection signal="inserted_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="insert_turn"]
 [connection signal="removed_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="remove_turn"]
 [connection signal="updated_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="update_turn"]

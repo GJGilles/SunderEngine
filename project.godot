@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 [autoload]
 
 COMBAT="*res://loaders/attack_type_loader.tscn"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 [display]
 
@@ -29,6 +30,10 @@ window/stretch/mode="viewport"
 [dotnet]
 
 project/assembly_name="Sunder Engine"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [input]
 

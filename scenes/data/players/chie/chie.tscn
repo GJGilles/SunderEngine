@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_gbgdd"]
 [ext_resource type="PackedScene" uid="uid://bwn11ajjbkqbw" path="res://scenes/data/classes/shaman.tscn" id="2_ef0t7"]
-[ext_resource type="Texture2D" uid="uid://dmi3jdrmv8ywn" path="res://assets/portraits/chie.png" id="2_xnys7"]
+[ext_resource type="Texture2D" uid="uid://dmi3jdrmv8ywn" path="res://assets/combat/units/chie/portraits/chie.png" id="2_xnys7"]
 [ext_resource type="SpriteFrames" uid="uid://bvkbys185o656" path="res://scenes/data/players/chie/chie_combat_sprite.tres" id="3_1rgq0"]
 [ext_resource type="PackedScene" uid="uid://b1awl8t8qrvrm" path="res://scenes/data/reacts/evade_basic.tscn" id="5_okyxf"]
 

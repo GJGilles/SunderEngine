@@ -6,9 +6,14 @@ var turn_icon_scene: PackedScene = preload("res://scenes/combat/combat_turn_trac
 
 @onready var turn_container: HBoxContainer = $TurnContainer
 
+signal turn_focused(turn: TurnData)
+signal unfocused()
+
 func insert_turn(index: int, turn: TurnData):
 	var turn_scene: CombatTurnIcon = turn_icon_scene.instantiate()
 	turn_scene.turn = turn
+	turn_scene.on_focused.connect(func(): turn_focused.emit(turn))
+	turn_scene.on_unfocused.connect(func(): unfocused.emit())
 	turn_container.add_child(turn_scene)
 	turn_container.move_child(turn_scene, index)
 		

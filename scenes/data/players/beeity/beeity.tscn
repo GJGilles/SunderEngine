@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cfqm28t4v7s0k"]
 
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_e617d"]
-[ext_resource type="Texture2D" uid="uid://c0qv4lgb72wyw" path="res://assets/portraits/beeity.png" id="2_e617d"]
+[ext_resource type="Texture2D" uid="uid://c0qv4lgb72wyw" path="res://assets/combat/units/beeity/portraits/beeity.png" id="2_e617d"]
 [ext_resource type="SpriteFrames" uid="uid://bqd3fqiimyu75" path="res://scenes/data/players/beeity/beeity_combat_sprite.tres" id="3_a0374"]
 [ext_resource type="PackedScene" uid="uid://df84kle8fcixp" path="res://scenes/data/classes/cleric.tscn" id="4_a0374"]
 [ext_resource type="PackedScene" uid="uid://kkemivt4xhoq" path="res://scenes/data/reacts/block_basic.tscn" id="5_0s0ac"]

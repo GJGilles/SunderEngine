@@ -1,18 +1,45 @@
-[gd_resource type="SpriteFrames" load_steps=2 format=3 uid="uid://bc5u4ju6n557j"]
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://bc5u4ju6n557j"]
 
-[ext_resource type="Texture2D" uid="uid://bydnida6ujbyu" path="res://assets/sprites/silvia.png" id="1_ug3so"]
+[ext_resource type="Texture2D" uid="uid://cjo2qe6oa35hj" path="res://assets/combat/units/silvia/sprites/damaged.png" id="1_up6jn"]
+[ext_resource type="Texture2D" uid="uid://c6ryetn8liil4" path="res://assets/combat/units/silvia/sprites/attack_1.png" id="1_wjlo8"]
+[ext_resource type="Texture2D" uid="uid://coq8le4wttdxr" path="res://assets/combat/units/silvia/sprites/idle_1.png" id="2_etrmy"]
+[ext_resource type="Texture2D" uid="uid://bq36spk60n5t6" path="res://assets/combat/units/silvia/sprites/attack_2.png" id="2_jcjjs"]
+[ext_resource type="Texture2D" uid="uid://bnfv22bm8w7a0" path="res://assets/combat/units/silvia/sprites/block.png" id="3_rxomn"]
+[ext_resource type="Texture2D" uid="uid://q00gq77iehkf" path="res://assets/combat/units/silvia/sprites/idle_2.png" id="3_wjlo8"]
+[ext_resource type="Texture2D" uid="uid://caq7wreneevd1" path="res://assets/combat/units/silvia/sprites/dodge.png" id="5_bwiru"]
+[ext_resource type="Texture2D" uid="uid://byyv01mj0fhhm" path="res://assets/combat/units/silvia/sprites/healed.png" id="6_bwiru"]
+[ext_resource type="Texture2D" uid="uid://cg7kfjf54en7l" path="res://assets/combat/units/silvia/sprites/stunned.png" id="9_7wngu"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_ug3so")
+"texture": ExtResource("1_wjlo8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_jcjjs")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_rxomn")
+}],
+"loop": true,
+"name": &"block",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_up6jn")
 }, {
 "duration": 1.0,
 "texture": null
 }, {
 "duration": 1.0,
-"texture": ExtResource("1_ug3so")
+"texture": ExtResource("1_up6jn")
 }],
 "loop": false,
 "name": &"damaged",
@@ -20,9 +47,36 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_ug3so")
+"texture": ExtResource("5_bwiru")
+}],
+"loop": false,
+"name": &"dodge",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_bwiru")
+}],
+"loop": false,
+"name": &"healed",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_etrmy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_wjlo8")
 }],
 "loop": true,
 "name": &"idle",
-"speed": 5.0
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_7wngu")
+}],
+"loop": false,
+"name": &"stunned",
+"speed": 1.0
 }]
