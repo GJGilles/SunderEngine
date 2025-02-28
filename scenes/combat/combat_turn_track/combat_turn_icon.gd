@@ -31,16 +31,22 @@ func remove_turn():
 	get_parent().remove_child(self)
 	queue_free()
 	
-
+func _on_focused():
+	portrait.material = COMBAT.get_outline_resource(COMBAT.OUTLINE_COLOR.GOLD)
+	on_focused.emit()
+	
+func _on_unfocused():
+	portrait.material = null
+	on_unfocused.emit()
 
 func _on_focus_entered() -> void:
-	on_focused.emit()
+	_on_focused()
 
 func _on_focus_exited() -> void:
-	on_unfocused.emit()
+	_on_unfocused()
 
 func _on_mouse_entered() -> void:
-	on_focused.emit()
+	_on_focused()
 
 func _on_mouse_exited() -> void:
-	on_unfocused.emit()
+	_on_unfocused()

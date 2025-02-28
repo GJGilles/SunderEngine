@@ -18,6 +18,7 @@ enum ENEMY_TARGET_TYPE {
 }
 
 @export var action: BaseActionData
+@export var weight: int = 1
 @export var priority: ENEMY_TARGET_PRIORITY
 @export var type: ENEMY_TARGET_TYPE
 @export var target: COMBAT.DEFENSE_TYPE

@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://df84kle8fcixp"]
+
+[ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_pxjm4"]
+[ext_resource type="Script" uid="uid://btmecu3xui02u" path="res://scenes/models/action/status_action_data.gd" id="2_083y6"]
+[ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="3_nqxx2"]
+
+[node name="Smith" type="Node" node_paths=PackedStringArray("actions")]
+script = ExtResource("1_pxjm4")
+base_speed = 30
+base_health = 50
+base_armor = 70
+base_mana = 70
+range_type = 1
+actions = [NodePath("Big Repair"), NodePath("Spare Parts"), NodePath("Hammer Swing")]
+
+[node name="Big Repair" type="Node" parent="."]
+script = ExtResource("2_083y6")
+value = 30
+mana_cost = 5
+time_cost = 25
+hits = 1
+target_type = 2
+
+[node name="Spare Parts" type="Node" parent="."]
+script = ExtResource("2_083y6")
+value = 10
+mana_cost = 5
+time_cost = 22
+hits = 3
+target_type = 2
+
+[node name="Hammer Swing" type="Node" parent="."]
+script = ExtResource("3_nqxx2")
+defense = 2
+damage = 20
+time_cost = 25
+hits = 3

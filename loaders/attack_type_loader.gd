@@ -1,5 +1,11 @@
 extends Node
 
+const OUTLINE_GOLD = preload("res://scenes/combat/resource/combat_outline_gold.tres")
+const OUTLINE_WHITE = preload("res://scenes/combat/resource/combat_outline_white.tres")
+const OUTLINE_GREEN = preload("res://scenes/combat/resource/combat_outline_green.tres")
+const OUTLINE_RED = preload("res://scenes/combat/resource/combat_outline_red.tres")
+const OUTLINE_BLUE = preload("res://scenes/combat/resource/combat_outline_blue.tres")
+
 enum ATTACK_TYPE {
 	PHYSICAL,
 	MAGIC
@@ -29,6 +35,14 @@ enum TARGET_TYPE {
 	ALLY
 }
 
+enum OUTLINE_COLOR {
+	GOLD, # Preview Source
+	WHITE, # Preview Target
+	GREEN, # Current Turn
+	RED, # Enemy Target
+	BLUE # Player Target
+}
+
 @export var attack_phys: Texture2D
 @export var attack_magic: Texture2D
 
@@ -43,6 +57,19 @@ enum TARGET_TYPE {
 
 @export var react_block: Texture2D
 @export var react_evade: Texture2D
+
+func get_outline_resource(color: OUTLINE_COLOR):
+	match color:
+		OUTLINE_COLOR.GOLD:
+			return OUTLINE_GOLD
+		OUTLINE_COLOR.WHITE:
+			return OUTLINE_WHITE
+		OUTLINE_COLOR.GREEN:
+			return OUTLINE_GREEN
+		OUTLINE_COLOR.RED:
+			return OUTLINE_RED
+		OUTLINE_COLOR.BLUE:
+			return OUTLINE_BLUE
 
 func get_opposite_status(type: STATUS_TYPE):
 	match type:

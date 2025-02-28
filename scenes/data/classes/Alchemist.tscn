@@ -5,32 +5,32 @@
 
 [node name="Alchemist" type="Node" node_paths=PackedStringArray("actions")]
 script = ExtResource("1_0k5po")
-base_speed = 22
-base_health = 40
-base_armor = 30
-base_mana = 60
+base_speed = 25
+base_health = 50
+base_armor = 60
+base_mana = 70
 range_type = 1
-actions = [NodePath("Fire Bomb"), NodePath("Witch Fire"), NodePath("Broken Glass")]
+actions = [NodePath("Fire Flask"), NodePath("Fire Bomb"), NodePath("Shrapnel Bomb")]
+
+[node name="Fire Flask" type="Node" parent="."]
+script = ExtResource("2_0k5po")
+attack = 1
+damage = 50
+mana_cost = 10
+time_cost = 30
+hits = 1
 
 [node name="Fire Bomb" type="Node" parent="."]
 script = ExtResource("2_0k5po")
 attack = 1
 damage = 15
-mana_cost = 5
-time_cost = 20
-hits = 2
+mana_cost = 10
+time_cost = 25
+hits = 3
 
-[node name="Witch Fire" type="Node" parent="."]
-script = ExtResource("2_0k5po")
-attack = 1
-damage = 80
-mana_cost = 15
-time_cost = 20
-hits = 1
-
-[node name="Broken Glass" type="Node" parent="."]
+[node name="Shrapnel Bomb" type="Node" parent="."]
 script = ExtResource("2_0k5po")
 defense = 2
-damage = 10
-time_cost = 30
+damage = 20
+time_cost = 35
 hits = 5

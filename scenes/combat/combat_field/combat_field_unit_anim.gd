@@ -16,9 +16,10 @@ func play_idle():
 	play("idle")
 	
 func play_animation(anim: String) -> Promise:
+	var prev: Promise = update_done
 	update_done = Promise.new(
 		func(resolve: Callable, reject: Callable):
-			await update_done.wait()
+			await prev.wait()
 			if sprite_frames.has_animation(anim):
 				sprite_frames.set_animation_loop(anim, false)
 				play(anim)

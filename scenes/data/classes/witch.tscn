@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3x83getc0tvm"]
+
+[ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_ktlnh"]
+[ext_resource type="Script" uid="uid://btmecu3xui02u" path="res://scenes/models/action/status_action_data.gd" id="2_coher"]
+[ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="3_bhe4p"]
+
+[node name="Witch" type="Node" node_paths=PackedStringArray("actions")]
+script = ExtResource("1_ktlnh")
+base_speed = 25
+base_health = 40
+base_armor = 50
+base_mana = 80
+range_type = 1
+actions = [NodePath("Hex"), NodePath("Doom"), NodePath("Destruction")]
+
+[node name="Hex" type="Node" parent="."]
+script = ExtResource("2_coher")
+status = 3
+value = 15
+mana_cost = 15
+time_cost = 20
+hits = 2
+
+[node name="Doom" type="Node" parent="."]
+script = ExtResource("2_coher")
+status = 3
+value = 10
+mana_cost = 15
+time_cost = 30
+hits = 4
+
+[node name="Destruction" type="Node" parent="."]
+script = ExtResource("3_bhe4p")
+attack = 1
+defense = 2
+damage = 150
+mana_cost = 10
+time_cost = 40
+hits = 1

@@ -14,6 +14,10 @@ func async_thread():
 	var turn: TurnData =  turn_track.next_turn()
 	await combat_turn_track.all_done_update().wait()
 	
+	if unit != null:
+		overview.field_dict[unit].set_highlight(COMBAT.OUTLINE_COLOR.GREEN, false)
+	overview.field_dict[turn.source].set_highlight(COMBAT.OUTLINE_COLOR.GREEN, true)
+	
 	if turn.action is AttackActionData:
 		var attack: AttackActionData = turn.action
 		

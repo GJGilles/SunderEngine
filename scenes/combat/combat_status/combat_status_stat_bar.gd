@@ -2,6 +2,7 @@ extends Control
 
 class_name CombatStatusStatBar
 
+@onready var background: ColorRect = $Background
 @onready var update_bar: ProgressBar = $UpdateBar
 @onready var stat_bar: ProgressBar = $UpdateBar/StatBar
 @onready var damage_delay: Timer = $DamageDelay
@@ -10,6 +11,7 @@ class_name CombatStatusStatBar
 var update_done: Promise = Promise.resolve()
 
 func set_value(value: int):
+	background.size.x = 150.0 * (100.0 + value) / 200.0
 	update_bar.value = value
 	stat_bar.value = value
 	label.text = str(value) + "%"

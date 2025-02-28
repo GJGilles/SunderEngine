@@ -5,32 +5,32 @@
 
 [node name="Shaman" type="Node" node_paths=PackedStringArray("actions")]
 script = ExtResource("1_66n8f")
-base_speed = 10
-base_health = 50
-base_armor = 20
-base_mana = 20
+base_speed = 30
+base_health = 70
+base_armor = 70
+base_mana = 50
 range_type = 1
-actions = [NodePath("Holy Strike"), NodePath("Blessed Stabs"), NodePath("Prayer of Wind")]
+actions = [NodePath("Holy Strike"), NodePath("Blessed Stabs"), NodePath("Windstorm")]
 
 [node name="Holy Strike" type="Node" parent="."]
 script = ExtResource("2_ua5fc")
 defense = 1
+damage = 20
+time_cost = 30
 hits = 1
-damage = 30
-time_cost = 25
 
 [node name="Blessed Stabs" type="Node" parent="."]
 script = ExtResource("2_ua5fc")
 defense = 1
+damage = 5
+time_cost = 25
 hits = 3
-damage = 15
-time_cost = 20
 
-[node name="Prayer of Wind" type="Node" parent="."]
+[node name="Windstorm" type="Node" parent="."]
 script = ExtResource("2_ua5fc")
 attack = 1
 defense = 2
-hits = 5
-damage = 5
+damage = 25
 mana_cost = 5
-time_cost = 10
+time_cost = 35
+hits = 5

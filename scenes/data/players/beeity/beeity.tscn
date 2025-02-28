@@ -3,16 +3,16 @@
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_e617d"]
 [ext_resource type="Texture2D" uid="uid://c0qv4lgb72wyw" path="res://assets/combat/units/beeity/portraits/beeity.png" id="2_e617d"]
 [ext_resource type="SpriteFrames" uid="uid://bqd3fqiimyu75" path="res://scenes/data/players/beeity/beeity_combat_sprite.tres" id="3_a0374"]
-[ext_resource type="PackedScene" uid="uid://df84kle8fcixp" path="res://scenes/data/classes/cleric.tscn" id="4_a0374"]
-[ext_resource type="PackedScene" uid="uid://kkemivt4xhoq" path="res://scenes/data/reacts/block_basic.tscn" id="5_0s0ac"]
+[ext_resource type="PackedScene" uid="uid://by8o7dlycrk5a" path="res://scenes/data/classes/alchemist.tscn" id="4_0s0ac"]
+[ext_resource type="PackedScene" uid="uid://b1awl8t8qrvrm" path="res://scenes/data/reacts/evade_basic.tscn" id="5_fjbyv"]
 
 [node name="Beeity" type="Node" node_paths=PackedStringArray("current_class", "current_react")]
 script = ExtResource("1_e617d")
-current_class = NodePath("Cleric")
-current_react = NodePath("BlockBasic")
+current_class = NodePath("Alchemist")
+current_react = NodePath("Basic Evade")
 portrait = ExtResource("2_e617d")
 combat_sprite = ExtResource("3_a0374")
 
-[node name="Cleric" parent="." instance=ExtResource("4_a0374")]
+[node name="Alchemist" parent="." instance=ExtResource("4_0s0ac")]
 
-[node name="BlockBasic" parent="." instance=ExtResource("5_0s0ac")]
+[node name="Basic Evade" parent="." instance=ExtResource("5_fjbyv")]

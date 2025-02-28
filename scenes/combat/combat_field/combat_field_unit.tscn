@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctrbvhv6aiduv"]
+[gd_scene load_steps=9 format=3 uid="uid://ctrbvhv6aiduv"]
 
 [ext_resource type="Script" uid="uid://bse55tubnqle3" path="res://scenes/combat/combat_field/combat_field_unit.gd" id="1_6w5jt"]
 [ext_resource type="SpriteFrames" uid="uid://bvkbys185o656" path="res://scenes/data/players/chie/chie_combat_sprite.tres" id="2_6w5jt"]
 [ext_resource type="Script" uid="uid://dkmh8n7b30y87" path="res://scenes/combat/combat_field/combat_field_unit_anim.gd" id="3_nm232"]
+[ext_resource type="AudioStream" uid="uid://dajtwl3xfn2ub" path="res://sfx/punch.mp3" id="4_mmcxv"]
 
 [sub_resource type="Animation" id="Animation_nm232"]
 resource_name = "damage_text"
@@ -150,5 +151,8 @@ one_shot = true
 libraries = {
 &"": SubResource("AnimationLibrary_mmcxv")
 }
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_mmcxv")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

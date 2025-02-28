@@ -51,7 +51,7 @@ func player_targets_selected(positions: Array[TeamData.POSITION]):
 	for key in overview.party.characters.keys():
 		player_field_area.get_value(key).set_selectable(false)
 		
-	apply_action()
+	await apply_action()
 	create_turn()
 	
 func enemy_targets_selected(positions: Array[TeamData.POSITION]):
@@ -59,10 +59,13 @@ func enemy_targets_selected(positions: Array[TeamData.POSITION]):
 	for key in overview.enemies.characters.keys():
 		enemy_field_area.get_value(key).set_selectable(false)
 		
-	apply_action()
+	await apply_action()
 	create_turn()
 	
 func apply_action():
+	player.ready_action(action)
+	await overview.update_done().wait()
+	
 	if action is StatusActionData:
 		player.do_action(action)
 		for t in targets:
@@ -74,6 +77,7 @@ func apply_action():
 		react.source = player
 		for t in targets:
 			t.apply_react(react)
+		await overview.update_done().wait()
 	
 func create_turn():
 	var turn: TurnData = TurnData.new()

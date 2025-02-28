@@ -2,18 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_a33rw"]
 [ext_resource type="Texture2D" uid="uid://csn757vgi5tul" path="res://assets/combat/units/tahu/portraits/tahu.png" id="2_k7g78"]
-[ext_resource type="PackedScene" uid="uid://by8o7dlycrk5a" path="res://scenes/data/classes/alchemist.tscn" id="2_uvcu5"]
 [ext_resource type="SpriteFrames" uid="uid://dw1clbs5rsxxc" path="res://scenes/data/players/tahu/tahu_combat_sprite.tres" id="3_4e8ko"]
-[ext_resource type="PackedScene" uid="uid://b1awl8t8qrvrm" path="res://scenes/data/reacts/evade_basic.tscn" id="5_767ue"]
+[ext_resource type="PackedScene" uid="uid://df84kle8fcixp" path="res://scenes/data/classes/smith.tscn" id="4_767ue"]
+[ext_resource type="PackedScene" uid="uid://kkemivt4xhoq" path="res://scenes/data/reacts/block_basic.tscn" id="5_tytck"]
 
 [node name="Tahu" type="Node" node_paths=PackedStringArray("current_class", "current_react")]
 script = ExtResource("1_a33rw")
-current_class = NodePath("Alchemist")
-current_react = NodePath("EvadeBasic")
+current_class = NodePath("Smith")
+current_react = NodePath("Basic Block")
 portrait = ExtResource("2_k7g78")
 combat_sprite = ExtResource("3_4e8ko")
 
-[node name="Alchemist" parent="." instance=ExtResource("2_uvcu5")]
-base_speed = 5
+[node name="Smith" parent="." instance=ExtResource("4_767ue")]
 
-[node name="EvadeBasic" parent="." instance=ExtResource("5_767ue")]
+[node name="Basic Block" parent="." instance=ExtResource("5_tytck")]

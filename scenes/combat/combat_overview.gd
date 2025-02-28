@@ -47,6 +47,7 @@ func _ready():
 func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.resolve()
 	
+	unit.unit_ready.connect(func(action: BaseActionData): unit_ready(unit, field_unit, status_square, action))
 	unit.unit_action.connect(func(action: BaseActionData): unit_action(unit, field_unit, status_square, action))
 
 	unit.attack_evaded.connect(func(): unit_evaded(unit, field_unit, status_square))
@@ -61,6 +62,13 @@ func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_sq
 	
 	unit.status_changed.connect(status_square.status_changed)
 	unit.react_changed.connect(status_square.react_changed)
+	
+func unit_ready(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare, action: BaseActionData):
+	unit_updates[unit] = Promise.new(
+		func(resolve: Callable, _reject: Callable):
+			await status_square.update_stats()
+			resolve.call()
+	)
 	
 func unit_action(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare, action: BaseActionData):
 	unit_updates[unit] = Promise.new(
@@ -145,14 +153,16 @@ func unit_revived(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square
 	
 func preview_turn(turn: TurnData):
 	attack_preview.set_values(turn.action)
+	field_dict[turn.source].set_highlight(COMBAT.OUTLINE_COLOR.GOLD, true)
 	for t in turn.targets:
-		field_dict[t].set_highlight(true)
+		field_dict[t].set_highlight(COMBAT.OUTLINE_COLOR.WHITE, true)
 		field_dict[t].set_target_ticks(turn.targets.count(t))
 		
 func preview_clear():
 	attack_preview.visible = false
 	for val in field_dict.values():
-		val.set_highlight(false)
+		val.set_highlight(COMBAT.OUTLINE_COLOR.GOLD, false)
+		val.set_highlight(COMBAT.OUTLINE_COLOR.WHITE, false)
 		val.set_target_ticks(0)
 	
 func update_done() -> Promise:

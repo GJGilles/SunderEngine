@@ -3,17 +3,19 @@ extends Control
 class_name CombatFieldUnit
 
 const COMBAT_UNIT_TARGET_MARKER = preload("res://scenes/combat/combat_field/combat_unit_target_marker.tscn")
-const COMBAT_FIELD_OUTLINE = preload("res://scenes/combat/combat_field/combat_field_outline.tres")
 
 @onready var sprite: CombatFieldUnitAnim = $SpriteBox/Control/Sprite
 @onready var target_marker_row: HBoxContainer = $TargetMarkerRow
 @onready var damage_label: Label = $DamageLabel
 @onready var debounce: Timer = $Debounce
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var base_unit: BaseUnitData
 
 var is_selectable: bool = false
+
+var outline_dict: Dictionary[COMBAT.OUTLINE_COLOR, bool] = {}
 
 signal on_selected()
 
@@ -30,19 +32,26 @@ func set_values(unit: BaseUnitData):
 func set_empty():
 	sprite.set_empty()
 
-func set_highlight(value: bool):
+func set_highlight(color: COMBAT.OUTLINE_COLOR, value: bool):
 	if value:
-		sprite.material = COMBAT_FIELD_OUTLINE
+		outline_dict[color] = true
 	else:
-		sprite.material = null
+		outline_dict.erase(color)
+		
+	for val in COMBAT.OUTLINE_COLOR.values():
+		if outline_dict.has(val):
+			sprite.material = COMBAT.get_outline_resource(val)
+			return
+	
+	sprite.material = null
 
 func set_selectable(selectable: bool):
 	if selectable:
 		is_selectable = true
-		set_highlight(true)
+		set_highlight(COMBAT.OUTLINE_COLOR.BLUE, true)
 	else:
 		is_selectable = false
-		set_highlight(false)
+		set_highlight(COMBAT.OUTLINE_COLOR.BLUE, false)
 		for child in target_marker_row.get_children():
 			child.queue_free()
 
@@ -64,9 +73,11 @@ func set_target_ticks(num: int):
 	
 func play_attack() -> Promise:
 	animation_player.play("attack")
+	audio_player.play()
 	return Promise.all([
 		sprite.play_animation("attack"),
-		Promise.from(animation_player.animation_finished)
+		Promise.from(animation_player.animation_finished),
+		Promise.from(audio_player.finished)
 	])
 	
 func play_block() -> Promise:

@@ -11,7 +11,11 @@ class_name EnemyUnitData
 @export var actions: Array[EnemyActionData]
 @export var reactions: Array[EnemyReactionData]
 
-var action_idx: int = 0
+var total_weight: int
+
+func _ready() -> void:
+	for a in actions:
+		total_weight += a.weight
 
 func is_ranged() -> bool:
 	return false
@@ -36,11 +40,14 @@ func get_action(enemies: Array[BaseUnitData], turns: Array[TurnData]) -> EnemyAc
 	if action != null:
 		return action
 	
-	action = actions[action_idx]
-	action_idx += 1
-	if action_idx >= actions.size():
-		action_idx = 0
-	return action
+	var idx: int = randi() % total_weight
+	for a in actions:
+		if idx < a.weight:
+			return a
+		else: 
+			idx -= a.weight
+	
+	return null
 	
 func get_reaction(enemies: Array[BaseUnitData], turns: Array[TurnData]) -> EnemyActionData:
 	for react in reactions:

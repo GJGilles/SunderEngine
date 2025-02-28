@@ -68,6 +68,8 @@ func get_curr_stat(type: COMBAT.DEFENSE_TYPE):
 			return curr_health
 			
 func ready_action(action: BaseActionData):
+	if action.mana_cost > 0:
+		curr_mana = max(-100, curr_mana - action.mana_cost)
 	unit_ready.emit(action)
 			
 func do_action(action: BaseActionData):

@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://dq0ulurpm3ykd" path="res://scenes/models/action/react_action_data.gd" id="1_qcogs"]
 
-[node name="BlockBasic" type="Node"]
+[node name="Basic Block" type="Node"]
 script = ExtResource("1_qcogs")
-value = 10
+value = 15
 time_cost = 15
 hits = 1
 target_type = 2

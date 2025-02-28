@@ -35,15 +35,22 @@ grow_vertical = 2
 texture = ExtResource("5_174ev")
 expand_mode = 2
 
-[node name="CombatTurnTrack" parent="CombatUI" instance=ExtResource("2_42sgf")]
-anchors_preset = 1
-anchor_left = 1.0
+[node name="CombatField" type="Control" parent="CombatUI"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -1020.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 120.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 10.0
+offset_bottom = -420.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerArea" parent="CombatUI/CombatField" instance=ExtResource("6_ra6ig")]
+layout_mode = 1
+
+[node name="EnemyArea" parent="CombatUI/CombatField" instance=ExtResource("7_umix5")]
+layout_mode = 1
 
 [node name="PlayerStatusZone" parent="CombatUI" instance=ExtResource("3_cadbe")]
 offset_left = 433.0
@@ -65,22 +72,15 @@ offset_top = 308.0
 offset_right = -1530.0
 offset_bottom = -12.0
 
-[node name="CombatField" type="Control" parent="CombatUI"]
-layout_mode = 3
-anchors_preset = 15
+[node name="CombatTurnTrack" parent="CombatUI" instance=ExtResource("2_42sgf")]
+anchors_preset = 1
+anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 420.0
-offset_top = 10.0
-offset_bottom = -420.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PlayerArea" parent="CombatUI/CombatField" instance=ExtResource("6_ra6ig")]
-layout_mode = 1
-
-[node name="EnemyArea" parent="CombatUI/CombatField" instance=ExtResource("7_umix5")]
-layout_mode = 1
+offset_left = -1020.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 120.0
+grow_horizontal = 0
 
 [node name="AttackPreview" parent="CombatUI" instance=ExtResource("8_a8cve")]
 visible = false
@@ -117,10 +117,14 @@ characters = {
 [node name="TestEnemies" type="Node" parent="." node_paths=PackedStringArray("characters")]
 script = ExtResource("4_cadbe")
 characters = {
-1: NodePath("Chongah")
+1: NodePath("Chongah_1"),
+2: NodePath("Chongah_2")
 }
 
-[node name="Chongah" parent="TestEnemies" instance=ExtResource("13_umix5")]
+[node name="Chongah_1" parent="TestEnemies" instance=ExtResource("13_umix5")]
+portrait = SubResource("CompressedTexture2D_a8cve")
+
+[node name="Chongah_2" parent="TestEnemies" instance=ExtResource("13_umix5")]
 portrait = SubResource("CompressedTexture2D_a8cve")
 
 [connection signal="turn_focused" from="CombatUI/CombatTurnTrack" to="." method="preview_turn"]

@@ -2,17 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_sk7ga"]
 [ext_resource type="Texture2D" uid="uid://dib8gqa6xll0g" path="res://assets/combat/units/silvia/portraits/silvia.png" id="2_sk7ga"]
-[ext_resource type="PackedScene" uid="uid://bwn11ajjbkqbw" path="res://scenes/data/classes/shaman.tscn" id="3_pd4de"]
 [ext_resource type="SpriteFrames" uid="uid://bc5u4ju6n557j" path="res://scenes/data/players/silvia/silvia_combat_sprite.tres" id="3_su61a"]
-[ext_resource type="PackedScene" uid="uid://kkemivt4xhoq" path="res://scenes/data/reacts/block_basic.tscn" id="5_4a5xb"]
+[ext_resource type="PackedScene" uid="uid://d3x83getc0tvm" path="res://scenes/data/classes/witch.tscn" id="4_4a5xb"]
+[ext_resource type="PackedScene" uid="uid://b1awl8t8qrvrm" path="res://scenes/data/reacts/evade_basic.tscn" id="5_a7wnj"]
 
 [node name="Silvia" type="Node" node_paths=PackedStringArray("current_class", "current_react")]
 script = ExtResource("1_sk7ga")
-current_class = NodePath("Shaman")
-current_react = NodePath("BlockBasic")
+current_class = NodePath("Witch")
+current_react = NodePath("Basic Evade")
 portrait = ExtResource("2_sk7ga")
 combat_sprite = ExtResource("3_su61a")
 
-[node name="Shaman" parent="." instance=ExtResource("3_pd4de")]
+[node name="Witch" parent="." instance=ExtResource("4_4a5xb")]
 
-[node name="BlockBasic" parent="." instance=ExtResource("5_4a5xb")]
+[node name="Basic Evade" parent="." instance=ExtResource("5_a7wnj")]
