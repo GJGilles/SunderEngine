@@ -7,8 +7,8 @@
 script = ExtResource("1_66n8f")
 base_speed = 30
 base_health = 70
-base_armor = 70
-base_mana = 50
+base_armor = 50
+base_mana = 30
 range_type = 1
 actions = [NodePath("Holy Strike"), NodePath("Blessed Stabs"), NodePath("Windstorm")]
 

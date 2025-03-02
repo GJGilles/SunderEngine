@@ -22,9 +22,9 @@ var base_unit: BaseUnitData
 func set_values(unit: BaseUnitData):
 	title.text = unit.name
 	portrait.texture = unit.get_portrait()
-	health_bar.set_value(unit.curr_health)
-	armor_bar.set_value(unit.curr_armor)
-	mana_bar.set_value(unit.curr_mana)
+	health_bar.set_max_value(unit.curr_health)
+	armor_bar.set_max_value(unit.curr_armor)
+	mana_bar.set_max_value(unit.curr_mana)
 	
 	base_unit = unit
 	
@@ -37,6 +37,16 @@ func all_update_done() -> Promise:
 		armor_bar.update_done,
 		mana_bar.update_done
 	])
+	
+func preview_stats(health: int, armor: int, mana: int):
+	health_bar.preview_change(base_unit.curr_health, health)
+	armor_bar.preview_change(base_unit.curr_armor, armor)
+	mana_bar.preview_change(base_unit.curr_mana, mana)
+
+func reset_stats():
+	health_bar.set_value(base_unit.curr_health)
+	armor_bar.set_value(base_unit.curr_armor)
+	mana_bar.set_value(base_unit.curr_mana)
 	
 func update_stats() -> Promise:
 	return Promise.new(

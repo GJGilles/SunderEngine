@@ -7,8 +7,8 @@
 script = ExtResource("1_0k5po")
 base_speed = 25
 base_health = 50
-base_armor = 60
-base_mana = 70
+base_armor = 40
+base_mana = 50
 range_type = 1
 actions = [NodePath("Fire Flask"), NodePath("Fire Bomb"), NodePath("Shrapnel Bomb")]
 

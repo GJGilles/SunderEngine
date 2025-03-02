@@ -154,9 +154,25 @@ func unit_revived(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square
 func preview_turn(turn: TurnData):
 	attack_preview.set_values(turn.action)
 	field_dict[turn.source].set_highlight(COMBAT.OUTLINE_COLOR.GOLD, true)
+	
+	var hits: Dictionary[BaseUnitData, int] = {}
 	for t in turn.targets:
-		field_dict[t].set_highlight(COMBAT.OUTLINE_COLOR.WHITE, true)
-		field_dict[t].set_target_ticks(turn.targets.count(t))
+		if hits.has(t):
+			hits[t] += 1
+		else:
+			hits[t] = 1
+			
+	for u in hits.keys():
+		var preview: BaseUnitData = u.clone()
+		if turn.action is AttackActionData:
+			var attack: AttackActionData = turn.action
+			for i in hits[u]:
+				preview.apply_damage(attack.damage, attack.attack, attack.defense)
+			status_dict[u].preview_stats(preview.curr_health, preview.curr_armor, preview.curr_mana)
+			
+		field_dict[u].set_highlight(COMBAT.OUTLINE_COLOR.WHITE, true)
+		field_dict[u].set_target_ticks(hits[u])
+		preview.queue_free()
 		
 func preview_clear():
 	attack_preview.visible = false
@@ -164,6 +180,9 @@ func preview_clear():
 		val.set_highlight(COMBAT.OUTLINE_COLOR.GOLD, false)
 		val.set_highlight(COMBAT.OUTLINE_COLOR.WHITE, false)
 		val.set_target_ticks(0)
+		
+	for val in status_dict.values():
+		val.reset_stats()
 	
 func update_done() -> Promise:
 	return Promise.all(unit_updates.values())

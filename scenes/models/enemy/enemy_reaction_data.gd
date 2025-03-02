@@ -32,9 +32,12 @@ func is_trigger(unit: EnemyUnitData, enemies: Array[BaseUnitData], turns: Array[
 				if turn.time > threshold:
 					return false
 				
-				for t in turn.targets:
-					if t == unit:
-						return true
+				if turn.action is AttackActionData:
+					var attack: AttackActionData = turn.action
+					if attack.defense == defense:
+						for t in turn.targets:
+							if t == unit:
+								return true
 			
 			return false
 	

@@ -8,8 +8,8 @@
 script = ExtResource("1_ktlnh")
 base_speed = 25
 base_health = 40
-base_armor = 50
-base_mana = 80
+base_armor = 30
+base_mana = 60
 range_type = 1
 actions = [NodePath("Hex"), NodePath("Doom"), NodePath("Destruction")]
 

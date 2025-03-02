@@ -18,10 +18,13 @@ var is_selectable: bool = false
 var outline_dict: Dictionary[COMBAT.OUTLINE_COLOR, bool] = {}
 
 signal on_selected()
+signal on_focused()
+signal on_unfocused(W)
 
 func _on_gui_input(event: InputEvent):
 	if is_selectable and debounce.is_stopped() and event.is_action("ui_select"):
 		on_selected.emit()
+		on_focused.emit() # Probably bad to do this
 		debounce.start()
 	
 func set_values(unit: BaseUnitData):
@@ -50,6 +53,7 @@ func set_selectable(selectable: bool):
 		is_selectable = true
 		set_highlight(COMBAT.OUTLINE_COLOR.BLUE, true)
 	else:
+		unfocused()
 		is_selectable = false
 		set_highlight(COMBAT.OUTLINE_COLOR.BLUE, false)
 		for child in target_marker_row.get_children():
@@ -108,3 +112,26 @@ func play_healed(type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
 	
 func play_stunned() -> Promise:
 	return sprite.play_animation("stunned")
+
+func focused():
+	if is_selectable:
+		on_focused.emit()
+		
+func unfocused():
+	if is_selectable:
+		on_unfocused.emit()
+
+func _on_focus_entered() -> void:
+	focused()
+
+
+func _on_focus_exited() -> void:
+	unfocused()
+
+
+func _on_mouse_entered() -> void:
+	focused()
+
+
+func _on_mouse_exited() -> void:
+	unfocused()

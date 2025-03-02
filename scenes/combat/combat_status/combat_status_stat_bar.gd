@@ -10,8 +10,11 @@ class_name CombatStatusStatBar
 
 var update_done: Promise = Promise.resolve()
 
-func set_value(value: int):
+func set_max_value(value: int):
 	background.size.x = 150.0 * (100.0 + value) / 200.0
+	set_value(value)
+
+func set_value(value: int):
 	update_bar.value = value
 	stat_bar.value = value
 	label.text = str(value) + "%"
@@ -46,4 +49,12 @@ func update_value(value: int):
 			resolve.call()
 	)
 	
-		
+func preview_change(value: int, preview: int):
+	if preview > value:
+		stat_bar.value = value
+		update_bar.value = preview
+		label.text = "%s (+%s)" % [str(value), str(preview - value)]
+	elif preview < value:
+		update_bar.value = value
+		stat_bar.value = preview
+		label.text = "%s (%s)" % [str(value), str(preview - value)]

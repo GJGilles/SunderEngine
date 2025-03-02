@@ -57,17 +57,18 @@ value = 20
 time_cost = 22
 hits = 2
 
-[node name="Curl Up Reaction" type="Node" parent="."]
+[node name="Curl Up Reaction" type="Node" parent="." node_paths=PackedStringArray("action")]
 script = ExtResource("6_6fege")
 trigger = 2
 defense = 2
 threshold = 25
 cooldown = 2
+action = NodePath("Curl Up")
 type = 1
 
 [node name="Curl Up" type="Node" parent="Curl Up Reaction"]
 script = ExtResource("7_csahk")
-value = 30
+value = 20
 time_cost = 30
 hits = 1
 target_type = 0

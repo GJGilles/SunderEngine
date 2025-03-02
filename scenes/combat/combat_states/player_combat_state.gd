@@ -8,6 +8,8 @@ var enemy_field_area: CombatFieldArea
 var turn_track: TurnTrackData
 
 var player: PlayerUnitData
+
+var next_turn: TurnData
 var action: BaseActionData
 var targets: Array[BaseUnitData] = []
 
@@ -26,6 +28,12 @@ func _ready():
 func action_selected(idx: int):
 	action = player.get_action(idx)
 	attack_list.visible = false
+	
+	next_turn = TurnData.new()
+	next_turn.source = player
+	next_turn.action = action
+	next_turn.time = action.time_cost
+	
 	select_targets()
 	
 func select_targets():
@@ -43,51 +51,46 @@ func select_targets():
 		COMBAT.TARGET_TYPE.ENEMY:
 			for key in overview.enemies.characters.keys():
 				enemy_field_area.get_value(key).set_selectable(true)
+				
+			enemy_field_area.targets_changed.connect(func(targets): preview_targets(targets))
+			enemy_field_area.on_focused.connect(func(u): preview_targets(enemy_field_area.target_list, u))
+			enemy_field_area.on_unfocused.connect(func(_u): preview_targets(enemy_field_area.target_list))
+				
 			enemy_field_area.get_targets(action.hits)
 			enemy_field_area.targets_selected.connect(enemy_targets_selected)
+	
+func preview_targets(targets: Array[BaseUnitData], unit: BaseUnitData = null):
+	var preview: Array[BaseUnitData]
+	preview.assign(targets)
+	if unit != null:
+		preview.append(unit)
+	
+	next_turn.targets = preview
+	overview.preview_clear()
+	overview.preview_turn(next_turn)
 		
-func player_targets_selected(positions: Array[TeamData.POSITION]):
-	targets.assign(positions.map(func(p): return overview.party.characters[p]))
+func player_targets_selected(units: Array[BaseUnitData]):
+	targets.assign(units)
+	next_turn.targets = targets
 	for key in overview.party.characters.keys():
 		player_field_area.get_value(key).set_selectable(false)
 		
-	await apply_action()
-	create_turn()
+	player.ready_action(action, targets)
+	await overview.update_done().wait()
+	end_turn()
 	
-func enemy_targets_selected(positions: Array[TeamData.POSITION]):
-	targets.assign(positions.map(func(p): return overview.enemies.characters[p]))
+func enemy_targets_selected(units: Array[BaseUnitData]):
+	targets.assign(units)
+	next_turn.targets = targets
 	for key in overview.enemies.characters.keys():
 		enemy_field_area.get_value(key).set_selectable(false)
 		
-	await apply_action()
-	create_turn()
-	
-func apply_action():
-	player.ready_action(action)
+	player.ready_action(action, targets)
 	await overview.update_done().wait()
-	
-	if action is StatusActionData:
-		player.do_action(action)
-		for t in targets:
-			t.apply_status(action)
-		await overview.update_done().wait()
-	elif action is ReactActionData:
-		var react: ReactActionData = action
-		player.do_action(react)
-		react.source = player
-		for t in targets:
-			t.apply_react(react)
-		await overview.update_done().wait()
-	
-func create_turn():
-	var turn: TurnData = TurnData.new()
-	turn.source = player
-	turn.action = action
-	turn.targets = targets
-	turn.time = action.time_cost
-	await turn_track.insert_turn(turn)
 	end_turn()
 
 func end_turn():
+	overview.preview_clear()
+	await turn_track.insert_turn(next_turn)
 	overview.set_state(TurnCombatState.new(), player)
 	queue_free()

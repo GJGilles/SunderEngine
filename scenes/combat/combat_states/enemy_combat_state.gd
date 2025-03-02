@@ -30,7 +30,7 @@ func async_thread():
 	turn.targets = targets
 	turn.time = action_ai.action.time_cost
 	
-	enemy.ready_action(action_ai.action)
+	enemy.ready_action(action_ai.action, targets)
 	overview.preview_turn(turn)
 	
 	timer.start()

@@ -32,6 +32,20 @@ signal status_changed(type: COMBAT.STATUS_TYPE, value: int)
 signal react_changed(type: COMBAT.REACT_TYPE, value: int)
 #endregion
 
+func clone(include_react: bool = true) -> BaseUnitData:
+	var unit: BaseUnitData = duplicate(DuplicateFlags.DUPLICATE_SCRIPTS) 
+	unit.curr_health = curr_health
+	unit.curr_armor = curr_armor
+	unit.curr_mana = curr_mana
+
+	unit.curr_status = curr_status.duplicate(true)
+
+	if include_react:
+		unit.curr_block = curr_block
+		unit.curr_evade_count = curr_evade_count
+		
+	return unit
+
 func is_ranged() -> bool:
 	return false
 
@@ -67,14 +81,25 @@ func get_curr_stat(type: COMBAT.DEFENSE_TYPE):
 		COMBAT.DEFENSE_TYPE.HEALTH:
 			return curr_health
 			
-func ready_action(action: BaseActionData):
+func ready_action(action: BaseActionData, targets: Array[BaseUnitData]):
 	if action.mana_cost > 0:
 		curr_mana = max(-100, curr_mana - action.mana_cost)
 	unit_ready.emit(action)
+	
+	if action is StatusActionData:
+		do_action(action)
+		for t in targets:
+			t.apply_status(action)
+	elif action is ReactActionData:
+		var react: ReactActionData = action
+		do_action(react)
+		react.source = self
+		for t in targets:
+			t.apply_react(react)
 			
 func do_action(action: BaseActionData):
 	unit_action.emit(action)
-			
+
 func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFENSE_TYPE):
 	if curr_evade_count > 0:
 		curr_evade_count -= 1
@@ -83,14 +108,12 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 		return
 	
 	if curr_block != null:
-		#if curr_block.source != self:
-			#return curr_block.source.apply_damage(damage, attack, defense)
-		#else:
-			damage -= curr_block.value
-# TODO: This works a little weird right now
-			attack_blocked.emit()
-			if damage <= 0:
-				return
+		damage -= curr_block.value
+		attack_blocked.emit()
+		
+	if damage <= 0:
+		unit_damaged.emit(defense, 0)
+		return
 				
 	if defense == COMBAT.DEFENSE_TYPE.HEALTH:
 		if attack == COMBAT.ATTACK_TYPE.PHYSICAL:
@@ -129,19 +152,17 @@ func apply_status(action: StatusActionData):
 	
 	var value: int = action.value
 	if curr_status.has(action.status):
-		tick_status(action.status)
-		value = max(value, action.value)
+		tick_status(action.status, min(value, curr_status[action.status]))
+		value = max(value, curr_status[action.status])
 	
 	curr_status[action.status] = value
 	status_changed.emit(action.status, value)	
 	
 func tick_all_status():
 	for key in curr_status.keys():
-		tick_status(key)
+		tick_status(key, curr_status[key])
 	
-func tick_status(status: COMBAT.STATUS_TYPE):
-	var value: int = curr_status[status]
-	
+func tick_status(status: COMBAT.STATUS_TYPE, value: int):
 	match status:
 		COMBAT.STATUS_TYPE.MEND:
 			if curr_armor < get_max_armor():
@@ -153,11 +174,9 @@ func tick_status(status: COMBAT.STATUS_TYPE):
 			if value > 0 and curr_health < get_max_health():
 				var heal = min(value, get_max_health() - curr_health)
 				if curr_health <= 0 and 0 < curr_health + heal:
-					curr_health += heal
 					unit_revived.emit()
-				else:
-					curr_health += heal
-					unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH, heal)
+				curr_health += heal
+				unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH, heal)
 		
 		COMBAT.STATUS_TYPE.CORRODE:
 			if curr_armor > 0:
@@ -175,11 +194,9 @@ func tick_status(status: COMBAT.STATUS_TYPE):
 			if curr_health < get_max_health():
 				var heal = min(value, get_max_health() - curr_health)
 				if curr_health <= 0 and 0 < curr_health + heal:
-					curr_health += heal
 					unit_revived.emit()
-				else:
-					curr_health += heal
-					unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH, heal)
+				curr_health += heal
+				unit_healed.emit(COMBAT.DEFENSE_TYPE.HEALTH, heal)
 				value -= heal
 			
 			if value > 0 and  curr_mana < get_max_mana():
