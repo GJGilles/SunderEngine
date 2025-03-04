@@ -11,8 +11,8 @@ class_name CombatStatusStatBar
 var update_done: Promise = Promise.resolve()
 
 func set_max_value(value: int):
-	background.size.x = 150.0 * (100.0 + value) / 200.0
 	set_value(value)
+	background.set_deferred("size", Vector2(150.0 * (100.0 + value) / 200.0, background.size.y))
 
 func set_value(value: int):
 	update_bar.value = value

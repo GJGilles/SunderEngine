@@ -87,7 +87,7 @@ func play_attack() -> Promise:
 func play_block() -> Promise:
 	return sprite.play_animation("block")
 	
-func play_damaged(type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
+func play_damaged(_type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
 	damage_label.text = "-" + str(amount)
 	damage_label.add_theme_color_override("font_color", Color(1, 0, 0))
 	animation_player.play("damage_text")
@@ -100,7 +100,7 @@ func play_damaged(type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
 func play_dodge() -> Promise:
 	return sprite.play_animation("dodge")
 	
-func play_healed(type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
+func play_healed(_type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
 	damage_label.text = "+" + str(amount)
 	damage_label.add_theme_color_override("font_color", Color(0, 1, 0))
 	animation_player.play("damage_text")

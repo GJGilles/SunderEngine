@@ -11,13 +11,21 @@ config_version=5
 [application]
 
 config/name="Sunder Engine"
-run/main_scene="uid://dcsiia4uaybre"
+run/main_scene="uid://cmts6ustlirpm"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 
 [autoload]
 
 COMBAT="*res://loaders/attack_type_loader.tscn"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+
+[dialogue_manager]
+
+editor/wrap_long_lines=true
+editor/new_file_template="~ start
+
+=> END"
+runtime/balloon_path="res://scenes/dialogue/balloon.tscn"
 
 [display]
 
@@ -47,7 +55,7 @@ ui_select={
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://dialogue/opening.dialogue")
+locale/translations_pot_files=PackedStringArray("res://scenes/tutorials/tutorial_combat_1/tutorial_combat_1.dialogue")
 
 [rendering]
 

@@ -1,0 +1,84 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://dyi5p4pcw26ba"]
+
+[ext_resource type="Texture2D" uid="uid://cwnhy5wqwk702" path="res://assets/combat/units/beeity/sprites/attack_1.png" id="1_1c6t0"]
+[ext_resource type="Texture2D" uid="uid://eshs5myyjkh3" path="res://assets/combat/units/beeity/sprites/attack_2.png" id="2_kcnpd"]
+[ext_resource type="Texture2D" uid="uid://u5rafk50pfg0" path="res://assets/combat/units/beeity/sprites/block.png" id="3_mtim6"]
+[ext_resource type="Texture2D" uid="uid://dlm11novaolts" path="res://assets/combat/units/beeity/sprites/damaged.png" id="4_1y6n6"]
+[ext_resource type="Texture2D" uid="uid://47xbqss4kah7" path="res://assets/combat/units/beeity/sprites/dodge.png" id="5_3u05j"]
+[ext_resource type="Texture2D" uid="uid://5i7q4b48ct8s" path="res://assets/combat/units/beeity/sprites/healed.png" id="6_yflwf"]
+[ext_resource type="Texture2D" uid="uid://cp2wedm1n0v12" path="res://assets/combat/units/beeity/sprites/idle_2.png" id="7_01ehi"]
+[ext_resource type="Texture2D" uid="uid://d26mewx6l4jhs" path="res://assets/combat/units/beeity/sprites/stunned.png" id="8_54jdv"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_onnsl"]
+load_path = "res://.godot/imported/beeity.png-73cbd72386b9b59b9b794e5dbe6e3b99.ctex"
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_1c6t0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_kcnpd")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_mtim6")
+}],
+"loop": false,
+"name": &"block",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_1y6n6")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1y6n6")
+}],
+"loop": false,
+"name": &"damaged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_3u05j")
+}],
+"loop": false,
+"name": &"dodge",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_yflwf")
+}],
+"loop": false,
+"name": &"healed",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("CompressedTexture2D_onnsl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_01ehi")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_54jdv")
+}],
+"loop": false,
+"name": &"stunned",
+"speed": 1.0
+}]

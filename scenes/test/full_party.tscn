@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://bmpaf853h27ov"]
+
+[ext_resource type="Script" uid="uid://bqyi1vj2al0ho" path="res://scenes/models/team_data.gd" id="1_4i0me"]
+[ext_resource type="PackedScene" uid="uid://ujh2rjk11x7p" path="res://scenes/data/players/chie/chie.tscn" id="2_vq7ts"]
+[ext_resource type="PackedScene" uid="uid://cfqm28t4v7s0k" path="res://scenes/data/players/beeity/beeity.tscn" id="3_8ccwu"]
+[ext_resource type="PackedScene" uid="uid://gondntpgn778" path="res://scenes/data/players/tahu/tahu.tscn" id="4_21sas"]
+[ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia/silvia.tscn" id="5_etooj"]
+
+[node name="TestParty" type="Node" node_paths=PackedStringArray("characters")]
+script = ExtResource("1_4i0me")
+characters = {
+0: NodePath(""),
+1: NodePath(""),
+2: NodePath(""),
+3: NodePath("")
+}
+
+[node name="Chie" parent="." instance=ExtResource("2_vq7ts")]
+
+[node name="Beeity" parent="." instance=ExtResource("3_8ccwu")]
+
+[node name="Tahu" parent="." instance=ExtResource("4_21sas")]
+
+[node name="Silvia" parent="." instance=ExtResource("5_etooj")]

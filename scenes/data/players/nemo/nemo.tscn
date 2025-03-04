@@ -1,0 +1,18 @@
+[gd_scene load_steps=6 format=3 uid="uid://djkr5184gydvc"]
+
+[ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_4tdv4"]
+[ext_resource type="Texture2D" uid="uid://c0qv4lgb72wyw" path="res://assets/combat/units/beeity/portraits/beeity.png" id="2_01ejm"]
+[ext_resource type="SpriteFrames" uid="uid://bqd3fqiimyu75" path="res://scenes/data/players/beeity/beeity_combat_sprite.tres" id="3_mayuf"]
+[ext_resource type="PackedScene" uid="uid://ic8vjvltilaa" path="res://scenes/data/classes/warlock.tscn" id="4_c75ih"]
+[ext_resource type="PackedScene" uid="uid://b1awl8t8qrvrm" path="res://scenes/data/reacts/evade_basic.tscn" id="5_r5dlc"]
+
+[node name="Nemo" type="Node" node_paths=PackedStringArray("current_class", "current_react")]
+script = ExtResource("1_4tdv4")
+current_class = NodePath("")
+current_react = NodePath("")
+portrait = ExtResource("2_01ejm")
+combat_sprite = ExtResource("3_mayuf")
+
+[node name="Warlock" parent="." instance=ExtResource("4_c75ih")]
+
+[node name="Basic Evade" parent="." instance=ExtResource("5_r5dlc")]

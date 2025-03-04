@@ -11,6 +11,8 @@ func _ready():
 	async_thread()
 
 func async_thread():
+	await overview.update_done().wait()
+	
 	var turn: TurnData =  turn_track.next_turn()
 	await combat_turn_track.all_done_update().wait()
 	

@@ -1,18 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://ujh2rjk11x7p"]
+[gd_scene load_steps=5 format=3 uid="uid://ujh2rjk11x7p"]
 
 [ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_gbgdd"]
-[ext_resource type="PackedScene" uid="uid://bwn11ajjbkqbw" path="res://scenes/data/classes/shaman.tscn" id="2_ef0t7"]
 [ext_resource type="Texture2D" uid="uid://dmi3jdrmv8ywn" path="res://assets/combat/units/chie/portraits/chie.png" id="2_xnys7"]
 [ext_resource type="SpriteFrames" uid="uid://bvkbys185o656" path="res://scenes/data/players/chie/chie_combat_sprite.tres" id="3_1rgq0"]
-[ext_resource type="PackedScene" uid="uid://kkemivt4xhoq" path="res://scenes/data/reacts/block_basic.tscn" id="5_okyxf"]
+[ext_resource type="PackedScene" uid="uid://bxa62gb8b4pkf" path="res://scenes/data/classes/phalanx.tscn" id="4_1rgq0"]
 
 [node name="Chie" type="Node" node_paths=PackedStringArray("current_class", "current_react")]
 script = ExtResource("1_gbgdd")
-current_class = NodePath("Shaman")
-current_react = NodePath("Basic Block")
+current_class = NodePath("Phalanx")
+current_react = NodePath("")
 portrait = ExtResource("2_xnys7")
 combat_sprite = ExtResource("3_1rgq0")
 
-[node name="Shaman" parent="." instance=ExtResource("2_ef0t7")]
-
-[node name="Basic Block" parent="." instance=ExtResource("5_okyxf")]
+[node name="Phalanx" parent="." instance=ExtResource("4_1rgq0")]

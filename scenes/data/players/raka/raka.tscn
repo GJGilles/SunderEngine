@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0i0fdngxef50"]
+
+[ext_resource type="Script" uid="uid://dclynsf4ihelo" path="res://scenes/models/unit/player_unit_data.gd" id="1_ucgpg"]
+[ext_resource type="Texture2D" uid="uid://dib8gqa6xll0g" path="res://assets/combat/units/silvia/portraits/silvia.png" id="2_pvytk"]
+[ext_resource type="SpriteFrames" uid="uid://b0d760rqncl5n" path="res://scenes/data/players/raka/raka_combat_sprite.tres" id="3_swteq"]
+[ext_resource type="PackedScene" uid="uid://bpgk4m2xrg0e5" path="res://scenes/data/classes/archer.tscn" id="4_ru74x"]
+
+[node name="Raka" type="Node" node_paths=PackedStringArray("current_class", "current_react")]
+script = ExtResource("1_ucgpg")
+current_class = NodePath("Archer")
+current_react = NodePath("")
+portrait = ExtResource("2_pvytk")
+combat_sprite = ExtResource("3_swteq")
+
+[node name="Archer" parent="." instance=ExtResource("4_ru74x")]

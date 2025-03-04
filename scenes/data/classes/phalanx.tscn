@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxa62gb8b4pkf"]
+
+[ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_3cwgu"]
+[ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="2_w7moh"]
+
+[node name="Phalanx" type="Node" node_paths=PackedStringArray("actions")]
+script = ExtResource("1_3cwgu")
+base_speed = 30
+base_health = 60
+base_armor = 60
+base_mana = 40
+actions = [NodePath("Shield Bash"), NodePath("Swinging Strikes"), NodePath("Spear Thrust")]
+
+[node name="Shield Bash" type="Node" parent="."]
+script = ExtResource("2_w7moh")
+defense = 2
+damage = 80
+time_cost = 30
+hits = 1
+
+[node name="Swinging Strikes" type="Node" parent="."]
+script = ExtResource("2_w7moh")
+defense = 2
+damage = 35
+time_cost = 25
+hits = 2
+
+[node name="Spear Thrust" type="Node" parent="."]
+script = ExtResource("2_w7moh")
+damage = 20
+time_cost = 30
+hits = 2

@@ -37,8 +37,7 @@ func async_thread():
 	await timer.timeout
 	
 	overview.preview_clear()
-	
-	await turn_track.insert_turn(turn)
+	overview.insert_turn(turn)
 	
 	overview.set_state(TurnCombatState.new(), enemy)
 	queue_free()

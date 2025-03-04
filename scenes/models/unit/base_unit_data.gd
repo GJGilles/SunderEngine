@@ -114,13 +114,13 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 	if damage <= 0:
 		unit_damaged.emit(defense, 0)
 		return
+	
+	if attack == COMBAT.ATTACK_TYPE.PHYSICAL:
+		damage = floori(damage * (1 - curr_armor / 100.0))
+	elif attack == COMBAT.ATTACK_TYPE.MAGIC:
+		damage = floori(damage * (1 - curr_mana / 100.0))
 				
 	if defense == COMBAT.DEFENSE_TYPE.HEALTH:
-		if attack == COMBAT.ATTACK_TYPE.PHYSICAL:
-			damage = floori(damage * (1 - curr_armor / 100.0))
-		elif attack == COMBAT.ATTACK_TYPE.MAGIC:
-			damage = floori(damage * (1 - curr_mana / 100.0))
-		
 		if curr_health > 0 and 0 >= (curr_health - damage):
 			damage = curr_health
 			curr_health = 0
@@ -131,7 +131,14 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 			unit_fainted.emit()
 		else:
 			curr_health -= damage
+			
 		unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH, damage)
+		if attack == COMBAT.ATTACK_TYPE.PHYSICAL:
+			curr_armor -= damage
+			unit_damaged.emit(COMBAT.DEFENSE_TYPE.ARMOR, damage)
+		elif attack == COMBAT.ATTACK_TYPE.MAGIC:
+			curr_mana -= damage
+			unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA, damage)
 	
 	elif defense == COMBAT.DEFENSE_TYPE.ARMOR:
 		damage = mini(damage, 100 + curr_armor)

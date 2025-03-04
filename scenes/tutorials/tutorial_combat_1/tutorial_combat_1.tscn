@@ -1,0 +1,63 @@
+[gd_scene load_steps=12 format=3 uid="uid://cmts6ustlirpm"]
+
+[ext_resource type="Script" uid="uid://csk7eb0we2k2f" path="res://scenes/tutorials/tutorial_combat_1/tutorial_combat_1.gd" id="1_kr7tw"]
+[ext_resource type="Resource" uid="uid://b6txfsfflubjx" path="res://scenes/tutorials/tutorial_combat_1/tutorial_combat_1.dialogue" id="2_b075i"]
+[ext_resource type="PackedScene" uid="uid://dcsiia4uaybre" path="res://scenes/combat/combat_overview.tscn" id="3_sp313"]
+[ext_resource type="Script" uid="uid://bqyi1vj2al0ho" path="res://scenes/models/team_data.gd" id="3_w8bnh"]
+[ext_resource type="PackedScene" uid="uid://ujh2rjk11x7p" path="res://scenes/data/players/chie/chie.tscn" id="4_8xcp4"]
+[ext_resource type="Script" uid="uid://d1ut4bpgaak4u" path="res://scenes/models/unit/enemy_unit_data.gd" id="6_w8bnh"]
+[ext_resource type="Texture2D" uid="uid://bwlwsafopjuq" path="res://assets/combat/units/chongah/sprites/chongah.png" id="7_8xcp4"]
+[ext_resource type="PackedScene" uid="uid://d0i0fdngxef50" path="res://scenes/data/players/raka/raka.tscn" id="9_ytddl"]
+[ext_resource type="Script" uid="uid://7xtdycih5ovm" path="res://scenes/models/enemy/enemy_action_data.gd" id="10_ytddl"]
+[ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="11_uq3ss"]
+[ext_resource type="SpriteFrames" uid="uid://2bx5jgy2kewx" path="res://scenes/data/enemies/chongah/chongah_combat_sprite.tres" id="12_uq3ss"]
+
+[node name="TutorialCombat1" type="Node2D"]
+script = ExtResource("1_kr7tw")
+dialog_tutorial = ExtResource("2_b075i")
+
+[node name="CombatOverview" parent="." node_paths=PackedStringArray("party", "enemies") instance=ExtResource("3_sp313")]
+party = NodePath("../Party")
+enemies = NodePath("../Enemies")
+
+[node name="Party" type="Node" parent="." node_paths=PackedStringArray("characters")]
+script = ExtResource("3_w8bnh")
+characters = {
+0: NodePath("Raka"),
+3: NodePath("Chie")
+}
+
+[node name="Chie" parent="Party" instance=ExtResource("4_8xcp4")]
+override_speed = 10
+
+[node name="Raka" parent="Party" instance=ExtResource("9_ytddl")]
+
+[node name="Enemies" type="Node" parent="." node_paths=PackedStringArray("characters")]
+script = ExtResource("3_w8bnh")
+characters = {
+0: NodePath("Tutorial Chongah")
+}
+
+[node name="Tutorial Chongah" type="Node" parent="Enemies" node_paths=PackedStringArray("actions")]
+script = ExtResource("6_w8bnh")
+speed = 20
+health = 50
+armor = 60
+mana = 30
+actions = [NodePath("Chomp Action")]
+portrait = ExtResource("7_8xcp4")
+combat_sprite = ExtResource("12_uq3ss")
+
+[node name="Chomp Action" type="Node" parent="Enemies/Tutorial Chongah" node_paths=PackedStringArray("action")]
+script = ExtResource("10_ytddl")
+action = NodePath("Chomp")
+priority = 2
+type = 1
+target = 2
+
+[node name="Chomp" type="Node" parent="Enemies/Tutorial Chongah/Chomp Action"]
+script = ExtResource("11_uq3ss")
+defense = 2
+damage = 20
+time_cost = 20
+hits = 1

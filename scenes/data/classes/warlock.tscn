@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://ic8vjvltilaa"]
+
+[ext_resource type="Script" uid="uid://duof6p2ijwtw8" path="res://scenes/models/class_data.gd" id="1_ht3r5"]
+[ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="2_q2x8f"]
+
+[node name="Warlock" type="Node" node_paths=PackedStringArray("actions")]
+script = ExtResource("1_ht3r5")
+base_speed = 35
+base_health = 70
+base_armor = 40
+base_mana = 60
+actions = [NodePath("Energy Beam"), NodePath("Energy Arrows"), NodePath("Dark Daggers")]
+
+[node name="Energy Beam" type="Node" parent="."]
+script = ExtResource("2_q2x8f")
+attack = 1
+defense = 2
+damage = 100
+mana_cost = 10
+time_cost = 30
+hits = 1
+
+[node name="Energy Arrows" type="Node" parent="."]
+script = ExtResource("2_q2x8f")
+attack = 1
+defense = 2
+damage = 30
+mana_cost = 10
+time_cost = 25
+hits = 3
+
+[node name="Dark Daggers" type="Node" parent="."]
+script = ExtResource("2_q2x8f")
+attack = 1
+defense = 1
+damage = 15
+mana_cost = 15
+time_cost = 40
+hits = 3

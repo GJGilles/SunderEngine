@@ -21,6 +21,15 @@ var status_dict: Dictionary[BaseUnitData, CombatStatusSquare] = {}
 var field_dict: Dictionary[BaseUnitData, CombatFieldUnit] = {}
 var unit_updates: Dictionary[BaseUnitData, Promise] = {}
 
+var pause_promise: Promise = Promise.resolve()
+var pause_resolve: Callable = func(): pass
+
+signal turn_started(unit: BaseUnitData)
+signal action_selected(unit: BaseUnitData, action: BaseActionData)
+signal turn_inserted(turn: TurnData)
+signal unit_changed(unit: BaseUnitData)
+signal combat_done(victory: bool)
+
 func _ready():
 	var units: Array[BaseUnitData] = party.characters.values() + enemies.characters.values()
 	for u in units:
@@ -63,14 +72,14 @@ func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_sq
 	unit.status_changed.connect(status_square.status_changed)
 	unit.react_changed.connect(status_square.react_changed)
 	
-func unit_ready(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare, action: BaseActionData):
+func unit_ready(unit: BaseUnitData, _field_unit: CombatFieldUnit, status_square: CombatStatusSquare, _action: BaseActionData):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
-			await status_square.update_stats()
+			await status_square.update_stats().wait()
 			resolve.call()
 	)
 	
-func unit_action(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare, action: BaseActionData):
+func unit_action(unit: BaseUnitData, field_unit: CombatFieldUnit, _status_square: CombatStatusSquare, action: BaseActionData):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
 			if action is ReactActionData:
@@ -84,14 +93,14 @@ func unit_action(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square:
 			resolve.call()
 	)
 	
-func unit_evaded(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+func unit_evaded(unit: BaseUnitData, field_unit: CombatFieldUnit, _status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
 			await field_unit.play_dodge().wait()
 			resolve.call()
 	)
 	
-func unit_block(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+func unit_block(unit: BaseUnitData, field_unit: CombatFieldUnit, _status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
 			await field_unit.play_block().wait()
@@ -105,13 +114,14 @@ func unit_damaged(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square
 				field_unit.play_damaged(type, amount),
 				status_square.update_stats()
 			]).wait() 
+			unit_changed.emit(unit)
 			resolve.call()
 	)
 	
-func unit_stunned(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+func unit_stunned(unit: BaseUnitData, field_unit: CombatFieldUnit, _status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
-			#await field_unit.play_damaged().wait()
+			await field_unit.play_stunned().wait()
 			#await status_square.update_stats().wait()
 			
 			var turn: TurnData = turn_track.remove_unit(unit)
@@ -123,13 +133,16 @@ func unit_stunned(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square
 			
 			turn_track.insert_empty_turn(unit)
 			await combat_turn_track.all_done_update().wait()
+			
+			unit_changed.emit(unit)
 			resolve.call()
 	)
 	
 	
-func unit_fainted(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+func unit_fainted(unit: BaseUnitData, _field_unit: CombatFieldUnit, _status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
+			unit_changed.emit(unit)
 			resolve.call()
 	)
 	
@@ -140,10 +153,12 @@ func unit_healed(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square:
 				field_unit.play_healed(type, amount),
 				status_square.update_stats()
 			]).wait()
+			
+			unit_changed.emit(unit)
 			resolve.call()
 	)
 	
-func unit_revived(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
+func unit_revived(unit: BaseUnitData, _field_unit: CombatFieldUnit, _status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
 			#await field_unit.play_healed().wait()
@@ -183,12 +198,30 @@ func preview_clear():
 		
 	for val in status_dict.values():
 		val.reset_stats()
+		
+func select_action(action: BaseActionData):
+	action_selected.emit(turn_track.curr_turn.source, action)
+		
+func insert_turn(turn: TurnData):
+	turn_track.insert_turn(turn)
+	turn_inserted.emit(turn)
+
+func combat_pause():
+	pause_promise = Promise.new(func(resolve: Callable, _reject): pause_resolve = resolve)
+	
+func combat_resume():
+	pause_resolve.call()
 	
 func update_done() -> Promise:
-	return Promise.all(unit_updates.values())
+	var promises: Array[Promise] = unit_updates.values()
+	promises.append(pause_promise)
+	return Promise.all(promises)
 
 func set_state(state: BaseCombatState, unit: BaseUnitData):
 	state.overview = self
 	state.unit = unit
 	add_child(state)
+	
+	if state is PlayerCombatState or state is EnemyCombatState:
+		turn_started.emit(unit)
 	

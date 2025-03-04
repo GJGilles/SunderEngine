@@ -1,28 +1,17 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcsiia4uaybre"]
+[gd_scene load_steps=10 format=3 uid="uid://dcsiia4uaybre"]
 
 [ext_resource type="Script" uid="uid://c7tjmycniga5k" path="res://scenes/combat/combat_overview.gd" id="1_fyv5f"]
 [ext_resource type="PackedScene" uid="uid://cyt2oulm62q1x" path="res://scenes/combat/combat_turn_track/combat_turn_track.tscn" id="2_42sgf"]
 [ext_resource type="PackedScene" uid="uid://d3g2f1jdih740" path="res://scenes/combat/combat_status/combat_status_zone.tscn" id="3_cadbe"]
 [ext_resource type="PackedScene" uid="uid://bhsm5u3j33kf7" path="res://scenes/combat/combat_attack_list/combat_attack_list.tscn" id="4_7k2ag"]
-[ext_resource type="Script" uid="uid://bqyi1vj2al0ho" path="res://scenes/models/team_data.gd" id="4_cadbe"]
 [ext_resource type="Texture2D" uid="uid://bfkyjgfo8hws0" path="res://assets/combat/combat_background.png" id="5_174ev"]
 [ext_resource type="PackedScene" uid="uid://coblrs3sf5tx5" path="res://scenes/combat/combat_field/combat_field_player_area.tscn" id="6_ra6ig"]
-[ext_resource type="PackedScene" uid="uid://ujh2rjk11x7p" path="res://scenes/data/players/chie/chie.tscn" id="7_7k2ag"]
 [ext_resource type="PackedScene" uid="uid://beeqjgdvafdl2" path="res://scenes/combat/combat_field/combat_field_enemy_area.tscn" id="7_umix5"]
-[ext_resource type="PackedScene" uid="uid://cfqm28t4v7s0k" path="res://scenes/data/players/beeity/beeity.tscn" id="8_2qqgc"]
-[ext_resource type="PackedScene" uid="uid://gondntpgn778" path="res://scenes/data/players/tahu/tahu.tscn" id="8_174ev"]
 [ext_resource type="PackedScene" uid="uid://1j5apu7yfa8a" path="res://scenes/combat/combat_attack_list/combat_attack_item.tscn" id="8_a8cve"]
 [ext_resource type="Script" uid="uid://ca2bm7xm2x48i" path="res://scenes/models/turn/turn_track_data.gd" id="8_mj574"]
-[ext_resource type="PackedScene" uid="uid://b1dcqnhsph6st" path="res://scenes/data/players/silvia/silvia.tscn" id="10_nepdm"]
-[ext_resource type="PackedScene" uid="uid://5pykceuxtghc" path="res://scenes/data/enemies/chongah/Chongah.tscn" id="13_umix5"]
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a8cve"]
-load_path = "res://.godot/imported/Chongah.png-2016eac5fe016e808a003cae03c5b11a.ctex"
-
-[node name="CombatOverview" type="Node2D" node_paths=PackedStringArray("party", "enemies")]
+[node name="CombatOverview" type="Node2D"]
 script = ExtResource("1_fyv5f")
-party = NodePath("TestParty")
-enemies = NodePath("TestEnemies")
 
 [node name="CombatUI" type="CanvasLayer" parent="."]
 
@@ -96,36 +85,6 @@ grow_vertical = 2
 
 [node name="TurnTrackData" type="Node" parent="."]
 script = ExtResource("8_mj574")
-
-[node name="TestParty" type="Node" parent="." node_paths=PackedStringArray("characters")]
-script = ExtResource("4_cadbe")
-characters = {
-0: NodePath("Chie"),
-1: NodePath("Beeity"),
-2: NodePath("Tahu"),
-3: NodePath("Silvia")
-}
-
-[node name="Chie" parent="TestParty" instance=ExtResource("7_7k2ag")]
-
-[node name="Beeity" parent="TestParty" instance=ExtResource("8_2qqgc")]
-
-[node name="Tahu" parent="TestParty" instance=ExtResource("8_174ev")]
-
-[node name="Silvia" parent="TestParty" instance=ExtResource("10_nepdm")]
-
-[node name="TestEnemies" type="Node" parent="." node_paths=PackedStringArray("characters")]
-script = ExtResource("4_cadbe")
-characters = {
-1: NodePath("Chongah_1"),
-2: NodePath("Chongah_2")
-}
-
-[node name="Chongah_1" parent="TestEnemies" instance=ExtResource("13_umix5")]
-portrait = SubResource("CompressedTexture2D_a8cve")
-
-[node name="Chongah_2" parent="TestEnemies" instance=ExtResource("13_umix5")]
-portrait = SubResource("CompressedTexture2D_a8cve")
 
 [connection signal="turn_focused" from="CombatUI/CombatTurnTrack" to="." method="preview_turn"]
 [connection signal="unfocused" from="CombatUI/CombatTurnTrack" to="." method="preview_clear"]
