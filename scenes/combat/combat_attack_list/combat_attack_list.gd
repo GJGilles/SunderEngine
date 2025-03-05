@@ -9,12 +9,12 @@ class_name CombatAttackList
 
 signal item_selected(index: int)
 
-func set_values(actions: Array[BaseActionData]):
-	primary.set_values(actions[0])
-	secondary.set_values(actions[1])
-	auxilary.set_values(actions[2])	
-	response.set_values(actions[3])
-
+func set_values(player: PlayerUnitData):
+	var actions: Array[BaseActionData] = player.get_all_actions()
+	primary.set_values(actions[0], player.can_do_action(actions[0]))
+	secondary.set_values(actions[1], player.can_do_action(actions[1]))
+	auxilary.set_values(actions[2], player.can_do_action(actions[2]))
+	response.set_values(actions[3], player.can_do_action(actions[3]))
 
 func _on_primary_selected() -> void:
 	item_selected.emit(0)

@@ -4,12 +4,13 @@ extends Node2D
 
 @onready var chie: PlayerUnitData = $Party/Chie
 @onready var raka: PlayerUnitData = $Party/Raka
-@onready var chongah: EnemyUnitData = $"Enemies/Tutorial Chongah"
+@onready var chongah: EnemyUnitData = $"Enemies/Chongah"
 
 @export var dialog_tutorial: DialogueResource
 
 func _ready() -> void:
-	DialogueManager.show_dialogue_balloon(dialog_tutorial, "stats")
+	pass
+	#DialogueManager.show_dialogue_balloon(dialog_tutorial, "stats")
 	#
 	#combat.action_selected.connect(hit_tutorial)
 	#combat.turn_inserted.connect(time_tutorial)

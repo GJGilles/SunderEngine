@@ -14,30 +14,42 @@ func _ready():
 	timer.wait_time = 3.0
 	add_child(timer)
 	
-	async_thread()
+	for unit: BaseUnitData in overview.enemies.units.values():
+		unit.start_round()
 	
-func async_thread():
-	var enemy: EnemyUnitData = unit
-	var enemies: Array[BaseUnitData] = overview.enemies.characters.values()
-	var players: Array[BaseUnitData] = overview.party.characters.values()
+	await overview.update_done().wait()
+	do_actions()
+
+func do_actions():
+	while turn_track.turns.size() > 0:
+		var turn: TurnData = turn_track.next_turn()
+		turn.source.do_action(turn.action, turn.targets)
+		await overview.update_done().wait()
+		
+	ready_actions()
+
+func ready_actions():
+	overview.enemies.action_selected.connect(action_selected)
+	overview.enemies.round_done.connect(end_turn)
+	overview.enemies.choose_actions()
+	overview.enemies.next_action()
 	
-	var action_ai: EnemyActionData = enemy.get_action(enemies, turn_track.turns)
-	var targets: Array[BaseUnitData] = action_ai.select_targets(enemy, players, enemies)
-	
-	var turn: TurnData = TurnData.new()
-	turn.source = enemy
-	turn.action = action_ai.action
-	turn.targets = targets
-	turn.time = action_ai.action.time_cost
-	
-	enemy.ready_action(action_ai.action, targets)
-	overview.preview_turn(turn)
+func action_selected(action: BaseActionData, source: BaseUnitData, targets: Array[BaseUnitData]):
+	overview.preview_action(action, source, targets)
 	
 	timer.start()
 	await timer.timeout
 	
 	overview.preview_clear()
-	overview.insert_turn(turn)
 	
-	overview.set_state(TurnCombatState.new(), enemy)
+	if action is AttackActionData:
+		turn_track.add_turn(action, source, targets)
+	else:
+		source.do_action(action, targets)
+		await overview.update_done().wait()
+		
+	overview.enemies.next_action()
+	
+func end_turn():
+	overview.set_state(PlayerCombatState.new())
 	queue_free()

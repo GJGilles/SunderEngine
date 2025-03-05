@@ -15,10 +15,13 @@ const COMBAT_ATTACK_SELECTED = preload("res://scenes/combat/combat_attack_list/c
 @onready var _mana_icon: TextureRect = $Panel/Cost/ManaIcon
 @onready var _time = $Panel/Cost/Time
 
+var is_enabled: bool = false
+
 signal on_selected()
 
-func set_values(action: BaseActionData):
+func set_values(action: BaseActionData, enabled: bool):
 	visible = true
+	is_enabled = enabled
 	
 	if action != null:
 		_name.text = action.name
@@ -32,7 +35,7 @@ func set_values(action: BaseActionData):
 			_mana_icon.visible = true
 			_mana.text = str(action.mana_cost)
 			
-		_time.text = str(action.time_cost)
+		_time.text = str(action.ap_cost)
 	
 	if action is AttackActionData:
 		var attack: AttackActionData = action
@@ -57,7 +60,8 @@ func set_values(action: BaseActionData):
 		visible = false
 
 func focused():
-	panel.theme = COMBAT_ATTACK_SELECTED
+	if is_enabled:
+		panel.theme = COMBAT_ATTACK_SELECTED
 	
 func unfocused():
 	panel.theme = null
@@ -75,5 +79,5 @@ func _on_panel_mouse_exited() -> void:
 	unfocused()
 
 func _on_panel_gui_input(event: InputEvent) -> void:
-	if event.is_action("ui_select"):
+	if event.is_action("ui_select") and is_enabled:
 		on_selected.emit()

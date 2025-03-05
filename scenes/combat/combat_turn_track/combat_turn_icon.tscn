@@ -1,12 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dn26ff4ur1kwb"]
+[gd_scene load_steps=3 format=3 uid="uid://dn26ff4ur1kwb"]
 
-[ext_resource type="Texture2D" uid="uid://cs06vekk64wj8" path="res://assets/icons/time.svg" id="1_1lacr"]
 [ext_resource type="Script" uid="uid://c6toru7y8ptx7" path="res://scenes/combat/combat_turn_track/combat_turn_icon.gd" id="1_a0tfw"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_laxr7"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_a0tfw"]
-font_size = 24
 
 [node name="CombatTurnIcon" type="Control"]
 custom_minimum_size = Vector2(100, 100)
@@ -26,24 +22,6 @@ offset_left = 15.0
 offset_right = 85.0
 offset_bottom = 70.0
 texture = SubResource("PlaceholderTexture2D_laxr7")
-expand_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_top = 60.0
-offset_right = 100.0
-offset_bottom = 100.0
-alignment = 1
-
-[node name="Time" type="Label" parent="HBoxContainer"]
-layout_mode = 2
-mouse_filter = 1
-text = "99"
-label_settings = SubResource("LabelSettings_a0tfw")
-
-[node name="TimeIcon" type="TextureRect" parent="HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("1_1lacr")
 expand_mode = 2
 
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]

@@ -1,74 +1,46 @@
-[gd_scene load_steps=9 format=3 uid="uid://5pykceuxtghc"]
+[gd_scene load_steps=7 format=3 uid="uid://5pykceuxtghc"]
 
 [ext_resource type="Script" uid="uid://d1ut4bpgaak4u" path="res://scenes/models/unit/enemy_unit_data.gd" id="1_2pbk5"]
 [ext_resource type="Texture2D" uid="uid://bwlwsafopjuq" path="res://assets/combat/units/chongah/sprites/chongah.png" id="2_gpl5p"]
 [ext_resource type="SpriteFrames" uid="uid://2bx5jgy2kewx" path="res://scenes/data/enemies/chongah/chongah_combat_sprite.tres" id="3_6nuwe"]
-[ext_resource type="Script" uid="uid://7xtdycih5ovm" path="res://scenes/models/enemy/enemy_action_data.gd" id="3_g8fk7"]
 [ext_resource type="Script" uid="uid://blk84eg1t4q0u" path="res://scenes/models/action/attack_action_data.gd" id="4_efy45"]
-[ext_resource type="Script" uid="uid://cimflcnax8o2o" path="res://scenes/models/enemy/enemy_reaction_data.gd" id="6_6fege"]
 [ext_resource type="Script" uid="uid://btmecu3xui02u" path="res://scenes/models/action/status_action_data.gd" id="6_m7ine"]
 [ext_resource type="Script" uid="uid://dq0ulurpm3ykd" path="res://scenes/models/action/react_action_data.gd" id="7_csahk"]
 
-[node name="Chongah" type="Node" node_paths=PackedStringArray("actions", "reactions")]
+[node name="Chongah" type="Node" node_paths=PackedStringArray("actions")]
 script = ExtResource("1_2pbk5")
-speed = 20
+ap = 3
 health = 70
 armor = 70
 mana = 40
-actions = [NodePath("Shred Action"), NodePath("Butt Slam Action"), NodePath("Acid Spit Action")]
-reactions = [NodePath("Curl Up Reaction")]
+actions = [NodePath("Butt Slam"), NodePath("Shred"), NodePath("Curl Up"), NodePath("Acid Spit")]
 portrait = ExtResource("2_gpl5p")
 combat_sprite = ExtResource("3_6nuwe")
 
-[node name="Shred Action" type="Node" parent="." node_paths=PackedStringArray("action")]
-script = ExtResource("3_g8fk7")
-action = NodePath("Shred")
-priority = 3
-type = 1
-
-[node name="Shred" type="Node" parent="Shred Action"]
-script = ExtResource("4_efy45")
-damage = 40
-time_cost = 17
-hits = 1
-
-[node name="Butt Slam Action" type="Node" parent="." node_paths=PackedStringArray("action")]
-script = ExtResource("3_g8fk7")
-action = NodePath("Butt Slam")
-weight = 3
-priority = 4
-
-[node name="Butt Slam" type="Node" parent="Butt Slam Action"]
+[node name="Butt Slam" type="Node" parent="."]
 script = ExtResource("4_efy45")
 defense = 2
 damage = 30
-time_cost = 20
+ap_cost = 2
 hits = 3
+area_type = 1
 
-[node name="Acid Spit Action" type="Node" parent="." node_paths=PackedStringArray("action")]
-script = ExtResource("3_g8fk7")
-action = NodePath("Acid Spit")
-priority = 2
+[node name="Shred" type="Node" parent="."]
+script = ExtResource("4_efy45")
+damage = 40
+ap_cost = 1
+hits = 1
 
-[node name="Acid Spit" type="Node" parent="Acid Spit Action"]
-script = ExtResource("6_m7ine")
-status = 1
-value = 20
-time_cost = 22
-hits = 2
-
-[node name="Curl Up Reaction" type="Node" parent="." node_paths=PackedStringArray("action")]
-script = ExtResource("6_6fege")
-trigger = 2
-defense = 2
-threshold = 25
-cooldown = 2
-action = NodePath("Curl Up")
-type = 1
-
-[node name="Curl Up" type="Node" parent="Curl Up Reaction"]
+[node name="Curl Up" type="Node" parent="."]
 script = ExtResource("7_csahk")
-value = 20
-time_cost = 30
+value = 15
+ap_cost = 2
 hits = 1
 target_type = 0
+
+[node name="Acid Spit" type="Node" parent="."]
+script = ExtResource("6_m7ine")
+status = 3
+value = 20
+ap_cost = 1
+hits = 2

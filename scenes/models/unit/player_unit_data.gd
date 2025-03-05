@@ -6,10 +6,8 @@ class_name PlayerUnitData
 @export var current_class: ClassData
 @export var current_react: ReactActionData
 
-@export var override_speed: int
-
-func get_speed():
-	return override_speed if override_speed else current_class.base_speed
+func get_max_ap():
+	return current_class.base_ap
 
 func get_max_health():
 	return current_class.base_health

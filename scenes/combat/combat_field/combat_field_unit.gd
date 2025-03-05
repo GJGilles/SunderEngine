@@ -2,10 +2,10 @@ extends Control
 
 class_name CombatFieldUnit
 
-const COMBAT_UNIT_TARGET_MARKER = preload("res://scenes/combat/combat_field/combat_unit_target_marker.tscn")
+const COMBAT_UNIT_MARKER = preload("res://scenes/combat/combat_field/combat_unit_marker.tscn")
 
 @onready var sprite: CombatFieldUnitAnim = $SpriteBox/Control/Sprite
-@onready var target_marker_row: HBoxContainer = $TargetMarkerRow
+@onready var marker_row: HBoxContainer = $MarkerRow
 @onready var damage_label: Label = $DamageLabel
 @onready var debounce: Timer = $Debounce
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -17,14 +17,13 @@ var is_selectable: bool = false
 
 var outline_dict: Dictionary[COMBAT.OUTLINE_COLOR, bool] = {}
 
-signal on_selected()
+signal on_selected(unit: BaseUnitData)
 signal on_focused()
-signal on_unfocused(W)
+signal on_unfocused()
 
 func _on_gui_input(event: InputEvent):
 	if is_selectable and debounce.is_stopped() and event.is_action("ui_select"):
-		on_selected.emit()
-		on_focused.emit() # Probably bad to do this
+		on_selected.emit(base_unit)
 		debounce.start()
 	
 func set_values(unit: BaseUnitData):
@@ -56,24 +55,25 @@ func set_selectable(selectable: bool):
 		unfocused()
 		is_selectable = false
 		set_highlight(COMBAT.OUTLINE_COLOR.BLUE, false)
-		for child in target_marker_row.get_children():
-			child.queue_free()
 
-func add_target_tick():
-	var child = COMBAT_UNIT_TARGET_MARKER.instantiate()
-	target_marker_row.add_child(child)
+func add_marker():
+	var child = COMBAT_UNIT_MARKER.instantiate()
+	marker_row.add_child(child)
 	
-func remove_target_tick():
-	var child = target_marker_row.get_child(0)
-	target_marker_row.remove_child(child)
+func remove_marker():
+	var child = marker_row.get_child(0)
+	marker_row.remove_child(child)
 	child.queue_free()
 	
-func set_target_ticks(num: int):
-	while num > target_marker_row.get_children().size():
-		add_target_tick()
+func set_num_markers(num: int):
+	while num > marker_row.get_children().size():
+		add_marker()
 		
-	while  num < target_marker_row.get_children().size():
-		remove_target_tick()
+	while  num < marker_row.get_children().size():
+		remove_marker()
+	
+func show_ap():
+	set_num_markers(base_unit.curr_ap)
 	
 func play_attack() -> Promise:
 	animation_player.play("attack")

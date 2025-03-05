@@ -30,8 +30,8 @@ func _ready():
 
 func set_values(team: TeamData):
 	for key in square_dict.keys():
-		if team.characters.has(key):
-			square_dict[key].set_values(team.characters[key])
+		if team.units.has(key):
+			square_dict[key].set_values(team.units[key])
 		else:
 			square_dict[key].set_empty()	
 		

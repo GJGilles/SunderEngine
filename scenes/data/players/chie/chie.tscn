@@ -5,10 +5,9 @@
 [ext_resource type="SpriteFrames" uid="uid://bvkbys185o656" path="res://scenes/data/players/chie/chie_combat_sprite.tres" id="3_1rgq0"]
 [ext_resource type="PackedScene" uid="uid://bxa62gb8b4pkf" path="res://scenes/data/classes/phalanx.tscn" id="4_1rgq0"]
 
-[node name="Chie" type="Node" node_paths=PackedStringArray("current_class", "current_react")]
+[node name="Chie" type="Node" node_paths=PackedStringArray("current_class")]
 script = ExtResource("1_gbgdd")
 current_class = NodePath("Phalanx")
-current_react = NodePath("")
 portrait = ExtResource("2_xnys7")
 combat_sprite = ExtResource("3_1rgq0")
 

@@ -15,7 +15,7 @@ class_name CombatOverview
 @onready var attack_preview: CombatAttackItem = $CombatUI/AttackPreview
 
 @export var party: TeamData
-@export var enemies: TeamData
+@export var enemies: BaseEnemyTeamData
 
 var status_dict: Dictionary[BaseUnitData, CombatStatusSquare] = {}
 var field_dict: Dictionary[BaseUnitData, CombatFieldUnit] = {}
@@ -24,39 +24,33 @@ var unit_updates: Dictionary[BaseUnitData, Promise] = {}
 var pause_promise: Promise = Promise.resolve()
 var pause_resolve: Callable = func(): pass
 
-signal turn_started(unit: BaseUnitData)
-signal action_selected(unit: BaseUnitData, action: BaseActionData)
-signal turn_inserted(turn: TurnData)
 signal unit_changed(unit: BaseUnitData)
 signal combat_done(victory: bool)
 
 func _ready():
-	var units: Array[BaseUnitData] = party.characters.values() + enemies.characters.values()
+	var units: Array[BaseUnitData] = party.units.values() + enemies.units.values()
 	for u in units:
 		u.reset_stats()
-		
-	turn_track.set_values(units)
 	
 	player_field_area.set_values(party)
 	player_status_zone.set_values(party)
-	for key in party.characters.keys():
-		status_dict[party.characters[key]] = player_status_zone.get_value(key)
-		field_dict[party.characters[key]] = player_field_area.get_value(key)
-		register_signals(party.characters[key], player_field_area.get_value(key), player_status_zone.get_value(key))
+	for key in party.units.keys():
+		status_dict[party.units[key]] = player_status_zone.get_value(key)
+		field_dict[party.units[key]] = player_field_area.get_value(key)
+		register_signals(party.units[key], player_field_area.get_value(key), player_status_zone.get_value(key))
 	
 	enemy_status_zone.set_values(enemies)
 	enemy_field_area.set_values(enemies)
-	for key in enemies.characters.keys():
-		status_dict[enemies.characters[key]] = enemy_status_zone.get_value(key)
-		field_dict[enemies.characters[key]] = enemy_field_area.get_value(key)
-		register_signals(enemies.characters[key], enemy_field_area.get_value(key), enemy_status_zone.get_value(key))
+	for key in enemies.units.keys():
+		status_dict[enemies.units[key]] = enemy_status_zone.get_value(key)
+		field_dict[enemies.units[key]] = enemy_field_area.get_value(key)
+		register_signals(enemies.units[key], enemy_field_area.get_value(key), enemy_status_zone.get_value(key))
 	
-	set_state(TurnCombatState.new(), null)
+	set_state(EnemyCombatState.new())
 
 func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.resolve()
 	
-	unit.unit_ready.connect(func(action: BaseActionData): unit_ready(unit, field_unit, status_square, action))
 	unit.unit_action.connect(func(action: BaseActionData): unit_action(unit, field_unit, status_square, action))
 
 	unit.attack_evaded.connect(func(): unit_evaded(unit, field_unit, status_square))
@@ -69,15 +63,9 @@ func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_sq
 	unit.unit_healed.connect(func(type, amount): unit_healed(unit, field_unit, status_square, type, amount))
 	unit.unit_revived.connect(func(): unit_revived(unit, field_unit, status_square))
 	
+	unit.ap_changed.connect(field_unit.show_ap)
 	unit.status_changed.connect(status_square.status_changed)
 	unit.react_changed.connect(status_square.react_changed)
-	
-func unit_ready(unit: BaseUnitData, _field_unit: CombatFieldUnit, status_square: CombatStatusSquare, _action: BaseActionData):
-	unit_updates[unit] = Promise.new(
-		func(resolve: Callable, _reject: Callable):
-			await status_square.update_stats().wait()
-			resolve.call()
-	)
 	
 func unit_action(unit: BaseUnitData, field_unit: CombatFieldUnit, _status_square: CombatStatusSquare, action: BaseActionData):
 	unit_updates[unit] = Promise.new(
@@ -167,26 +155,21 @@ func unit_revived(unit: BaseUnitData, _field_unit: CombatFieldUnit, _status_squa
 	)
 	
 func preview_turn(turn: TurnData):
-	attack_preview.set_values(turn.action)
-	field_dict[turn.source].set_highlight(COMBAT.OUTLINE_COLOR.GOLD, true)
+	preview_action(turn.action, turn.source, turn.targets)
 	
-	var hits: Dictionary[BaseUnitData, int] = {}
-	for t in turn.targets:
-		if hits.has(t):
-			hits[t] += 1
-		else:
-			hits[t] = 1
-			
-	for u in hits.keys():
-		var preview: BaseUnitData = u.clone()
-		if turn.action is AttackActionData:
-			var attack: AttackActionData = turn.action
-			for i in hits[u]:
+func preview_action(action: BaseActionData, source: BaseUnitData, targets: Array[BaseUnitData]):
+	attack_preview.set_values(action, false)
+	field_dict[source].set_highlight(COMBAT.OUTLINE_COLOR.GOLD, true)
+	
+	for t in targets:
+		var preview: BaseUnitData = t.clone()
+		if action is AttackActionData:
+			var attack: AttackActionData = action
+			for i in attack.hits:
 				preview.apply_damage(attack.damage, attack.attack, attack.defense)
-			status_dict[u].preview_stats(preview.curr_health, preview.curr_armor, preview.curr_mana)
+			status_dict[t].preview_stats(preview.curr_health, preview.curr_armor, preview.curr_mana)
 			
-		field_dict[u].set_highlight(COMBAT.OUTLINE_COLOR.WHITE, true)
-		field_dict[u].set_target_ticks(hits[u])
+		field_dict[t].set_highlight(COMBAT.OUTLINE_COLOR.WHITE, true)
 		preview.queue_free()
 		
 func preview_clear():
@@ -194,17 +177,9 @@ func preview_clear():
 	for val in field_dict.values():
 		val.set_highlight(COMBAT.OUTLINE_COLOR.GOLD, false)
 		val.set_highlight(COMBAT.OUTLINE_COLOR.WHITE, false)
-		val.set_target_ticks(0)
 		
 	for val in status_dict.values():
 		val.reset_stats()
-		
-func select_action(action: BaseActionData):
-	action_selected.emit(turn_track.curr_turn.source, action)
-		
-func insert_turn(turn: TurnData):
-	turn_track.insert_turn(turn)
-	turn_inserted.emit(turn)
 
 func combat_pause():
 	pause_promise = Promise.new(func(resolve: Callable, _reject): pause_resolve = resolve)
@@ -217,11 +192,7 @@ func update_done() -> Promise:
 	promises.append(pause_promise)
 	return Promise.all(promises)
 
-func set_state(state: BaseCombatState, unit: BaseUnitData):
+func set_state(state: BaseCombatState):
 	state.overview = self
-	state.unit = unit
 	add_child(state)
-	
-	if state is PlayerCombatState or state is EnemyCombatState:
-		turn_started.emit(unit)
 	

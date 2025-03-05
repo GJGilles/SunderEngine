@@ -5,6 +5,7 @@ class_name BaseUnitData
 @export var portrait: Texture2D
 @export var combat_sprite: SpriteFrames
 
+var curr_ap: int
 var curr_health: int
 var curr_armor: int
 var curr_mana: int
@@ -15,7 +16,6 @@ var curr_block: ReactActionData
 var curr_evade_count: int = 0
 
 #region Signals
-signal unit_ready(action: BaseActionData)
 signal unit_action(action: BaseActionData)
 
 signal attack_evaded()
@@ -28,6 +28,7 @@ signal unit_fainted()
 signal unit_healed(defense: COMBAT.DEFENSE_TYPE, amount: int)
 signal unit_revived()
 
+signal ap_changed()
 signal status_changed(type: COMBAT.STATUS_TYPE, value: int)
 signal react_changed(type: COMBAT.REACT_TYPE, value: int)
 #endregion
@@ -55,7 +56,7 @@ func is_stunned() -> bool:
 func get_portrait() -> Texture2D:
 	return portrait
 
-func get_speed() -> int:
+func get_max_ap() -> int:
 	return 0
 
 func get_max_health() -> int:
@@ -80,25 +81,37 @@ func get_curr_stat(type: COMBAT.DEFENSE_TYPE):
 			return curr_mana
 		COMBAT.DEFENSE_TYPE.HEALTH:
 			return curr_health
+		
+func can_do_action(action: BaseActionData) -> bool:
+	return action != null and curr_ap >= action.ap_cost and (100 + curr_mana) >= action.mana_cost
 			
-func ready_action(action: BaseActionData, targets: Array[BaseUnitData]):
-	if action.mana_cost > 0:
-		curr_mana = max(-100, curr_mana - action.mana_cost)
-	unit_ready.emit(action)
+func do_action(action: BaseActionData, targets: Array[BaseUnitData]):
+	curr_ap -= action.ap_cost
+	ap_changed.emit()
 	
-	if action is StatusActionData:
-		do_action(action)
+	if action.mana_cost > 0:
+		curr_mana -= action.mana_cost
+		unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA, action.mana_cost)
+	
+	unit_action.emit(action)
+	
+	if action is AttackActionData:
+		var attack: AttackActionData = action
 		for t in targets:
-			t.apply_status(action)
+			for i in attack.hits:
+				t.apply_damage(attack.damage, attack.attack, attack.defense)
+	
+	elif action is StatusActionData:
+		var status: StatusActionData = action
+		for t in targets:
+			for i in status.hits:
+				t.apply_status(status)
+	
 	elif action is ReactActionData:
 		var react: ReactActionData = action
-		do_action(react)
-		react.source = self
 		for t in targets:
-			t.apply_react(react)
-			
-func do_action(action: BaseActionData):
-	unit_action.emit(action)
+			for i in react.hits:
+				t.apply_react(react)
 
 func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFENSE_TYPE):
 	if curr_evade_count > 0:
@@ -238,3 +251,18 @@ func remove_react(action: ReactActionData):
 		COMBAT.REACT_TYPE.EVADE:
 			curr_evade_count = 0
 	react_changed.emit(action.react, 0)
+	
+func start_round():
+	if !is_stunned():
+		curr_ap = get_max_ap()
+		ap_changed.emit()
+		
+	tick_all_status()
+	
+	if curr_block != null:
+		curr_block = null
+		react_changed.emit(COMBAT.REACT_TYPE.BLOCK, 0)
+		
+	if curr_evade_count > 0:
+		curr_evade_count = 0
+		react_changed.emit(COMBAT.REACT_TYPE.EVADE, 0)

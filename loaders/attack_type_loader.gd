@@ -19,20 +19,34 @@ enum DEFENSE_TYPE {
 
 enum STATUS_TYPE {
 	MEND,
-	CORRODE,
 	BLESS,
-	CURSE
+	HASTE,
+	
+	CORRODE,
+	CURSE,
+	SLOW
 }
 
 enum REACT_TYPE {	
 	BLOCK,
-	EVADE
+	EVADE,
+	PARRY,
+	
+	WEAKENED,
+	PINNED,
+	FUMBLE
 }
 
 enum TARGET_TYPE {
 	SELF,
 	ENEMY,
 	ALLY
+}
+
+enum AREA_TYPE {
+	SINGLE,
+	ROW,
+	COLUMN
 }
 
 enum OUTLINE_COLOR {

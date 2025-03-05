@@ -9,11 +9,10 @@ class_name CombatFieldArea
 
 var square_dict: Dictionary[TeamData.POSITION, CombatFieldUnit]
 
-var target_total: int = 0
-var target_list: Array[BaseUnitData] = []
+var is_targeting: bool = false
+var target_area: COMBAT.AREA_TYPE
 
 signal targets_selected(targets: Array[BaseUnitData])
-signal targets_changed(targets: Array[BaseUnitData])
 signal on_focused(unit: BaseUnitData)
 signal on_unfocused(unit: BaseUnitData)
 
@@ -28,28 +27,30 @@ func _ready():
 		
 func set_values(team: TeamData):
 	for key in square_dict.keys():
-		if team.characters.has(key):
-			var unit: BaseUnitData = team.characters[key]
+		if team.units.has(key):
+			var unit: BaseUnitData = team.units[key]
 			square_dict[key].set_values(unit)
-			square_dict[key].on_selected.connect(func(): add_target(key))
+			square_dict[key].on_selected.connect(func(_u): add_target(key))
 			square_dict[key].on_focused.connect(func(): on_focused.emit(unit))
 			square_dict[key].on_unfocused.connect(func(): on_unfocused.emit(unit))
 		else:
 			square_dict[key].set_empty()
-			
+
+func set_selectable(selectable: bool):
+	for pos in square_dict:
+		if square_dict[pos].base_unit != null:
+			square_dict[pos].set_selectable(selectable)
+		
 func get_value(pos: TeamData.POSITION) -> CombatFieldUnit:
 	return square_dict[pos]
 	
-func get_targets(num: int):
-	target_total = num
-	target_list = []
+func get_targets(area: COMBAT.AREA_TYPE):
+	is_targeting = true
+	target_area = area
 	
 func add_target(pos: TeamData.POSITION):
-	var unit: BaseUnitData = square_dict[pos].base_unit
-	
-	target_list.append(unit)
-	if target_list.size() == target_total:
-		targets_selected.emit(target_list)
-	elif target_list.size() < target_total:
-		square_dict[pos].add_target_tick()	
-		targets_changed.emit(target_list)
+	if is_targeting:
+		var targets: Array[BaseUnitData] 
+		targets.append(square_dict[pos].base_unit)
+		targets_selected.emit(targets)
+		is_targeting = false

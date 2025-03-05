@@ -88,6 +88,5 @@ script = ExtResource("8_mj574")
 
 [connection signal="turn_focused" from="CombatUI/CombatTurnTrack" to="." method="preview_turn"]
 [connection signal="unfocused" from="CombatUI/CombatTurnTrack" to="." method="preview_clear"]
-[connection signal="inserted_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="insert_turn"]
+[connection signal="added_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="_on_turn_track_data_added_turn"]
 [connection signal="removed_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="remove_turn"]
-[connection signal="updated_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="update_turn"]
