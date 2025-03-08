@@ -1,47 +1,27 @@
 ~ stats
 Raka: Our brave adventurers find themselves in combat against a daring foe!
 Raka: Lets use this opprotunity to refresh our memory on the basics of combat!
-Chie: Fiiiiine
+Chie: We need to protect our homes!
 Chie: Everyone has three main stats, shown by their character portrait: Health, Armor, and Mana
 Raka: We win by reducing all enemies Health to 0 or below, while at least one of us remains above 0 ourselves!
 Chie: Armor and Mana reduce the damage of Physical and Magic attacks respectively
 Chie: So a 10 damage Physical attack would only deal 2 damage if the target has 80% armor
 Raka: Which is why Physical attacks against my hardened physique are so ineffective!
-
-Chie: Speaking of attacks, it is my turn to ready an action,,
-Raka: Splendid, let us quickly deal with this measly foe!
-Chie: *yawn* Well, I guess I will choose something. Too bad I can't just pass,,,
+Chie: ...
+Chie: Now, lets do our best to take the monster down quickly!
+Chie: We both have three Action Points shown above our heads. If we are selected to take a turn then we can see what actions we have available.
 Chie: Actions are shown on the left, Attacks always show the number of Hits and then the Damage per Hit first
 Chie: Attacks will then also show if they are Phisical or Magical and then which stat they damage
-Chie: I'll just pick one and let Raka do the rest,,
-=> END
-
-~ hit
-Chie: I picked an Action, why isn't my turn over yet?
-Raka: Good question, my heroic companion! After selecting an Action, you must choose how to allocate the Hits
-Raka: For every Hit of an Action, you can choose to hit the same target again or divide them among multiple targets!
-Chie: But there is only one enemy,,
-Raka: Then strike away an select it as many times as you have hits!
-=> END
-
-~ time
-Chie: Hm? Nothing seemed to happen,,
-Raka: Chie! Did you forget that doing Actions takes time again!?
-Raka: In the top right of every action is the time it will take to complete the action.
-Raka: For Attacks, that means the damage won't be dealt until the time is up!
-Chie: That's okay, I'm used to taking my time
-Raka: Look! The turn tracker in the top right shows how long it is until your next turn!
-Raka: If you hover over the icons you can also see what Actions will go off at the start of those turns!
-Chie: *yawn* I'll let you take care of the thinking,,
-Raka: It does seem to be my turn! Perhaps I can use one of my signature moves to do some damage to their Armor? That would make our Physical attacks deal more damage!
+Raka: Don't forget, in the top right of each action is how many Action Points it will cost!
+Raka: So: Choose a Unit, then an Attack, then a Target. When you are satisfied, simply choose the end turn button!
 => END
 
 ~ enemy
 Raka: Did you see that? The enemy has prepared an attack of its own!
-Chie: Huh, I zoned out,,
-Raka: That's okay! If you hover its upcoming turn, you can see what vicious attack it will unleash!
-Chie: Huh, I can see what moves we are preparing too,,
-Raka: Just be aware that the damage is merely and estimate, things can change quickly in battle after all!
+Chie: W-what do we do?!
+Raka: Stay calm! If you hover its upcoming turn, you can see what vicious attack it will unleash!
+Chie: Uh oh, what do we do? 
+Raka: If only we trained more we might be able to dodge.. Oh well, we must simply try to take it down before it can strike!
 => END
 
 ~ stun

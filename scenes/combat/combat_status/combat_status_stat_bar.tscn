@@ -19,6 +19,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="UpdateBar" type="ProgressBar" parent="."]
 layout_mode = 1
@@ -30,7 +32,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxEmpty_drmxd")
 theme_override_styles/fill = SubResource("StyleBoxFlat_r7u11")
-min_value = -100.0
 step = 1.0
 value = 50.0
 show_percentage = false
@@ -44,7 +45,6 @@ offset_right = -0.150024
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxEmpty_drmxd")
-min_value = -100.0
 step = 1.0
 show_percentage = false
 

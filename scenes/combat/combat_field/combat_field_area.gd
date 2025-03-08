@@ -48,6 +48,9 @@ func get_targets(area: COMBAT.AREA_TYPE):
 	is_targeting = true
 	target_area = area
 	
+func cancel_targeting():
+	is_targeting = false
+	
 func add_target(pos: TeamData.POSITION):
 	if is_targeting:
 		var targets: Array[BaseUnitData] 

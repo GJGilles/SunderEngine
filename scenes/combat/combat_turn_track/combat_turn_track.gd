@@ -19,7 +19,3 @@ func add_turn(turn: TurnData):
 func remove_turn(index: int):
 	var child = turn_container.get_child(index)
 	child.remove_turn()
-
-
-func _on_turn_track_data_added_turn(turn: TurnData) -> void:
-	pass # Replace with function body.

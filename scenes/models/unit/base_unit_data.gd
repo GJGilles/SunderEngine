@@ -16,7 +16,9 @@ var curr_block: ReactActionData
 var curr_evade_count: int = 0
 
 #region Signals
-signal unit_action(action: BaseActionData)
+signal action_start(action: BaseActionData, targets: Array[BaseUnitData])
+signal action_hit(action: BaseActionData, target: BaseUnitData)
+signal action_end(action: BaseActionData, targets: Array[BaseUnitData])
 
 signal attack_evaded()
 signal attack_blocked()
@@ -85,33 +87,24 @@ func get_curr_stat(type: COMBAT.DEFENSE_TYPE):
 func can_do_action(action: BaseActionData) -> bool:
 	return action != null and curr_ap >= action.ap_cost and (100 + curr_mana) >= action.mana_cost
 			
-func do_action(action: BaseActionData, targets: Array[BaseUnitData]):
+func pay_action(action: BaseActionData):
 	curr_ap -= action.ap_cost
 	ap_changed.emit()
 	
 	if action.mana_cost > 0:
 		curr_mana -= action.mana_cost
 		unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA, action.mana_cost)
+			
+func do_action(action: BaseActionData, targets: Array[BaseUnitData], is_free: bool = false):
+	if !is_free:
+		pay_action(action)
 	
-	unit_action.emit(action)
+	action_start.emit(action, targets)
+	for t in targets:
+		for i in action.hits:
+			action_hit.emit(action, t)
 	
-	if action is AttackActionData:
-		var attack: AttackActionData = action
-		for t in targets:
-			for i in attack.hits:
-				t.apply_damage(attack.damage, attack.attack, attack.defense)
-	
-	elif action is StatusActionData:
-		var status: StatusActionData = action
-		for t in targets:
-			for i in status.hits:
-				t.apply_status(status)
-	
-	elif action is ReactActionData:
-		var react: ReactActionData = action
-		for t in targets:
-			for i in react.hits:
-				t.apply_react(react)
+	action_end.emit(action, targets)
 
 func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFENSE_TYPE):
 	if curr_evade_count > 0:
@@ -146,10 +139,12 @@ func apply_damage(damage: int, attack: COMBAT.ATTACK_TYPE, defense: COMBAT.DEFEN
 			curr_health -= damage
 			
 		unit_damaged.emit(COMBAT.DEFENSE_TYPE.HEALTH, damage)
-		if attack == COMBAT.ATTACK_TYPE.PHYSICAL:
+		if attack == COMBAT.ATTACK_TYPE.PHYSICAL and curr_armor > 0:
+			damage = floori(damage * (curr_armor / 100.0))
 			curr_armor -= damage
 			unit_damaged.emit(COMBAT.DEFENSE_TYPE.ARMOR, damage)
-		elif attack == COMBAT.ATTACK_TYPE.MAGIC:
+		elif attack == COMBAT.ATTACK_TYPE.MAGIC and curr_mana > 0:
+			damage = floori(damage * (curr_mana / 100.0))
 			curr_mana -= damage
 			unit_damaged.emit(COMBAT.DEFENSE_TYPE.MANA, damage)
 	
@@ -266,3 +261,7 @@ func start_round():
 	if curr_evade_count > 0:
 		curr_evade_count = 0
 		react_changed.emit(COMBAT.REACT_TYPE.EVADE, 0)
+		
+func end_round():
+	curr_ap = 0
+	ap_changed.emit()

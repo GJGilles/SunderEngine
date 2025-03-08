@@ -5,7 +5,7 @@
 
 [node name="Archer" type="Node" node_paths=PackedStringArray("actions")]
 script = ExtResource("1_64sbd")
-base_speed = 20
+base_ap = 3
 base_health = 60
 base_armor = 50
 base_mana = 40
@@ -15,18 +15,19 @@ actions = [NodePath("Power Shot"), NodePath("Triple Shot"), NodePath("Shrapnel S
 [node name="Power Shot" type="Node" parent="."]
 script = ExtResource("2_6fd0a")
 damage = 40
-time_cost = 30
+ap_cost = 3
 hits = 1
 
 [node name="Triple Shot" type="Node" parent="."]
 script = ExtResource("2_6fd0a")
 damage = 10
-time_cost = 25
+ap_cost = 2
 hits = 3
 
 [node name="Shrapnel Shot" type="Node" parent="."]
 script = ExtResource("2_6fd0a")
 defense = 2
-damage = 10
-time_cost = 20
-hits = 5
+damage = 20
+ap_cost = 1
+hits = 1
+area_type = 1

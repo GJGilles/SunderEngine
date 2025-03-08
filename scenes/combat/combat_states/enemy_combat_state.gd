@@ -14,16 +14,17 @@ func _ready():
 	timer.wait_time = 3.0
 	add_child(timer)
 	
+	#await overview.update_done().wait()
 	for unit: BaseUnitData in overview.enemies.units.values():
 		unit.start_round()
-	
 	await overview.update_done().wait()
+		
 	do_actions()
 
 func do_actions():
 	while turn_track.turns.size() > 0:
 		var turn: TurnData = turn_track.next_turn()
-		turn.source.do_action(turn.action, turn.targets)
+		turn.source.do_action(turn.action, turn.targets, true)
 		await overview.update_done().wait()
 		
 	ready_actions()
@@ -43,6 +44,7 @@ func action_selected(action: BaseActionData, source: BaseUnitData, targets: Arra
 	overview.preview_clear()
 	
 	if action is AttackActionData:
+		source.pay_action(action)
 		turn_track.add_turn(action, source, targets)
 	else:
 		source.do_action(action, targets)
@@ -51,5 +53,9 @@ func action_selected(action: BaseActionData, source: BaseUnitData, targets: Arra
 	overview.enemies.next_action()
 	
 func end_turn():
+	for unit: BaseUnitData in overview.enemies.units.values():
+		unit.end_round()
+		await overview.update_done().wait()
+		
 	overview.set_state(PlayerCombatState.new())
 	queue_free()

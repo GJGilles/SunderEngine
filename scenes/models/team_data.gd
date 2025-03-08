@@ -12,6 +12,9 @@ enum POSITION {
 
 @export var units: Dictionary[POSITION, BaseUnitData]
 
+func is_all_stunned():
+	return units.values().all(func(u): return u.is_stunned())
+
 func get_unit_row(unit: BaseUnitData) -> Array[BaseUnitData]:
 	var row: Array[BaseUnitData] = []
 	var key: POSITION = units.find_key(unit)

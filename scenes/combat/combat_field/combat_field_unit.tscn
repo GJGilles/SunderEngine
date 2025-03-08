@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ctrbvhv6aiduv"]
+[gd_scene load_steps=8 format=3 uid="uid://ctrbvhv6aiduv"]
 
 [ext_resource type="Script" uid="uid://bse55tubnqle3" path="res://scenes/combat/combat_field/combat_field_unit.gd" id="1_6w5jt"]
 [ext_resource type="SpriteFrames" uid="uid://bvkbys185o656" path="res://scenes/data/players/chie/chie_combat_sprite.tres" id="2_6w5jt"]
@@ -10,34 +10,10 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("DamageLabel:position")
+tracks/0/path = NodePath("SpriteBox/Control/Sprite:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(156, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("DamageLabel:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("SpriteBox/Control/Sprite:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -59,39 +35,10 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(-20, 0), Vector2(20, 0), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_nm232"]
-resource_name = "damage_text"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("DamageLabel:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(156, 0), Vector2(156, -100)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("DamageLabel:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mmcxv"]
 _data = {
 &"RESET": SubResource("Animation_mmcxv"),
-&"attack": SubResource("Animation_m8fc3"),
-&"damage_text": SubResource("Animation_nm232")
+&"attack": SubResource("Animation_m8fc3")
 }
 
 [node name="CombatFieldUnit" type="Control"]
@@ -102,6 +49,7 @@ anchor_bottom = 0.185
 offset_right = -199.68
 offset_bottom = -199.8
 pivot_offset = Vector2(100, 100)
+mouse_filter = 1
 script = ExtResource("1_6w5jt")
 
 [node name="SpriteBox" type="CenterContainer" parent="."]
@@ -114,6 +62,7 @@ grow_vertical = 2
 
 [node name="Control" type="Control" parent="SpriteBox"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="Sprite" type="AnimatedSprite2D" parent="SpriteBox/Control"]
 sprite_frames = ExtResource("2_6w5jt")
@@ -130,18 +79,10 @@ offset_bottom = -160.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="DamageLabel" type="Label" parent="."]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -44.0
-offset_bottom = 42.0
-grow_horizontal = 0
-theme_override_colors/font_color = Color(0, 1, 0, 1)
-theme_override_font_sizes/font_size = 30
-text = "-20"
+[node name="DamageArea" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Debounce" type="Timer" parent="."]
 wait_time = 0.3

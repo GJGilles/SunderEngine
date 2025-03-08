@@ -5,6 +5,7 @@
 
 [node name="Phalanx" type="Node" node_paths=PackedStringArray("actions")]
 script = ExtResource("1_3cwgu")
+base_ap = 3
 base_health = 60
 base_armor = 60
 base_mana = 40
@@ -14,15 +15,18 @@ actions = [NodePath("Shield Bash"), NodePath("Swinging Strikes"), NodePath("Spea
 script = ExtResource("2_w7moh")
 defense = 2
 damage = 80
+ap_cost = 3
 hits = 1
 
 [node name="Swinging Strikes" type="Node" parent="."]
 script = ExtResource("2_w7moh")
 defense = 2
-damage = 35
+damage = 25
+ap_cost = 2
 hits = 2
 
 [node name="Spear Thrust" type="Node" parent="."]
 script = ExtResource("2_w7moh")
-damage = 20
-hits = 2
+damage = 10
+ap_cost = 1
+hits = 1

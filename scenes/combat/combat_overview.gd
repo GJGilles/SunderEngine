@@ -25,7 +25,11 @@ var pause_promise: Promise = Promise.resolve()
 var pause_resolve: Callable = func(): pass
 
 signal unit_changed(unit: BaseUnitData)
+signal turn_start(is_player: bool)
 signal combat_done(victory: bool)
+
+signal input_undo()
+signal input_end()
 
 func _ready():
 	var units: Array[BaseUnitData] = party.units.values() + enemies.units.values()
@@ -51,8 +55,9 @@ func _ready():
 func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_square: CombatStatusSquare):
 	unit_updates[unit] = Promise.resolve()
 	
-	unit.unit_action.connect(func(action: BaseActionData): unit_action(unit, field_unit, status_square, action))
-
+	unit.action_start.connect(func(action: BaseActionData, targets: Array[BaseUnitData]): action_start(unit, action, targets))
+	unit.action_hit.connect(func(action: BaseActionData, target: BaseUnitData): action_hit(unit, action, target))
+	unit.action_end.connect(func(action: BaseActionData, targets: Array[BaseUnitData]): action_end(unit, action, targets))
 	unit.attack_evaded.connect(func(): unit_evaded(unit, field_unit, status_square))
 	unit.attack_blocked.connect(func(): unit_block(unit, field_unit, status_square))
 
@@ -67,17 +72,56 @@ func register_signals(unit: BaseUnitData, field_unit: CombatFieldUnit, status_sq
 	unit.status_changed.connect(status_square.status_changed)
 	unit.react_changed.connect(status_square.react_changed)
 	
-func unit_action(unit: BaseUnitData, field_unit: CombatFieldUnit, _status_square: CombatStatusSquare, action: BaseActionData):
+func action_start(unit: BaseUnitData, action: BaseActionData, targets: Array[BaseUnitData]):
 	unit_updates[unit] = Promise.new(
 		func(resolve: Callable, _reject: Callable):
-			if action is ReactActionData:
+			for t in targets:
+				var status_square: CombatStatusSquare = status_dict[t]
+				status_square.set_combo_state(true)
+			
+			resolve.call()
+	)
+	
+
+func action_hit(unit: BaseUnitData, action: BaseActionData, target: BaseUnitData):
+	var last_update: Promise = update_done()
+	
+	unit_updates[unit] = Promise.new(
+		func(resolve: Callable, _reject: Callable):
+			await last_update.wait()
+			
+			var field_unit: CombatFieldUnit = field_dict[unit]
+			if action is AttackActionData:
+				var attack: AttackActionData = action
+				await field_unit.play_attack().wait()
+				target.apply_damage(attack.damage, attack.attack, attack.defense)
+			elif action is StatusActionData:
+				var status: StatusActionData = action
+				await field_unit.play_attack().wait()
+				target.apply_status(status)
+			elif action is ReactActionData:
 				var react: ReactActionData = action
 				if react.react == COMBAT.REACT_TYPE.EVADE:
 					await field_unit.play_dodge().wait()
 				else:
 					await field_unit.play_block().wait()	
-			else:
-				await field_unit.play_attack().wait()
+				target.apply_react(react)
+				
+			resolve.call()
+	)
+	
+func action_end(unit: BaseUnitData, action: BaseActionData, targets: Array[BaseUnitData]):
+	var last_update: Promise = update_done()
+	
+	unit_updates[unit] = Promise.new(
+		func(resolve: Callable, _reject: Callable):
+			await last_update.wait()
+			
+			for t in targets:
+				var status_square: CombatStatusSquare = status_dict[t]
+				status_square.set_combo_state(false)
+				status_square.update_stats()
+			
 			resolve.call()
 	)
 	
@@ -112,15 +156,8 @@ func unit_stunned(unit: BaseUnitData, field_unit: CombatFieldUnit, _status_squar
 			await field_unit.play_stunned().wait()
 			#await status_square.update_stats().wait()
 			
-			var turn: TurnData = turn_track.remove_unit(unit)
-			if turn.action is ReactActionData:
-				var react: ReactActionData = turn.action
-				turn.source.remove_react(react)
-				for u in turn.targets:
-					u.remove_react(react)
-			
-			turn_track.insert_empty_turn(unit)
-			await combat_turn_track.all_done_update().wait()
+			if unit is EnemyUnitData:
+				turn_track.remove_unit(unit)
 			
 			unit_changed.emit(unit)
 			resolve.call()
@@ -193,6 +230,17 @@ func update_done() -> Promise:
 	return Promise.all(promises)
 
 func set_state(state: BaseCombatState):
+	if state is PlayerCombatState:
+		turn_start.emit(true)
+	else:
+		turn_start.emit(false)
+	
 	state.overview = self
 	add_child(state)
 	
+func _on_background_gui_input(event: InputEvent) -> void:
+	if event.is_action("ui_cancel"):
+		input_undo.emit()
+		
+func _on_end_turn_pressed() -> void:
+	input_end.emit()

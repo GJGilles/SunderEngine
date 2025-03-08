@@ -15,11 +15,13 @@ func _ready():
 	player_field_area = overview.player_field_area
 	enemy_field_area = overview.enemy_field_area
 	
+	#await overview.update_done().wait()
 	for unit: BaseUnitData in overview.party.units.values():
 		unit.start_round()
-		await overview.update_done().wait()
+	await overview.update_done().wait()
 			
 	set_player_select(true)
+	overview.input_end.connect(end_turn)
 	
 func set_player_select(selectable: bool):
 	for pos in overview.party.units.keys():
@@ -39,13 +41,22 @@ func player_selected(unit: BaseUnitData):
 	attack_list.visible = true
 	attack_list.set_values(player)
 	attack_list.item_selected.connect(action_selected)
+	overview.input_undo.connect(undo_player_selected)
+	
+func undo_player_selected():
+	player = null
+	set_player_select(true)
+	
+	attack_list.visible = false
+	attack_list.item_selected.disconnect(action_selected)
+	overview.input_undo.disconnect(undo_player_selected)
 	
 func action_selected(idx: int):
 	action = player.get_action(idx)
 	attack_list.visible = false
 	attack_list.item_selected.disconnect(action_selected)
+	overview.input_undo.disconnect(undo_player_selected)
 	
-	#overview.select_action(action)
 	select_targets()
 	
 func select_targets():
@@ -69,6 +80,32 @@ func select_targets():
 				
 			enemy_field_area.get_targets(action.area_type)
 			enemy_field_area.targets_selected.connect(enemy_targets_selected)
+			
+	overview.input_undo.connect(undo_select_targets)
+	
+func undo_select_targets():
+	match action.target_type:
+		COMBAT.TARGET_TYPE.SELF:
+			var key = overview.party.units.find_key(player)
+			player_field_area.get_value(key).set_selectable(false)
+			player_field_area.cancel_targeting()
+			player_field_area.targets_selected.disconnect(player_targets_selected)
+		COMBAT.TARGET_TYPE.ALLY:
+			for key in overview.party.units.keys():
+				player_field_area.get_value(key).set_selectable(false)
+			player_field_area.cancel_targeting()
+			player_field_area.targets_selected.disconnect(player_targets_selected)
+		COMBAT.TARGET_TYPE.ENEMY:
+			for key in overview.enemies.units.keys():
+				enemy_field_area.get_value(key).set_selectable(false)
+				
+			enemy_field_area.on_focused.disconnect(enemy_focused)
+			enemy_field_area.on_unfocused.disconnect(enemy_unfocused)
+				
+			enemy_field_area.cancel_targeting()
+			enemy_field_area.targets_selected.disconnect(enemy_targets_selected)
+			
+	player_selected(player)
 	
 func enemy_focused(unit: BaseUnitData):
 	overview.preview_action(action, player, overview.enemies.get_unit_targets(unit, action.area_type))
@@ -78,6 +115,7 @@ func enemy_unfocused(unit: BaseUnitData):
 		
 func player_targets_selected(units: Array[BaseUnitData]):
 	player_field_area.targets_selected.disconnect(player_targets_selected)
+	overview.input_undo.disconnect(undo_select_targets)
 	
 	targets.assign(units)
 	for key in overview.party.units.keys():
@@ -89,6 +127,7 @@ func enemy_targets_selected(units: Array[BaseUnitData]):
 	enemy_field_area.on_focused.disconnect(enemy_focused)
 	enemy_field_area.on_unfocused.disconnect(enemy_unfocused)
 	enemy_field_area.targets_selected.disconnect(enemy_targets_selected)
+	overview.input_undo.disconnect(undo_select_targets)
 			
 	targets.assign(units)
 	for key in overview.enemies.units.keys():
@@ -103,6 +142,11 @@ func do_action():
 	set_player_select(true)
 
 func end_turn():
+	overview.input_end.disconnect(end_turn)
 	overview.preview_clear()
+	for unit: BaseUnitData in overview.party.units.values():
+		unit.end_round()
+		await overview.update_done().wait()
+		
 	overview.set_state(EnemyCombatState.new())
 	queue_free()

@@ -9,6 +9,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_ox8no")
 
 [node name="FrontRow" type="Control" parent="."]
@@ -19,9 +20,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="FrontTop" parent="FrontRow" instance=ExtResource("1_y23wj")]
 layout_mode = 1
+focus_neighbor_left = NodePath("../../BackRow/BackTop")
+focus_neighbor_bottom = NodePath("../FrontBot")
+focus_mode = 2
 
 [node name="FrontBot" parent="FrontRow" instance=ExtResource("1_y23wj")]
 layout_mode = 1
@@ -29,6 +34,9 @@ offset_left = 150.0
 offset_top = 100.0
 offset_right = -25.0
 offset_bottom = -25.0
+focus_neighbor_left = NodePath("../../BackRow/BackBot")
+focus_neighbor_top = NodePath("../FrontTop")
+focus_mode = 2
 
 [node name="BackRow" type="Control" parent="."]
 layout_mode = 1
@@ -37,9 +45,13 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="BackTop" parent="BackRow" instance=ExtResource("1_y23wj")]
 layout_mode = 1
+focus_neighbor_right = NodePath("../../FrontRow/FrontTop")
+focus_neighbor_bottom = NodePath("../BackBot")
+focus_mode = 2
 
 [node name="BackBot" parent="BackRow" instance=ExtResource("1_y23wj")]
 layout_mode = 1
@@ -47,3 +59,6 @@ offset_left = 150.0
 offset_top = 100.0
 offset_right = -25.0
 offset_bottom = -25.0
+focus_neighbor_top = NodePath("../BackTop")
+focus_neighbor_right = NodePath("../../FrontRow/FrontBot")
+focus_mode = 2

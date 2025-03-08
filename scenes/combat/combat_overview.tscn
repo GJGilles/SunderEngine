@@ -34,12 +34,15 @@ offset_top = 10.0
 offset_bottom = -420.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="PlayerArea" parent="CombatUI/CombatField" instance=ExtResource("6_ra6ig")]
 layout_mode = 1
+mouse_filter = 2
 
 [node name="EnemyArea" parent="CombatUI/CombatField" instance=ExtResource("7_umix5")]
 layout_mode = 1
+mouse_filter = 2
 
 [node name="PlayerStatusZone" parent="CombatUI" instance=ExtResource("3_cadbe")]
 offset_left = 433.0
@@ -83,10 +86,19 @@ offset_bottom = -788.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="EndTurn" type="Button" parent="CombatUI"]
+offset_left = 438.0
+offset_top = 28.0
+offset_right = 555.0
+offset_bottom = 89.0
+text = "End Turn"
+
 [node name="TurnTrackData" type="Node" parent="."]
 script = ExtResource("8_mj574")
 
+[connection signal="gui_input" from="CombatUI/Background" to="." method="_on_background_gui_input"]
 [connection signal="turn_focused" from="CombatUI/CombatTurnTrack" to="." method="preview_turn"]
 [connection signal="unfocused" from="CombatUI/CombatTurnTrack" to="." method="preview_clear"]
-[connection signal="added_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="_on_turn_track_data_added_turn"]
+[connection signal="pressed" from="CombatUI/EndTurn" to="." method="_on_end_turn_pressed"]
+[connection signal="added_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="add_turn"]
 [connection signal="removed_turn" from="TurnTrackData" to="CombatUI/CombatTurnTrack" method="remove_turn"]

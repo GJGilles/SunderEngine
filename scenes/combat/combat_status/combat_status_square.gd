@@ -18,6 +18,7 @@ var curr_status: Dictionary[COMBAT.STATUS_TYPE, CombatStatusIcon] = {}
 var curr_react: Dictionary[COMBAT.REACT_TYPE, CombatStatusIcon] = {}
 
 var base_unit: BaseUnitData
+var combo_state: bool = false
 	
 func set_values(unit: BaseUnitData):
 	title.text = unit.name
@@ -39,23 +40,32 @@ func all_update_done() -> Promise:
 	])
 	
 func preview_stats(health: int, armor: int, mana: int):
-	health_bar.preview_change(base_unit.curr_health, health)
-	armor_bar.preview_change(base_unit.curr_armor, armor)
-	mana_bar.preview_change(base_unit.curr_mana, mana)
+	if !combo_state:
+		health_bar.preview_change(base_unit.curr_health, health)
+		armor_bar.preview_change(base_unit.curr_armor, armor)
+		mana_bar.preview_change(base_unit.curr_mana, mana)
 
 func reset_stats():
 	health_bar.set_value(base_unit.curr_health)
 	armor_bar.set_value(base_unit.curr_armor)
 	mana_bar.set_value(base_unit.curr_mana)
+
+func set_combo_state(is_combo: bool):
+	combo_state = is_combo
 	
 func update_stats() -> Promise:
 	return Promise.new(
 		func(resolve: Callable, _reject: Callable):
 			await all_update_done().wait()
 			
-			health_bar.update_value(base_unit.curr_health)
-			armor_bar.update_value(base_unit.curr_armor)
-			mana_bar.update_value(base_unit.curr_mana)
+			if combo_state:
+				health_bar.set_update(base_unit.curr_health)
+				armor_bar.set_update(base_unit.curr_armor)
+				mana_bar.set_update(base_unit.curr_mana)
+			else:
+				health_bar.update_value(base_unit.curr_health)
+				armor_bar.update_value(base_unit.curr_armor)
+				mana_bar.update_value(base_unit.curr_mana)
 				
 			await all_update_done().wait()
 			resolve.call()

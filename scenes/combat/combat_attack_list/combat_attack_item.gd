@@ -81,3 +81,4 @@ func _on_panel_mouse_exited() -> void:
 func _on_panel_gui_input(event: InputEvent) -> void:
 	if event.is_action("ui_select") and is_enabled:
 		on_selected.emit()
+		accept_event()

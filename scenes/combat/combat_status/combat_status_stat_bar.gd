@@ -19,6 +19,12 @@ func set_value(value: int):
 	stat_bar.value = value
 	label.text = str(value) + "%"
 
+func set_update(value: int):
+	if value > stat_bar.value:
+		update_bar.value = value
+	else:
+		stat_bar.value = value
+
 func update_value(value: int):
 	if value == stat_bar.value:
 		return
@@ -53,8 +59,8 @@ func preview_change(value: int, preview: int):
 	if preview > value:
 		stat_bar.value = value
 		update_bar.value = preview
-		label.text = "%s (+%s)" % [str(value), str(preview - value)]
+		label.text = "%s" % [str(value)]
 	elif preview < value:
 		update_bar.value = value
 		stat_bar.value = preview
-		label.text = "%s (%s)" % [str(value), str(preview - value)]
+		label.text = "%s" % [str(value)]

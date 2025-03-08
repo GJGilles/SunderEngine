@@ -15,7 +15,9 @@ func _ready() -> void:
 	spit = chongah.actions[3]
 
 func choose_actions():
-	if turn % 2 == 0:
+	if turn == 0:
+		pass
+	elif turn % 2 == 0:
 		choice_queue.append(func(): 
 			var high_armor: Array[BaseUnitData] = get_highest_players(COMBAT.DEFENSE_TYPE.ARMOR)
 			return try_do_action(spit, chongah, high_armor[0])

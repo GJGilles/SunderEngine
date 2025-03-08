@@ -8,31 +8,19 @@ extends Node2D
 
 @export var dialog_tutorial: DialogueResource
 
+var rounds: int = 0
+
 func _ready() -> void:
-	pass
 	#DialogueManager.show_dialogue_balloon(dialog_tutorial, "stats")
-	#
-	#combat.action_selected.connect(hit_tutorial)
-	#combat.turn_inserted.connect(time_tutorial)
-	#combat.turn_inserted.connect(enemy_tutorial)
+	combat.turn_start.connect(handle_turn_start)
 
-func hit_tutorial(_unit, _turn):
-	combat.action_selected.disconnect(hit_tutorial)
-	DialogueManager.show_dialogue_balloon(dialog_tutorial, "hit")
+func handle_turn_start(is_player: bool):
+	if is_player:
+		if rounds == 1:
+			show_tutorial("enemy")
+		rounds += 1
 
-func time_tutorial(_turn):
-	combat.turn_inserted.disconnect(time_tutorial)
-	DialogueManager.show_dialogue_balloon(dialog_tutorial, "time")
-
-func enemy_tutorial(turn: TurnData):
-	if turn.source == chongah:
-		combat.turn_inserted.disconnect(enemy_tutorial)
+func show_tutorial(title: String):
 		combat.combat_pause()
-		DialogueManager.show_dialogue_balloon(dialog_tutorial, "enemy")
+		DialogueManager.show_dialogue_balloon(dialog_tutorial, title)
 		DialogueManager.dialogue_ended.connect(func(_d): combat.combat_resume(), CONNECT_ONE_SHOT)
-
-func weakness_tutorial():
-	DialogueManager.show_dialogue_balloon(dialog_tutorial, "weakness")
-	
-func stun_tutorial():
-	DialogueManager.show_dialogue_balloon(dialog_tutorial, "stun")

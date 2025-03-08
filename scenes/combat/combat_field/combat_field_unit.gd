@@ -3,10 +3,11 @@ extends Control
 class_name CombatFieldUnit
 
 const COMBAT_UNIT_MARKER = preload("res://scenes/combat/combat_field/combat_unit_marker.tscn")
+const COMBAT_FIELD_DAMAGE = preload("res://scenes/combat/combat_field/combat_field_damage.tscn")
 
 @onready var sprite: CombatFieldUnitAnim = $SpriteBox/Control/Sprite
 @onready var marker_row: HBoxContainer = $MarkerRow
-@onready var damage_label: Label = $DamageLabel
+@onready var damage_area: Control = $DamageArea
 @onready var debounce: Timer = $Debounce
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
@@ -87,27 +88,30 @@ func play_attack() -> Promise:
 func play_block() -> Promise:
 	return sprite.play_animation("block")
 	
-func play_damaged(_type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
-	damage_label.text = "-" + str(amount)
-	damage_label.add_theme_color_override("font_color", Color(1, 0, 0))
-	animation_player.play("damage_text")
+func add_damage_text(amount: int):
+	var damage: CombatFieldDamage = COMBAT_FIELD_DAMAGE.instantiate()
+	damage_area.add_child(damage)
 	
+	if amount > 0:
+		damage.set_value("+" + str(amount))
+		damage.add_theme_color_override("font_color", Color(0, 1, 0))
+	else:
+		damage.set_value(str(amount))
+		damage.add_theme_color_override("font_color", Color(1, 0, 0))
+
+func play_damaged(_type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
+	add_damage_text(-amount)
 	return Promise.all([ 
-		sprite.play_animation("damaged"),
-		Promise.from(animation_player.animation_finished)
+		sprite.play_animation("damaged")
 	])
 
 func play_dodge() -> Promise:
 	return sprite.play_animation("dodge")
 	
 func play_healed(_type: COMBAT.DEFENSE_TYPE, amount: int) -> Promise:
-	damage_label.text = "+" + str(amount)
-	damage_label.add_theme_color_override("font_color", Color(0, 1, 0))
-	animation_player.play("damage_text")
-	
+	add_damage_text(amount)
 	return Promise.all([
-		sprite.play_animation("healed"), 
-		Promise.from(animation_player.animation_finished)
+		sprite.play_animation("healed"),
 	])
 	
 func play_stunned() -> Promise:

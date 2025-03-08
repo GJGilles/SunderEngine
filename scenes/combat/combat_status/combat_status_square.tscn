@@ -95,14 +95,3 @@ offset_top = 140.0
 offset_right = 350.0
 offset_bottom = 200.0
 theme = SubResource("Theme_6kk03")
-
-[node name="Divider" type="ColorRect" parent="."]
-custom_minimum_size = Vector2(3, 0)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 100.0
-offset_right = -100.0
-color = Color(0, 0, 0, 1)
